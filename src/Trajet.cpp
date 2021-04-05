@@ -69,6 +69,18 @@ void Trajet::calcul_poids()
     {
         m_poids=4*altitude_S1_S2+1;
     }
+    else if(m_type=="BUS")
+    {
+        if(m_nom=="navette2000-1600" ||m_nom=="navette1600-2000")
+        {
+            m_poids=40;
+        }
+        else if(m_nom=="navette1800-1600" ||m_nom=="navette1600-1800")
+        {
+            m_poids=30;
+        }
+    }
+
 
 }
 
