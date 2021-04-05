@@ -47,6 +47,19 @@ Graphe::Graphe(std::string nomFichier)
 
     }
 
+    std::pair<Sommet*,double> tampon;
+
+    for(auto x : m_trajets)
+    {
+         //x->calcul_poids();
+        //extremites = x->getExtremites();
+
+//        tampon.first = extremites.second;
+//        tampon.second = x->getPoids();
+
+        //m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
+    }
+
 }
 
 void Graphe::Dijkstra(int depart,int arrivee)
