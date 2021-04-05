@@ -1,8 +1,7 @@
 #ifndef GRAPHE_H
 #define GRAPHE_H
 
-#include<Sommet.h>
-#include<Trajet.h>
+#include "Trajet.h"
 
 #define valeur_max 9999
 

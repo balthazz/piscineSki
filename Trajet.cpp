@@ -17,15 +17,15 @@ void Trajet::afficher()
 
 void Trajet::calcul_poids()
 {
-    int altitude_S1_S2;
-    altitude_S1_S2=m_extremites.second->getAltitude()-m_extremites.first->getAltitude();
-    altitude_S1_S2=altitude_S1_S2/100;
-    if(altitude_S1_S2<0)
+    double altitude_S1_S2;
+    altitude_S1_S2 = (m_extremites.second->getAltitude() - m_extremites.first->getAltitude())/100;
+
+    if(altitude_S1_S2 < 0)
     {
-        altitude_S1_S2=altitude_S1_S2*-1;
+        altitude_S1_S2 = altitude_S1_S2*(-1);
     }
 
-    else if (m_type=="V")
+    if (m_type=="V")
     {
         m_poids=5*altitude_S1_S2;
     }
@@ -75,7 +75,7 @@ void Trajet::calcul_poids()
         {
             m_poids=40;
         }
-        else if(m_nom=="navette1800-1600" ||m_nom=="navette1600-1800")
+        else
         {
             m_poids=30;
         }

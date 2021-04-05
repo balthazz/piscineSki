@@ -6,7 +6,7 @@
 #include <utility>
 #include <queue>
 #include <fstream>
-#include <Sommet.h>
+#include "Sommet.h"
 
 //Définition de la classe arete
 class Trajet{
