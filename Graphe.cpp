@@ -52,13 +52,15 @@ Graphe::Graphe(std::string nomFichier)
 
     for(auto x : m_trajets)
     {
-         //poids = x->calcul_poids();
-//        extremites = x->getExtremites();
-//
-//        tampon.first = extremites.second;
-//        tampon.second = x->getPoids();
-//
-//        m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
+         poids = x->calcul_poids();
+         //std::cout<<poids<<std::endl;
+         x->setPoids(poids);
+         extremites = x->getExtremites();
+
+        tampon.first = extremites.second;
+        tampon.second = poids;
+
+        //m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
     }
 
 }

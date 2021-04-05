@@ -32,13 +32,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Graphe.h" />
-		<Unit filename="include/Sommet.h" />
-		<Unit filename="include/Trajet.h" />
+		<Unit filename="Graphe.cpp" />
+		<Unit filename="Graphe.h" />
+		<Unit filename="Sommet.cpp" />
+		<Unit filename="Sommet.h" />
+		<Unit filename="Trajet.cpp" />
+		<Unit filename="Trajet.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Graphe.cpp" />
-		<Unit filename="src/Sommet.cpp" />
-		<Unit filename="src/Trajet.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

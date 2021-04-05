@@ -45,7 +45,7 @@ double Trajet::calcul_poids()
     }
     else if (m_type=="KL")
     {
-        poids = (1/60)*altitude_S1_S2;
+        poids = 0.167*altitude_S1_S2;
     }
     else if (m_type=="SURF")
     {
@@ -67,13 +67,13 @@ double Trajet::calcul_poids()
     {
         poids = 4*altitude_S1_S2+1;
     }
-    else if(m_type=="TPH")
+    else if(m_type=="TK")
     {
         poids = 4*altitude_S1_S2+1;
     }
     else if(m_type=="BUS")
     {
-        if(m_nom=="navette2000-1600" ||m_nom=="navette1600-2000")
+        if((m_nom=="navette2000-1600") || (m_nom=="navette1600-2000"))
         {
             poids = 40;
         }
