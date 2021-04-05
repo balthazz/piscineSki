@@ -64,7 +64,7 @@ class Trajet{
 
     void afficher();
 
-    void calcul_poids();
+    double calcul_poids();
 
 };
 

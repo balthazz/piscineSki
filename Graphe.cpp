@@ -40,24 +40,25 @@ Graphe::Graphe(std::string nomFichier)
     {
         ifs>>id_trajet>>nom_trajet>>type_trajet>>sommet_1>>sommet_2;
 
-        extremites.first = m_sommets[sommet_1];
-        extremites.second = m_sommets[sommet_2];
+        extremites.first = m_sommets[sommet_1-1];
+        extremites.second = m_sommets[sommet_2-1];
 
         m_trajets.push_back(new Trajet{extremites,id_trajet,nom_trajet,type_trajet});
 
     }
 
+    double poids;
     std::pair<Sommet*,double> tampon;
 
     for(auto x : m_trajets)
     {
-         //x->calcul_poids();
-        //extremites = x->getExtremites();
-
+         //poids = x->calcul_poids();
+//        extremites = x->getExtremites();
+//
 //        tampon.first = extremites.second;
 //        tampon.second = x->getPoids();
-
-        //m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
+//
+//        m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
     }
 
 }
