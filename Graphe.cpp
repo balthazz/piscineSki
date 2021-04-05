@@ -52,10 +52,10 @@ Graphe::Graphe(std::string nomFichier)
 
     for(auto x : m_trajets)
     {
-         poids = x->calcul_poids();
-         //std::cout<<poids<<std::endl;
-         x->setPoids(poids);
-         extremites = x->getExtremites();
+        poids = x->calcul_poids();
+        //std::cout<<poids<<std::endl;
+        x->setPoids(poids);
+        extremites = x->getExtremites();
 
         tampon.first = extremites.second;
         tampon.second = poids;
@@ -174,6 +174,63 @@ void Graphe::afficher_arc() const
 
     }
     std::cout << "\n";
+}
+
+void Graphe::infoTrajet() //question 4.3 petit 3-a
+{
+    std::string nomTrajet;
+    std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cin >> nomTrajet;
+    for (auto s : m_trajets)
+    {
+        if (s->getNom().compare(nomTrajet) == 0)
+        {
+            std::cout << std::endl << s->getNom() <<" "<< s->getType() << " part de " << s->getExtremites().first->getNum()<< " et arrive a " << s->getExtremites().second->getNum()<<std::endl;
+        }
+    }
+
+}
+
+void Graphe::infoSommet()//question 4.3 petit 3-b
+{
+
+    int nomSommet;
+    std::cout<<"Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cin >> nomSommet;
+     std::cout<<"infos sur "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
+std::vector<std::pair<Sommet*,double>> tampon1 = m_sommets[nomSommet-1]->getSuccesseurs();
+     std::cout<<"trajets arrivant a "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
+       for (auto s : tampon1)
+{
+         for (auto p : m_trajets)
+         {
+             if ((p->getExtremites().second->getNum()==m_sommets[nomSommet-1]->getNum())&&(p->getExtremites().first->getNum() == s.first->getNum()))
+                 {
+                     std::cout<<"piste : "<< p->getNom() << " "<<p->getType()<<std::endl;
+                 }
+         }
+     }
+
+     std::cout<<"trajets partant de "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
+
+     for (auto s : tampon1)
+     {
+         for (auto p : m_trajets)
+         {
+
+             if ((p->getExtremites().first->getNum()==m_sommets[nomSommet-1]->getNum())&&(p->getExtremites().second->getNum() == s.first->getNum()))
+                 {
+std::cout<<"piste : "<< p->getNom()<<" "<<p->getType() <<std::endl;
+                 }
+
+         }
+     }
+
+
+//    for (auto s : m_sommets[nomSommet-1]->getSuccesseurs())
+//    {
+//      std::cout<<"piste : "<< m_trajets[m_sommets[nomSommet-1],s]->getNom() <<std::endl;
+//    }
 }
 
 Graphe::~Graphe()

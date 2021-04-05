@@ -27,6 +27,8 @@ public :
     // Fonction d'affichage des aretes
     void afficher_arc() const;
     void Dijkstra(int depart,int arrivee);
+    void infoTrajet();
+    void infoSommet();
 
 
 
