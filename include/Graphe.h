@@ -25,12 +25,9 @@ public :
 
     //Fonction d'affichage de notre chargement de fichier graphe.txt
     void afficher_sommet() const;
-// Fonction d'affichage des aretes
-void afficher_arc() const;
-
-
-
-void Dijkstra(int depart,int arrivee);
+    // Fonction d'affichage des aretes
+    void afficher_arc() const;
+    void Dijkstra(int depart,int arrivee);
 
 
 
