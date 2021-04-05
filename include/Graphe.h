@@ -24,14 +24,7 @@ public :
     virtual ~Graphe();
 
     //Fonction d'affichage de notre chargement de fichier graphe.txt
-    void afficher_sommet() const
-    {
-        std::cout<<"\n    Liste des sommets :\n"<<std::endl;
-        for (auto s : m_sommets)
-        {
-            std::cout  <<s->getNum() << "     " <<s->getNom() << "     " << s->getAltitude() << std::endl;
-        }
-    }
+    void afficher_sommet() const;
 // Fonction d'affichage des aretes
 void afficher_arc() const;
 
