@@ -18,15 +18,14 @@ int main()
     g.afficher_sommet();
     g.afficher_arc();
 
+    std::cout << "\n            Projet Piscine" << std::endl;
+    std::cout<<"\n Sommet de depart : ";
+    std::cin >> depart;
+    std::cout<<"\n Sommet d'arrivee : ";
+    std::cin >> arrivee;
 
-//    std::cout << "\n            Projet Piscine" << std::endl;
-//    std::cout<<"\n Sommet de depart : ";
-//    std::cin >> depart;
-//    std::cout<<"\n Sommet d'arrivee : ";
-//    std::cin >> arrivee;
-//
-//    /Appel de l'algorithme de Dijkstra
-//    g.Dijkstra(depart,arrivee);
+    //Appel de l'algorithme de Dijkstra
+    g.Dijkstra(depart,arrivee);
 
     return 0;
 

@@ -60,7 +60,13 @@ Graphe::Graphe(std::string nomFichier)
         tampon.first = extremites.second;
         tampon.second = poids;
 
-        //m_sommets[extremites.first->getNum()]->ajouterSucc(tampon);
+        m_sommets[extremites.first->getNum()-1]->ajouterSucc(tampon);
+    }
+
+    for(auto y : m_sommets)
+    {
+        y->afficher();
+        std::cout << "\n" << std::endl;
     }
 
 }

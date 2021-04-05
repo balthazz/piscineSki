@@ -88,7 +88,8 @@ public :
 
 
     /* méthode d'affichage*/
-    void afficher() const;
+
+        void afficher() const;
 
 };
 
