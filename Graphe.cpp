@@ -72,6 +72,28 @@ Graphe::Graphe(std::string nomFichier)
 
 }
 
+///Affichage arborecsence
+void afficherParcours(size_t num,const std::vector<int>& arbre)
+{
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
+            {
+                std::cout<<i<<" <-- ";
+                size_t j=arbre[i];
+                while(j!=num)
+                {
+                    std::cout<<j<<" <-- ";
+                    j=arbre[j];
+                }
+                std::cout<<j<<std::endl;
+            }
+        }
+    }
+}
+
 void Graphe::Dijkstra(int depart,int arrivee)
 {
 
@@ -146,13 +168,119 @@ void Graphe::Dijkstra(int depart,int arrivee)
     ///Chemin parcouru
     std::cout << "\n Le chemin est le suivant : " << arrivee;
 
+    int x = arrivee;
+
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        std::cout << " <- " << p;
+
+        std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
+        x = p;
     }
     std::cout << "\n";
 }
+
+
+
+/// Parcours BFS
+    std::vector<int> Graphe::BFS(int num_S0)
+    {
+        std::queue<Sommet*>pile;
+        // pour le marquage
+        std::vector<int> couleurs((int)m_sommets.size(),0);
+        //pour noter les prédécesseurs
+        std::vector<int> predec((int)m_sommets.size(),-1);
+        //étape initiale
+        pile.push(m_sommets[num_S0-1]);
+        couleurs[num_S0]=1;
+        Sommet*so;
+        //tant que la pile n'est pas vide
+        while(!pile.empty())
+        {
+            so=pile.front();
+            pile.pop();
+
+            for(auto succ : so->getSuccesseurs())
+            {
+                if(couleurs[succ.first->getNum()]==0) //s'il n'est pas marqué
+                {
+                    couleurs[succ.first->getNum()]=1; //on le marque
+                    predec[succ.first->getNum()]= so->getNum();
+                    pile.push(succ.first);//on le met dans la pile
+                }
+            }
+        }
+        return predec;
+    }
+std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getNom();
+           }
+    }
+}
+std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getType();
+           }
+    }
+}
+
+double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getPoids();
+           }
+    }
+}
+
+
+void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
+{
+    double poids;
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        //for(int n=0;n<m_sommets.size();n++)
+        //
+
+            if(i!=num)
+            {
+                //size_t tmp=arbre[i];
+                if(arbre[i]!=-1)
+                {
+                    std::cout<<i<<"<- ";
+                    size_t j=arbre[i];
+                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                    poids=Poids_Chemin_S1_S2(j,i);
+                    while(j!=num)
+                    {
+                        std::cout<<j<<"<- ";
+                        size_t tmp = j;
+                        j=arbre[j];
+                        std::string m=Type_Chemin_S1_S2(j,tmp);
+                        std::string n=Nom_Chemin_S1_S2(j,tmp);
+                        poids=poids+Poids_Chemin_S1_S2(j,i);
+                        std::cout<<m<<" "<<n<<" <-";
+                        }
+                    std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
+            }
+        }
+    }
+}
+
 
 void Graphe::afficher_sommet() const
 {

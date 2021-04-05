@@ -15,8 +15,8 @@ private :
     std::vector<Trajet*> m_trajets;
 
 public :
-    /* La construction du réseau peut se faire à partir d'un fichier
-     dont le nom est passé en paramètre
+    /* La construction du rï¿½seau peut se faire ï¿½ partir d'un fichier
+     dont le nom est passï¿½ en paramï¿½tre
     Le fichier contient :  ordre, taille, liste des arcs et leurs poids*/
     Graphe(std::string nomFichier);
     /*destructeur*/
@@ -26,9 +26,18 @@ public :
     void afficher_sommet() const;
     // Fonction d'affichage des aretes
     void afficher_arc() const;
+    //Fonction d'affichage arbre
+
     void Dijkstra(int depart,int arrivee);
+
+    std::vector<int> BFS(int num_S0);
+    void afficherParcours(size_t num,const std::vector<int>& arbre);
+    std::string Nom_Chemin_S1_S2(int s1,int s2);
+    std::string Type_Chemin_S1_S2(int s1,int s2);
+    double Poids_Chemin_S1_S2(int s1,int s2);
     void infoTrajet();
     void infoSommet();
+
 
 
 
