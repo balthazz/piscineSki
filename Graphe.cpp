@@ -168,10 +168,14 @@ void Graphe::Dijkstra(int depart,int arrivee)
     ///Chemin parcouru
     std::cout << "\n Le chemin est le suivant : " << arrivee;
 
+    int x = arrivee;
+
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        std::cout << " <- " << p;
+
+        std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
+        x = p;
     }
     std::cout << "\n";
 }
@@ -271,7 +275,7 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                         poids=poids+Poids_Chemin_S1_S2(j,i);
                         std::cout<<m<<" "<<n<<" <-";
                         }
-                    std::cout<<j<<"\n  Temps : "<<poids<<"min\n"<<std::endl;
+                    std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }
         }
     }

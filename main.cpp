@@ -18,24 +18,24 @@ int main()
     g.afficher_sommet();
     g.afficher_arc();
 
-//    std::cout << "\n            Projet Piscine" << std::endl;
-//    std::cout<<"\n Sommet de depart : ";
-//    std::cin >> depart;
-//    std::cout<<"\n Sommet d'arrivee : ";
-//    std::cin >> arrivee;
-//
-//    Appel de l'algorithme de Dijkstra
-//    g.Dijkstra(depart,arrivee);
+    std::cout << "\n            Projet Piscine" << std::endl;
+    std::cout<<"\n Sommet de depart : ";
+    std::cin >> depart;
+    std::cout<<"\n Sommet d'arrivee : ";
+    std::cin >> arrivee;
+
+    //Appel de l'algorithme de Dijkstra
+    g.Dijkstra(depart,arrivee);
 
    //Choix du numéro du sommet initial
-    std::cout<<std::endl<<"Numero du sommet initial : ";
-    std::cin>>num;
-
-
-    std::vector<int> arbre_BFS=g.BFS(num);
-    //affichage des chemins obtenus
-    std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num<<" :\n";
-    g.afficherParcours(num,arbre_BFS);
+//    std::cout<<std::endl<<"Numero du sommet initial : ";
+//    std::cin>>num;
+//
+//
+//    std::vector<int> arbre_BFS=g.BFS(num);
+//    //affichage des chemins obtenus
+//    std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num<<" :\n";
+//    g.afficherParcours(num,arbre_BFS);
 
 
 
