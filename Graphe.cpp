@@ -187,7 +187,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
         //pour noter les prédécesseurs
         std::vector<int> predec((int)m_sommets.size(),-1);
         //étape initiale
-        pile.push(m_sommets[num_S0]);
+        pile.push(m_sommets[num_S0-1]);
         couleurs[num_S0]=1;
         Sommet*so;
         //tant que la pile n'est pas vide
@@ -208,27 +208,75 @@ void Graphe::Dijkstra(int depart,int arrivee)
         }
         return predec;
     }
+std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getNom();
+           }
+    }
+}
+std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getType();
+           }
+    }
+}
+
+double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
+{
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
+           {
+               return m_trajets[i]->getPoids();
+           }
+    }
+}
+
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
+    double poids;
     for(size_t i=0; i<arbre.size(); ++i)
     {
-        if(i!=num)
-        {
-            if(arbre[i]!=-1)
+        //for(int n=0;n<m_sommets.size();n++)
+        //
+
+            if(i!=num)
             {
-                std::cout<<i<<" <-- ";
-                size_t j=arbre[i];
-                while(j!=num)
+                //size_t tmp=arbre[i];
+                if(arbre[i]!=-1)
                 {
-                    std::cout<<j<<" <-- ";
-                    j=arbre[j];
-                }
-                std::cout<<j<<std::endl;
+                    std::cout<<i<<"<- ";
+                    size_t j=arbre[i];
+                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                    poids=Poids_Chemin_S1_S2(j,i);
+                    while(j!=num)
+                    {
+                        std::cout<<j<<"<- ";
+                        size_t tmp = j;
+                        j=arbre[j];
+                        std::string m=Type_Chemin_S1_S2(j,tmp);
+                        std::string n=Nom_Chemin_S1_S2(j,tmp);
+                        poids=poids+Poids_Chemin_S1_S2(j,i);
+                        std::cout<<m<<" "<<n<<" <-";
+                        }
+                    std::cout<<j<<"\n  Temps : "<<poids<<"min\n"<<std::endl;
             }
         }
     }
 }
+
 
 void Graphe::afficher_sommet() const
 {

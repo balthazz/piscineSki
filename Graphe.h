@@ -31,6 +31,9 @@ public :
     void Dijkstra(int depart,int arrivee);
     std::vector<int> BFS(int num_S0);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
+    std::string Nom_Chemin_S1_S2(int s1,int s2);
+    std::string Type_Chemin_S1_S2(int s1,int s2);
+    double Poids_Chemin_S1_S2(int s1,int s2);
 
 
 

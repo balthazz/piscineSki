@@ -32,7 +32,7 @@ int main()
     std::cin>>num;
 
 
-    std::vector<int> arbre_BFS=g.BFS(num-1);
+    std::vector<int> arbre_BFS=g.BFS(num);
     //affichage des chemins obtenus
     std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num<<" :\n";
     g.afficherParcours(num,arbre_BFS);

@@ -21,6 +21,7 @@ class Trajet{
 
   public:
       //Constructeur
+      Trajet();
       Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type);
 
       virtual ~Trajet();
