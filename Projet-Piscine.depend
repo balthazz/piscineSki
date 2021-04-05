@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1617625354 source:c:\users\hp\desktop\piscineski\main.cpp
-	<iostream>
-	<vector>
-	<utility>
-	<queue>
-	<fstream>
-
