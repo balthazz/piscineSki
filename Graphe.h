@@ -26,7 +26,10 @@ public :
     void afficher_sommet() const;
     // Fonction d'affichage des aretes
     void afficher_arc() const;
+    //Fonction d'affichage arbre
+
     void Dijkstra(int depart,int arrivee);
+    std::vector<int> BFS()const;
 
 
 

@@ -72,6 +72,28 @@ Graphe::Graphe(std::string nomFichier)
 
 }
 
+///Affichage arborecsence
+void afficherParcours(size_t num,const std::vector<int>& arbre)
+{
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
+            {
+                std::cout<<i<<" <-- ";
+                size_t j=arbre[i];
+                while(j!=num)
+                {
+                    std::cout<<j<<" <-- ";
+                    j=arbre[j];
+                }
+                std::cout<<j<<std::endl;
+            }
+        }
+    }
+}
+
 void Graphe::Dijkstra(int depart,int arrivee)
 {
 
@@ -152,6 +174,44 @@ void Graphe::Dijkstra(int depart,int arrivee)
         std::cout << " <- " << p;
     }
     std::cout << "\n";
+}
+
+
+
+/// Parcours BFS
+std::vector<int> Graphe::BFS()const
+{
+        size_t num_S0;
+        std::cout<<std::endl<<"Numero du sommet initial : ";
+        std::cin>>num_S0;
+        std::queue<Sommet*>file;
+        // pour le marquage
+        std::vector<int> couleurs((int)m_sommets.size(),0);
+        //pour noter les prédécesseurs
+        std::vector<int> predec((int)m_sommets.size(),-1);
+        //étape initiale
+        file.push(m_sommets[num_S0]);
+        couleurs[num_S0]=1;
+        Sommet *so;
+        //tant que la file n'est pas vide
+        while(!file.empty())
+        {
+            so=file.front();
+            file.pop();
+
+            for(auto succ : so->getSuccesseurs())
+            {
+                if(couleurs[succ.first->getNum()]==0) //s'il n'est pas marqué
+                {
+                    couleurs[succ.first->getNum()]=1; //on le marque
+                    predec[succ.first->getNum()]= so->getNum();
+                    file.push(succ.first);//on le met dans la file
+                }
+            }
+        }
+        //affichage des chemins obtenus
+        std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num_S0<<" :\n";
+        afficherParcours(num_S0,predec);
 }
 
 void Graphe::afficher_sommet() const

@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1617628356 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\main.cpp
+1617646414 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\main.cpp
 	<iostream>
 	<vector>
 	<utility>
 	<queue>
 	<fstream>
-	<Graphe.h>
+	"Graphe.h"
 
 1617629008 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\include\graphe.h
 	<Sommet.h>
@@ -77,5 +77,32 @@
 	"Graphe.h"
 
 1617632391 c:\users\hp\desktop\piscineski\graphe.h
+	"Trajet.h"
+
+1617646812 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\graphe.h
+	"Trajet.h"
+
+1617635346 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\trajet.h
+	<iostream>
+	<vector>
+	<utility>
+	<queue>
+	<fstream>
+	"Sommet.h"
+
+1617641849 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\sommet.h
+	<iostream>
+	<vector>
+	<utility>
+	<queue>
+	<fstream>
+
+1617646855 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\graphe.cpp
+	"Graphe.h"
+
+1617641849 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\sommet.cpp
+	"Sommet.h"
+
+1617641849 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\trajet.cpp
 	"Trajet.h"
 

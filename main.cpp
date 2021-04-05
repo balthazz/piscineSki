@@ -26,6 +26,7 @@ int main()
 
     //Appel de l'algorithme de Dijkstra
     g.Dijkstra(depart,arrivee);
+    g.BFS();
 
     return 0;
 
