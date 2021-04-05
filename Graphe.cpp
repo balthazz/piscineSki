@@ -63,6 +63,7 @@ Graphe::Graphe(std::string nomFichier)
         m_sommets[extremites.first->getNum()-1]->ajouterSucc(tampon);
     }
 
+    //Liste des successeurs pour vérification
     for(auto y : m_sommets)
     {
         y->afficher();
@@ -105,7 +106,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
     }
 
     //Insérer le sommet initial dans la file avec une distance nul car on ne bouge pas.
-    file.push(std::make_pair(m_sommets[depart],0));
+    file.push(std::make_pair(m_sommets[depart-1],0));
 
     ///Boucle de recherche
 
@@ -140,7 +141,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
     }
     ///Affichage des résultats
     ///Valeur du poids
-    std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee]->getDistance() << " poids." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+    std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
     ///Chemin parcouru
     std::cout << "\n Le chemin est le suivant : " << arrivee;

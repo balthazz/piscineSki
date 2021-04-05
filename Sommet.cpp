@@ -12,7 +12,7 @@ void Sommet::afficher() const
         for (auto s : m_successeurs)
         {
             std::cout<<"\nDistance du sommet " << s.first->getNum()<<" : ";
-            std::cout<<s.second<<" poids";
+            std::cout<<s.second<<" minutes";
         }
 }
 
