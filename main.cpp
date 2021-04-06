@@ -10,6 +10,14 @@
 
 #include "Graphe.h"
 
+void afficherTemps(int time)
+{
+    int minute=0, heure=0;
+    heure = time/60;
+    minute = time%60;
+    std::cout <<heure<<"h "<<minute<<"minutes "<< std::endl;
+}
+
 bool fin_tache()
 {
     std::cout<< "\nAppuyez sur Enter pour revenir au menu" << std::endl;
@@ -24,6 +32,11 @@ bool fin_tache()
 
 int menu() // Fonction d'affichage du menu des choix
 {
+    int temps;
+    std::cout<<"horloge ";
+    std::cin >> temps;
+    afficherTemps(temps);
+
     int choix_menu;
 
     std::cout << "     Borne d'information - les Arcs" << std::endl;
