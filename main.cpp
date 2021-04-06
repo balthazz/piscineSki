@@ -52,6 +52,7 @@ int main()
 
     std::cout << "\n            Projet piscine\n" << std::endl;
 
+    /*
     choix = menu();
 
     while(quitter == false){
@@ -171,7 +172,8 @@ int main()
 
        }
 
-    }
+    } */
+    g.personnaliser();
 
 
          return 0;

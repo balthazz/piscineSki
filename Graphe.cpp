@@ -164,7 +164,6 @@ void Graphe::Dijkstra(int depart,int arrivee, bool tous)
 }
 
 
-
 /// Parcours BFS
 std::vector<int> Graphe::BFS(int num_S0)
 {
@@ -195,6 +194,8 @@ std::vector<int> Graphe::BFS(int num_S0)
     }
     return predec;
 }
+
+
 std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
 {
     for(int i=0; i<m_trajets.size(); i++)
@@ -206,6 +207,19 @@ std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
         }
     }
 }
+
+std::string Graphe::nom_du_Trajet_avec_Id(int num)
+{
+    for(int i=0; i<m_trajets.size(); i++)
+    {
+        if(m_trajets[i]->getId()==num)
+        {
+            std::string tampon=m_trajets[i]->getNom();
+            return tampon;
+        }
+    }
+}
+
 std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
 {
     for(int i=0; i<m_trajets.size(); i++)
@@ -217,6 +231,7 @@ std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
         }
     }
 }
+
 
 double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
 {
@@ -230,6 +245,7 @@ double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
     }
 }
 
+
 int Graphe::Num_du_Sommet_avec_Nom(std::string nom)
 {
     for(int i=0; i<m_sommets.size(); i++)
@@ -242,6 +258,7 @@ int Graphe::Num_du_Sommet_avec_Nom(std::string nom)
     }
 }
 
+
 int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
 {
     for(int i=0; i<m_trajets.size(); i++)
@@ -253,6 +270,7 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
         }
     }
 }
+
 
 void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre)
 {
@@ -349,6 +367,7 @@ void Graphe::afficher_sommet() const
     }
 }
 
+
 void Graphe::afficher_arc() const
 {
     std::cout<<"\n    Liste des trajets :\n"<<std::endl;
@@ -361,6 +380,7 @@ void Graphe::afficher_arc() const
     }
     std::cout << "\n";
 }
+
 
 void Graphe::infoTrajet()
 {
@@ -385,6 +405,7 @@ void Graphe::infoTrajet()
         std::cout << "\nErreur sur le trajet renseigne !\n" << std::endl;
     }
 }
+
 
 void Graphe::infoSommet()
 {
@@ -417,6 +438,53 @@ void Graphe::infoSommet()
     std::cout<<"\n\n\n";
 
 }
+
+
+void Graphe::personnaliser()
+{
+    std::string choix_niveau;
+    std::vector<int> trajet_personnalise;
+    std::cout<<"\n PARCOURS PERSONNALISE \n\n";
+    std::cout<<"Quel est votre niveau ?  debutant ( Verte + Bleue )   intermediaire ( Bleue + Rouge )  expert ( Rouge + Noire ) \n";
+    std::cin>>choix_niveau;
+    if(choix_niveau=="debutant")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    if(choix_niveau=="intermediaire")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    if(choix_niveau=="expert")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R") || (m_trajets[i]->getType()=="N"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    for (int i=0;i<trajet_personnalise.size();i++)
+    {
+        std::string nomTrajet=nom_du_Trajet_avec_Id(trajet_personnalise[i]);
+        std::cout<<nomTrajet<<" \n";
+    }
+
+}
+
 
 Graphe::~Graphe()
 {
