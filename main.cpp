@@ -20,8 +20,9 @@ int main()
 
     std::cout << "\n            Projet Piscine" << std::endl;
 
-//    g.infoTrajet();
+    g.infoTrajet();
     g.infoSommet();
+
 
 //    std::cout<<"\n Sommet de depart : ";
 //    std::cin >> depart;

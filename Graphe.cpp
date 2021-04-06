@@ -247,6 +247,31 @@ double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
     }
 }
 
+int Graphe::Num_du_Sommet_avec_Nom(std::string nom)
+{
+    for(int i=0;i<m_sommets.size();i++)
+    {
+        if(m_sommets[i]->getNom()==nom)
+           {
+               int tampon=m_sommets[i]->getNum();
+               return tampon;
+           }
+    }
+}
+
+int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
+{
+     for(int i=0;i<m_trajets.size();i++)
+    {
+        if(m_trajets[i]->getNom()==nom)
+           {
+               int tampon=m_trajets[i]->getId();
+               return tampon;
+           }
+    }
+}
+
+
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
@@ -304,7 +329,55 @@ void Graphe::afficher_arc() const
     std::cout << "\n";
 }
 
-void Graphe::infoTrajet() //question 4.3 petit 3-a
+void Graphe::infoTrajet()
+{
+    std::string nomTrajet;
+    std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cin >> nomTrajet;
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        if(m_trajets[i]->getNom()==nomTrajet)
+        {
+            std::string depart=m_trajets[i]->getExtremites().first->getNom();
+            std::string arrive=m_trajets[i]->getExtremites().second->getNom();
+            std::cout<<"\n Depart : "<<depart<<"\n Arrive : "<<arrive<<std::endl;
+        }
+    }
+}
+
+void Graphe::infoSommet()
+{
+    std::string nomSommet;
+    std::cout<<"Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cin >> nomSommet;
+    std::vector<std::string> Trajet_entrant;
+    std::vector<std::string> Trajet_sortant;
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        if(m_trajets[i]->getExtremites().first->getNom()==nomSommet)
+        {
+            Trajet_sortant.push_back(m_trajets[i]->getNom());
+        }
+        if(m_trajets[i]->getExtremites().second->getNom()==nomSommet)
+        {
+            Trajet_entrant.push_back(m_trajets[i]->getNom());
+        }
+    }
+    std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
+    for(int i=0;i<Trajet_entrant.size();i++)
+    {
+        std::cout<<Trajet_entrant[i]<<"  ";
+    }
+    std::cout<<"\n\n Trajets qui partent a la station "<<nomSommet<<" : ";
+    for(int i=0;i<Trajet_sortant.size();i++)
+    {
+        std::cout<<Trajet_sortant[i]<<"  ";
+    }
+    std::cout<<"\n\n\n";
+
+}
+
+/*void Graphe::infoTrajet() //question 4.3 petit 3-a
 {
     std::string nomTrajet;
     std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
@@ -317,9 +390,9 @@ void Graphe::infoTrajet() //question 4.3 petit 3-a
         }
     }
 
-}
+} */
 
-void Graphe::infoSommet()//question 4.3 petit 3-b
+/*void Graphe::infoSommet()//question 4.3 petit 3-b
 {
 
     int nomSommet;
@@ -359,7 +432,7 @@ std::cout<<"piste : "<< p->getNom()<<" "<<p->getType() <<std::endl;
 //    {
 //      std::cout<<"piste : "<< m_trajets[m_sommets[nomSommet-1],s]->getNom() <<std::endl;
 //    }
-}
+} */
 
 Graphe::~Graphe()
 {
