@@ -24,9 +24,9 @@ bool fin_tache()
 
 int menu() // Fonction d'affichage du menu des choix
 {
-    int choix = 0;
+    int choix_menu;
 
-    std::cout << "     Borne d'information - les Arcs\n" << std::endl;
+    std::cout << "     Borne d'information - les Arcs" << std::endl;
     std::cout<<"\n  1. Affichage du chargement fichier" << std::endl;
     std::cout<<"  2. Information sur un trajet " << std::endl;
     std::cout<<"  3. Information sur un point de la station " << std::endl;
@@ -35,25 +35,25 @@ int menu() // Fonction d'affichage du menu des choix
     std::cout<<"  6. Quitter " << std::endl;
 
     std::cout<<"\n     Votre choix : ";
-    std::cin >> choix;
+    std::cin >> choix_menu;
 
-    return choix;
+    return choix_menu;
 }
 
 int main()
 {
     //Initialisation variables
     int depart, arrivee, num, choix = 0;
-    bool retour_menu = false;
+    bool retour_menu = false, quitter = false;
 
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
 
-    std::cout << "\n            Projet piscine" << std::endl;
+    std::cout << "\n            Projet piscine\n" << std::endl;
 
     choix = menu();
 
-    do{
+    while(quitter == false){
 
     switch(choix)
     {
@@ -65,6 +65,9 @@ int main()
                retour_menu = fin_tache();
                if(retour_menu){system("cls"); choix = menu();}
 
+               break;
+
+
         }
 
     case 2:
@@ -73,6 +76,8 @@ int main()
                retour_menu = fin_tache();
                if(retour_menu){system("cls"); choix = menu();}
 
+               break;
+
         }
 
     case 3:
@@ -80,6 +85,8 @@ int main()
                g.infoSommet();
                retour_menu = fin_tache();
                if(retour_menu){system("cls"); choix = menu();}
+
+               break;
         }
 
     case 4:
@@ -95,6 +102,8 @@ int main()
             g.afficherParcours(num,arbre_BFS);
             retour_menu = fin_tache();
             if(retour_menu){system("cls"); choix = menu();}
+
+            break;
         }
 
     case 5:
@@ -109,19 +118,25 @@ int main()
                 retour_menu = fin_tache();
                 if(retour_menu){system("cls"); choix = menu();}
 
+                break;
+
         }
 
     case 6:
         {
-            return 0; // QUITTER
+            quitter = true; // QUITTER
+
+            std::cout << "\n A bientot sur notre borne ! Bonne glisse :) !\n" << std::endl;
+
+            break;
         }
 
+       }
 
     }
 
-    }while(choix != 6);
 
- return 0;
+         return 0;
 
 }
 
