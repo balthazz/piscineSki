@@ -424,6 +424,63 @@ void Graphe::infoSommet()
 
 }
 
+void Graphe::personnaliser()
+{
+    std::string choix_niveau;
+    std::vector<int> trajet_personnalise;
+    std::cout<<"\n PARCOURS PERSONNALISE \n\n";
+    std::cout<<"Quel est votre niveau ?  debutant ( Verte + Bleue )   intermediaire ( Bleue + Rouge )  expert ( Rouge + Noire ) \n";
+    std::cin>>choix_niveau;
+    if(choix_niveau=="debutant")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    if(choix_niveau=="intermediaire")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    if(choix_niveau=="expert")
+    {
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R") || (m_trajets[i]->getType()=="N"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]->getId());
+            }
+        }
+    }
+    for (int i=0;i<trajet_personnalise.size();i++)
+    {
+        std::string nomTrajet=nom_du_Trajet_avec_Id(trajet_personnalise[i]);
+        std::cout<<nomTrajet<<" \n";
+    }
+
+}
+
+std::string Graphe::nom_du_Trajet_avec_Id(int num)
+{
+    for(int i=0; i<m_trajets.size(); i++)
+    {
+        if(m_trajets[i]->getId()==num)
+        {
+            std::string tampon=m_trajets[i]->getNom();
+            return tampon;
+        }
+    }
+}
+
 Graphe::~Graphe()
 {
     for (auto s : m_sommets)

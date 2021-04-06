@@ -32,10 +32,10 @@ bool fin_tache()
 
 int menu() // Fonction d'affichage du menu des choix
 {
-    int temps;
-    std::cout<<"horloge ";
-    std::cin >> temps;
-    afficherTemps(temps);
+//    int temps;
+//    std::cout<<"horloge ";
+//    std::cin >> temps;
+//    afficherTemps(temps);
 
     int choix_menu;
 
