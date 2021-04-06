@@ -21,6 +21,7 @@ Graphe::Graphe(std::string nomFichier)
         //On associe chaque sommet a un successeur pair (sommet et poids).
         ifs>>numero_sommet>>nom>>altitude;
         m_sommets.push_back(new Sommet{numero_sommet});
+        //numCC.push_back(i);
         m_sommets[i]->setNom(nom);
         m_sommets[i]->setAltitude(altitude);
 
@@ -517,6 +518,70 @@ void Graphe::personnaliser()
 
 }
 
+    void Graphe::kruskal()
+    {
+        //Initialisation des variables principales
+        std::vector<Trajet*> resultat_krustal; //Notre arbre vide
+        std::pair<Sommet*,Sommet*> tampon;
+        std::vector<Trajet*> trajets_pistes;
+        double poidsTotal = 0;
+        int nombre_tour = 0;
+
+
+        for(auto x : m_trajets)
+        {
+            if (x->getDescente() == true)
+            {
+                trajets_pistes.push_back(x);
+            }
+        }
+
+        //Tri du vecteur d'arrete par ordre croissant de poids
+        std::sort(trajets_pistes.begin(),trajets_pistes.end(),[](Trajet* a, Trajet* b){return a->getPoids() > b->getPoids();});
+
+        while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de résultats est inférieur au nombre de sommets -1
+        {
+            tampon = trajets_pistes[nombre_tour]->getExtremites(); // On récupere les extremites de l'arete de poids le plus haut
+
+            if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vérifie si elle peut être sélectionnée
+            {
+                resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete à notre arbre de poids couvrant minimum
+
+                //Check et actualisation des numCC
+
+                int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
+
+                for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
+                {
+                    if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
+                    {
+                        m_sommets[k]->setNumCC(tampon.first->getNumCC());
+                    }
+                }
+            }
+
+                nombre_tour++; // On incrémente le nombre de tour
+        }
+
+
+        //Affichage du résultat !
+
+        std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
+
+        for(auto x : resultat_krustal)
+        {
+            poidsTotal += x->getPoids(); //On incrémente le poids total pour chaque sommet dans l'arbre
+
+            x->afficher(); //On affiche les arêtes et leurs poids
+
+            std::cout << "\n";
+        }
+
+        std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
+
+//        std::cout << trajets_pistes.size() << std::endl;
+//        std::cout << resultat_krustal.size() << std::endl;
+    }
 
 Graphe::~Graphe()
 {

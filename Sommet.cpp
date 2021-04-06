@@ -3,6 +3,7 @@
 Sommet::Sommet(int num)
 {
     m_num=num;
+    m_numCC=num;
     //ctor
 }
 

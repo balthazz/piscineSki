@@ -8,12 +8,13 @@
 #include <fstream>
 #include "Sommet.h"
 
-//Définition de la classe arete
+//Définition de la classe trajet
 class Trajet{
 
   private:
       std::pair<Sommet*,Sommet*> m_extremites;
       int m_id;
+      bool m_descente;
       std::string m_nom;
       std::string m_type;
       double m_poids;
@@ -62,6 +63,12 @@ class Trajet{
 
     void setType(std::string type)
     {m_type = type;}
+
+    bool getDescente()
+    {return m_descente;}
+
+    void setDescente(bool descente)
+    {m_descente = descente;}
 
     void afficher();
 

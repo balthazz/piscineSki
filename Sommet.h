@@ -16,6 +16,7 @@ private :
     double m_altitude;
     bool m_marque = false;
     double m_distance;
+    int m_numCC;
     ///chaque sommet possède la liste de ses successeurs et de ses prédecesseurs(des vecteurs de pointeurs sur Sommet)
     std::vector<std::pair<Sommet*,double>> m_predecesseurs;
     std::vector<std::pair<Sommet*,double>> m_successeurs;
@@ -86,6 +87,15 @@ public :
         return m_altitude;
     }
 
+    void setNumCC(int numCC)
+    {
+        m_numCC = numCC;
+    }
+
+    int getNumCC()
+    {
+        return m_numCC;
+    }
 
     /* méthode d'affichage*/
 

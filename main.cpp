@@ -45,8 +45,9 @@ int menu() // Fonction d'affichage du menu des choix
     std::cout<<"  3. Information sur un point de la station " << std::endl;
     std::cout<<"  4. Tous les plus courts chemins a partir d'un point " << std::endl;
     std::cout<<"  5. Chemin le plus rapide entre deux points " << std::endl;
-    std::cout<<"  6. Preference " << std::endl;
-    std::cout<<"  7. Quitter " << std::endl;
+    std::cout<<"  6. Preferences " << std::endl;
+    std::cout<<"  7. Team ski de fond :) " << std::endl;
+    std::cout<<"  8. Quitter " << std::endl;
 
     std::cout<<"\n     Votre choix : ";
     std::cin >> choix_menu;
@@ -211,7 +212,13 @@ int main()
             break;
 
         }
+
         case 7:
+            {
+                g.kruskal();
+            }
+
+        case 8:
         {
             quitter = true; // QUITTER
 

@@ -2,6 +2,7 @@
 #define GRAPHE_H
 
 #include "Trajet.h"
+#include <algorithm>
 
 #define valeur_max 9999
 
@@ -13,6 +14,7 @@ private :
     ///liste des sommets (vecteur de pointeurs sur Sommet)
     std::vector<Sommet*> m_sommets;
     std::vector<Trajet*> m_trajets;
+    //std::vector<int> numCC;
 
 public :
     /* La construction du r�seau peut se faire � partir d'un fichier
@@ -55,7 +57,7 @@ public :
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();
     void personnaliser();
-
+    void kruskal();
 
 
 };
