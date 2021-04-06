@@ -73,11 +73,11 @@ Graphe::Graphe(std::string nomFichier)
 }
 
 
-void Graphe::Dijkstra(int depart,int arrivee)
+void Graphe::Dijkstra(int depart,int arrivee, bool tous)
 {
 
     ///initialisations
-
+    if (tous == true){}
     //initialisation de notre tampon pair utilisé dans l'algo.
     std::pair<Sommet*,double> p;
 
@@ -152,9 +152,13 @@ void Graphe::Dijkstra(int depart,int arrivee)
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
+        if( p <= 37)
+        {
 
         std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
-        x = p;
+        x = p;}
+
+        else{break;}
     }
     std::cout << "\n";
 }
@@ -254,38 +258,32 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 {
     double poids;
     std::vector<int> tampon;
+
     for(size_t i=0; i<arbre.size(); ++i)
     {
-        //std::cout<<i<<" ";
         if(i==num2)
         {
             tampon.push_back(i);
         }
         if(i!=num)
         {
-            //size_t tmp=arbre[i];
             if(arbre[i]!=-1)
             {
-                //   std::cout<<i<<"<- ";
                 size_t j=arbre[i];
                 if(i==num2)
                 {
                     tampon.push_back(j);
                 }
-                //std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
-                //poids=Poids_Chemin_S1_S2(j,i);
+
                 while(j!=num)
                 {
-                    //   std::cout<<j<<"<- ";
                     size_t tmp = j;
                     j=arbre[j];
                     if(i==num2)
                     {
                         tampon.push_back(j);
                     }
-                    //   std::cout<<m<<" "<<n<<" <-";
                 }
-                //  std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }
         }
 
@@ -307,7 +305,7 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
             poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
     }
-    std::cout<<"\n"<<poids<<"min"<<std::endl;
+    std::cout<<"\n Temps : "<<poids<<" minutes"<<std::endl;
 }
 
 
@@ -318,7 +316,6 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
     {
         if(i!=num)
         {
-            //size_t tmp=arbre[i];
             if(arbre[i]!=-1)
             {
                 std::cout<<i<<"<- ";
@@ -332,7 +329,7 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                     j=arbre[j];
                     std::string m=Type_Chemin_S1_S2(j,tmp);
                     std::string n=Nom_Chemin_S1_S2(j,tmp);
-                    poids=poids+Poids_Chemin_S1_S2(j,i);
+                    poids=poids+Poids_Chemin_S1_S2(j,tmp);
                     std::cout<<m<<" "<<n<<" <-";
                 }
                 std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;

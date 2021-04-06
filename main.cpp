@@ -114,7 +114,7 @@ int main()
                 {
                     if(num2 != x->getNum()){
 
-                    g.Dijkstra(num2,x->getNum());
+                    g.Dijkstra(num2,x->getNum(),true);
 
                     }
                 }
@@ -150,7 +150,7 @@ int main()
                 if (num1 == 2)
                 {
                     //Appel de l'algorithme de Dijkstra
-                     g.Dijkstra(depart,arrivee);
+                     g.Dijkstra(depart,arrivee,false);
                 }
 
                 retour_menu = fin_tache();
