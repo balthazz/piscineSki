@@ -22,12 +22,12 @@ bool fin_tache()
 {
     std::cout<< "\nAppuyez sur Enter pour revenir au menu" << std::endl;
 
-     while(getch() != 13)
-     {
-         Sleep(100);
-     }
+    while(getch() != 13)
+    {
+        Sleep(100);
+    }
 
-     return true;
+    return true;
 }
 
 int menu() // Fonction d'affichage du menu des choix
@@ -45,7 +45,8 @@ int menu() // Fonction d'affichage du menu des choix
     std::cout<<"  3. Information sur un point de la station " << std::endl;
     std::cout<<"  4. Tous les plus courts chemins a partir d'un point " << std::endl;
     std::cout<<"  5. Chemin le plus rapide entre deux points " << std::endl;
-    std::cout<<"  6. Quitter " << std::endl;
+    std::cout<<"  6. Preference " << std::endl;
+    std::cout<<"  7. Quitter " << std::endl;
 
     std::cout<<"\n     Votre choix : ";
     std::cin >> choix_menu;
@@ -68,43 +69,56 @@ int main()
 
     choix = menu();
 
-    while(quitter == false){
-
-    switch(choix)
+    while(quitter == false)
     {
-    case 1 :
-        {
-               ///Affichage du chargement du graphe.
-               g.afficher_sommet();
-               g.afficher_arc();
-               retour_menu = fin_tache();
-               if(retour_menu){system("cls"); choix = menu();}
 
-               break;
+        switch(choix)
+        {
+        case 1 :
+        {
+            ///Affichage du chargement du graphe.
+            g.afficher_sommet();
+            g.afficher_arc();
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
+
+            break;
 
 
         }
 
-    case 2:
+        case 2:
         {
-               g.infoTrajet();
-               retour_menu = fin_tache();
-               if(retour_menu){system("cls"); choix = menu();}
+            g.infoTrajet();
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
 
-               break;
+            break;
 
         }
 
-    case 3:
+        case 3:
         {
-               g.infoSommet();
-               retour_menu = fin_tache();
-               if(retour_menu){system("cls"); choix = menu();}
+            g.infoSommet();
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
 
-               break;
+            break;
         }
 
-    case 4:
+        case 4:
         {
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
@@ -115,32 +129,39 @@ int main()
             std::cout<<std::endl<<"\n   Votre point de la station : ";
             std::cin>>num2;
 
-            if (num1 == 1){
-            std::vector<int> arbre_BFS=g.BFS(num2);
-            //affichage des chemins obtenus
-            std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
-            g.afficherParcours(num2,arbre_BFS);
+            if (num1 == 1)
+            {
+                std::vector<int> arbre_BFS=g.BFS(num2);
+                //affichage des chemins obtenus
+                std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
+                g.afficherParcours(num2,arbre_BFS);
             }
 
-            if (num1 == 2){
+            if (num1 == 2)
+            {
 
                 for(int i = 0 ; i < vec_sommets.size() ; ++i)
                 {
-                    if(num2 != vec_sommets[i]->getNum()){
+                    if(num2 != vec_sommets[i]->getNum())
+                    {
 
-                    g.Dijkstra(num2,vec_sommets[i]->getNum());
+                        g.Dijkstra(num2,vec_sommets[i]->getNum());
 
                     }
                 }
             }
 
             retour_menu = fin_tache();
-            if(retour_menu){system("cls"); choix = menu();}
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
 
             break;
         }
 
-    case 5:
+        case 5:
         {
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
@@ -148,33 +169,50 @@ int main()
             std::cout << "\n   Votre choix : ";
             std::cin >> num1;
 
-                std::cout<<"\n Sommet de depart : ";
-                std::cin >> depart;
-                std::cout<<"\n Sommet d'arrivee : ";
-                std::cin >> arrivee;
+            std::cout<<"\n Sommet de depart : ";
+            std::cin >> depart;
+            std::cout<<"\n Sommet d'arrivee : ";
+            std::cin >> arrivee;
 
-                if (num1 == 1)
-                {
-                    std::vector<int> arbre_BFS=g.BFS(depart);
-                    //affichage des chemins obtenus
-                    std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<depart<<" :\n";
-                    g.afficher1ParcoursBFS(depart,arrivee,arbre_BFS);
-                }
+            if (num1 == 1)
+            {
+                std::vector<int> arbre_BFS=g.BFS(depart);
+                //affichage des chemins obtenus
+                std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<depart<<" :\n";
+                g.afficher1ParcoursBFS(depart,arrivee,arbre_BFS);
+            }
 
-                if (num1 == 2)
-                {
-                    //Appel de l'algorithme de Dijkstra
-                     g.Dijkstra(depart,arrivee);
-                }
+            if (num1 == 2)
+            {
+                //Appel de l'algorithme de Dijkstra
+                g.Dijkstra(depart,arrivee);
+            }
 
-                retour_menu = fin_tache();
-                if(retour_menu){system("cls"); choix = menu();}
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
 
-                break;
+            break;
 
         }
 
-    case 6:
+        case 6:
+        {
+            g.personnaliser();
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
+
+            break;
+
+        }
+        case 7:
         {
             quitter = true; // QUITTER
 
@@ -183,13 +221,12 @@ int main()
             break;
         }
 
-       }
+        }
 
     }
-    g.personnaliser();
 
 
-         return 0;
+    return 0;
 
 }
 

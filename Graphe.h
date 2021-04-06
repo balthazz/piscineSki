@@ -50,6 +50,7 @@ public :
     ///Donne le numero du Trajet a partir de son nom
     int Id_du_Trajet_avec_Nom(std::string nom);
     std::string nom_du_Trajet_avec_Id(int num);
+    Trajet* trajet_avec_son_Id(int id);
 
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();

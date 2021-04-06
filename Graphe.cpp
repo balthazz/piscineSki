@@ -226,6 +226,19 @@ std::string Graphe::nom_du_Trajet_avec_Id(int num)
     }
 }
 
+Trajet* Graphe::trajet_avec_son_Id(int id)
+{
+    Trajet* tampon;
+    for(int i=0;i<m_trajets.size();i++)
+    {
+        if(m_trajets[i]->getId()==id)
+        {
+            tampon=m_trajets[i];
+            return tampon;
+        }
+    }
+}
+
 std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
 {
     for(int i=0; i<m_trajets.size(); i++)
@@ -450,6 +463,8 @@ void Graphe::personnaliser()
 {
     std::string choix_niveau;
     std::vector<int> trajet_personnalise;
+    std::vector<Sommet*> copie = m_sommets;
+    std::vector<Sommet*> newSommet;
     std::cout<<"\n PARCOURS PERSONNALISE \n\n";
     std::cout<<"Quel est votre niveau ?  debutant ( Verte + Bleue )   intermediaire ( Bleue + Rouge )  expert ( Rouge + Noire ) \n";
     std::cin>>choix_niveau;
@@ -488,6 +503,17 @@ void Graphe::personnaliser()
         std::string nomTrajet=nom_du_Trajet_avec_Id(trajet_personnalise[i]);
         std::cout<<nomTrajet<<" \n";
     }
+    for(int i=0 ; i<trajet_personnalise.size();i++)
+    {
+       newSommet.push_back(trajet_avec_son_Id(trajet_personnalise[i])->getExtremites().first);
+       newSommet.push_back(trajet_avec_son_Id(trajet_personnalise[i])->getExtremites().second);
+    }
+    m_sommets=newSommet;
+    for(int i=0;i<m_sommets.size();i++)
+    {
+        std::cout<<m_sommets[i]->getNom()<<"  ";
+    }
+
 
 }
 
