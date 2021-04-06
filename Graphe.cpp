@@ -162,91 +162,91 @@ void Graphe::Dijkstra(int depart,int arrivee)
 
 
 /// Parcours BFS
-    std::vector<int> Graphe::BFS(int num_S0)
+std::vector<int> Graphe::BFS(int num_S0)
+{
+    std::queue<Sommet*>pile;
+    // pour le marquage
+    std::vector<int> couleurs((int)m_sommets.size(),0);
+    //pour noter les prédécesseurs
+    std::vector<int> predec((int)m_sommets.size(),-1);
+    //étape initiale
+    pile.push(m_sommets[num_S0-1]);
+    couleurs[num_S0]=1;
+    Sommet*so;
+    //tant que la pile n'est pas vide
+    while(!pile.empty())
     {
-        std::queue<Sommet*>pile;
-        // pour le marquage
-        std::vector<int> couleurs((int)m_sommets.size(),0);
-        //pour noter les prédécesseurs
-        std::vector<int> predec((int)m_sommets.size(),-1);
-        //étape initiale
-        pile.push(m_sommets[num_S0-1]);
-        couleurs[num_S0]=1;
-        Sommet*so;
-        //tant que la pile n'est pas vide
-        while(!pile.empty())
-        {
-            so=pile.front();
-            pile.pop();
+        so=pile.front();
+        pile.pop();
 
-            for(auto succ : so->getSuccesseurs())
+        for(auto succ : so->getSuccesseurs())
+        {
+            if(couleurs[succ.first->getNum()]==0) //s'il n'est pas marqué
             {
-                if(couleurs[succ.first->getNum()]==0) //s'il n'est pas marqué
-                {
-                    couleurs[succ.first->getNum()]=1; //on le marque
-                    predec[succ.first->getNum()]= so->getNum();
-                    pile.push(succ.first);//on le met dans la pile
-                }
+                couleurs[succ.first->getNum()]=1; //on le marque
+                predec[succ.first->getNum()]= so->getNum();
+                pile.push(succ.first);//on le met dans la pile
             }
         }
-        return predec;
     }
+    return predec;
+}
 std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
-           {
-               return m_trajets[i]->getNom();
-           }
+        {
+            return m_trajets[i]->getNom();
+        }
     }
 }
 std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
-           {
-               return m_trajets[i]->getType();
-           }
+        {
+            return m_trajets[i]->getType();
+        }
     }
 }
 
 double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
-           {
-               return m_trajets[i]->getPoids();
-           }
+        {
+            return m_trajets[i]->getPoids();
+        }
     }
 }
 
 int Graphe::Num_du_Sommet_avec_Nom(std::string nom)
 {
-    for(int i=0;i<m_sommets.size();i++)
+    for(int i=0; i<m_sommets.size(); i++)
     {
         if(m_sommets[i]->getNom()==nom)
-           {
-               int tampon=m_sommets[i]->getNum();
-               return tampon;
-           }
+        {
+            int tampon=m_sommets[i]->getNum();
+            return tampon;
+        }
     }
 }
 
 int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
 {
-     for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if(m_trajets[i]->getNom()==nom)
-           {
-               int tampon=m_trajets[i]->getId();
-               return tampon;
-           }
+        {
+            int tampon=m_trajets[i]->getId();
+            return tampon;
+        }
     }
 }
 
@@ -254,75 +254,88 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 {
     double poids;
     std::vector<int> tampon;
-
     for(size_t i=0; i<arbre.size(); ++i)
     {
-        if(i == num2)
+        //std::cout<<i<<" ";
+        if(i==num2)
         {
             tampon.push_back(i);
         }
-            if(i!=num)
+        if(i!=num)
+        {
+            //size_t tmp=arbre[i];
+            if(arbre[i]!=-1)
             {
-                if(arbre[i]!=-1)
+                //   std::cout<<i<<"<- ";
+                size_t j=arbre[i];
+                if(i==num2)
                 {
-                    std::cout<<i<<"<- ";
-                    size_t j=arbre[i];
-                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
-                    poids=Poids_Chemin_S1_S2(j,i);
-
-                    if(i == num2)
+                    tampon.push_back(j);
+                }
+                //std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                //poids=Poids_Chemin_S1_S2(j,i);
+                while(j!=num)
+                {
+                    //   std::cout<<j<<"<- ";
+                    size_t tmp = j;
+                    j=arbre[j];
+                    if(i==num2)
                     {
-                       tampon.push_back(j);
+                        tampon.push_back(j);
                     }
-                    while(j!=num)
-                    {
-                       // std::cout<<j<<"<- ";
-                        size_t tmp = j;
-                        j=arbre[j];
-                        std::string m=Type_Chemin_S1_S2(j,tmp);
-                        std::string n=Nom_Chemin_S1_S2(j,tmp);
-                        poids=poids+Poids_Chemin_S1_S2(j,i);
-                        if(i == num2)
-                        {
-                            tampon.push_back(j);
-                        }
-                        //std::cout<<m<<" "<<n<<" <-";
-                        }
-                    //std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
+                    //   std::cout<<m<<" "<<n<<" <-";
+                }
+                //  std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }
         }
+
     }
-    for(auto x : tampon)
+    for(int i=0;i<tampon.size();i++)
     {
-        std::cout << x << " <-- ";
+        int tmp;
+        tmp=tampon[i+1];
+        std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
+        std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
+        if(tampon[i]!=num)
+        {
+            std::cout<<tampon[i]<<"<--"<<m<<" "<<n<<"<--";
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
+        }
+        else
+        {
+            std::cout<<tampon[i];
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
+        }
     }
+    std::cout<<"\n"<<poids<<"min"<<std::endl;
 }
+
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
     double poids;
     for(size_t i=0; i<arbre.size(); ++i)
     {
-            if(i!=num)
+        if(i!=num)
+        {
+            //size_t tmp=arbre[i];
+            if(arbre[i]!=-1)
             {
-                //size_t tmp=arbre[i];
-                if(arbre[i]!=-1)
+                std::cout<<i<<"<- ";
+                size_t j=arbre[i];
+                std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                poids=Poids_Chemin_S1_S2(j,i);
+                while(j!=num)
                 {
-                    std::cout<<i<<"<- ";
-                    size_t j=arbre[i];
-                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
-                    poids=Poids_Chemin_S1_S2(j,i);
-                    while(j!=num)
-                    {
-                        std::cout<<j<<"<- ";
-                        size_t tmp = j;
-                        j=arbre[j];
-                        std::string m=Type_Chemin_S1_S2(j,tmp);
-                        std::string n=Nom_Chemin_S1_S2(j,tmp);
-                        poids=poids+Poids_Chemin_S1_S2(j,i);
-                        std::cout<<m<<" "<<n<<" <-";
-                        }
-                    std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
+                    std::cout<<j<<"<- ";
+                    size_t tmp = j;
+                    j=arbre[j];
+                    std::string m=Type_Chemin_S1_S2(j,tmp);
+                    std::string n=Nom_Chemin_S1_S2(j,tmp);
+                    poids=poids+Poids_Chemin_S1_S2(j,i);
+                    std::cout<<m<<" "<<n<<" <-";
+                }
+                std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }
         }
     }
@@ -359,17 +372,21 @@ void Graphe::infoTrajet()
     std::cout<<"\nSur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
     std::cout<<"\nVotre choix : ";
     std::cin >> nomTrajet;
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if(m_trajets[i]->getNom()==nomTrajet)
-        {   passage++;
+        {
+            passage++;
             std::string depart=m_trajets[i]->getExtremites().first->getNom();
             std::string arrive=m_trajets[i]->getExtremites().second->getNom();
             std::cout<<"\n Depart : "<<depart<<"\n Arrive : "<<arrive<<"\n"<<std::endl;
         }
 
     }
-    if(passage == 0){std::cout << "\nErreur sur le trajet renseigne !\n" << std::endl;}
+    if(passage == 0)
+    {
+        std::cout << "\nErreur sur le trajet renseigne !\n" << std::endl;
+    }
 }
 
 void Graphe::infoSommet()
@@ -379,7 +396,7 @@ void Graphe::infoSommet()
     std::cin >> nomSommet;
     std::vector<std::string> Trajet_entrant;
     std::vector<std::string> Trajet_sortant;
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if(m_trajets[i]->getExtremites().first->getNom()==nomSommet)
         {
@@ -391,12 +408,12 @@ void Graphe::infoSommet()
         }
     }
     std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
-    for(int i=0;i<Trajet_entrant.size();i++)
+    for(int i=0; i<Trajet_entrant.size(); i++)
     {
         std::cout<<Trajet_entrant[i]<<"  ";
     }
     std::cout<<"\n\n Trajets qui partent a la station "<<nomSommet<<" : ";
-    for(int i=0;i<Trajet_sortant.size();i++)
+    for(int i=0; i<Trajet_sortant.size(); i++)
     {
         std::cout<<Trajet_sortant[i]<<"  ";
     }
