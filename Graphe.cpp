@@ -63,7 +63,7 @@ Graphe::Graphe(std::string nomFichier)
         m_sommets[extremites.first->getNum()-1]->ajouterSucc(tampon);
     }
 
-    //Liste des successeurs pour vérification
+    ///Liste des successeurs pour vérification
 //    for(auto y : m_sommets)
 //    {
 //        y->afficher();
@@ -73,16 +73,21 @@ Graphe::Graphe(std::string nomFichier)
 }
 
 
-void Graphe::Dijkstra(int depart,int arrivee, bool tous)
+void Graphe::Dijkstra(int depart,int arrivee)
 {
 
     ///initialisations
-    if (tous == true){}
     //initialisation de notre tampon pair utilisé dans l'algo.
     std::pair<Sommet*,double> p;
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
     std::vector<int> pred(m_sommets.size(),-1);
+
+    //Initialisation marquage des sommets pour les dijkstra multiples
+    for(auto x : m_sommets)
+    {
+        x->setMarque(false);
+    }
 
     //Déclaration de la fonction de comparaison utilisée par la priority_queue
     auto compare = [](std::pair<Sommet*,double> a, std::pair<Sommet*,double> b)
@@ -113,7 +118,6 @@ void Graphe::Dijkstra(int depart,int arrivee, bool tous)
 
     while (!file.empty()) //tant que notre file n'est pas vide on continue.
     {
-
         p = file.top(); //je considére que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
         file.pop();//je le supprime pour ne pas retomber dessus
 
@@ -142,7 +146,7 @@ void Graphe::Dijkstra(int depart,int arrivee, bool tous)
     }
     ///Affichage des résultats
     ///Valeur du poids
-    std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+    std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
     ///Chemin parcouru
     std::cout << "\n Le chemin est le suivant : " << arrivee;
@@ -152,11 +156,13 @@ void Graphe::Dijkstra(int depart,int arrivee, bool tous)
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        if( p <= 37)
+        if( p <= m_sommets.size())
         {
 
         std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
-        x = p;}
+        x = p;
+
+        }
 
         else{break;}
     }
