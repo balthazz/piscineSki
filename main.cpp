@@ -98,23 +98,23 @@ int main()
             std::cout << "\n   Votre choix : ";
             std::cin >> num1;
 
-            std::cout<<std::endl<<"\nVotre point de la station : ";
+            std::cout<<std::endl<<"\n   Votre point de la station : ";
             std::cin>>num2;
 
             if (num1 == 1){
             std::vector<int> arbre_BFS=g.BFS(num2);
             //affichage des chemins obtenus
-            std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n";
+            std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
             g.afficherParcours(num2,arbre_BFS);
             }
 
             if (num1 == 2){
 
-                for(auto x : vec_sommets)
+                for(int i = 0 ; i < vec_sommets.size() ; ++i)
                 {
-                    if(num2 != x->getNum()){
+                    if(num2 != vec_sommets[i]->getNum()){
 
-                    g.Dijkstra(num2,x->getNum(),true);
+                    g.Dijkstra(num2,vec_sommets[i]->getNum());
 
                     }
                 }
@@ -150,7 +150,7 @@ int main()
                 if (num1 == 2)
                 {
                     //Appel de l'algorithme de Dijkstra
-                     g.Dijkstra(depart,arrivee,false);
+                     g.Dijkstra(depart,arrivee);
                 }
 
                 retour_menu = fin_tache();
