@@ -42,12 +42,13 @@ int menu() // Fonction d'affichage du menu des choix
 
 int main()
 {
-    //Initialisation variables
-    int depart, arrivee, num, choix = 0;
-    bool retour_menu = false, quitter = false;
-
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
+
+    //Initialisation variables
+    int depart, arrivee, num1, num2, choix = 0;
+    bool retour_menu = false, quitter = false;
+    std::vector<Sommet*> vec_sommets = g.getSommets();
 
     std::cout << "\n            Projet piscine\n" << std::endl;
 
@@ -91,15 +92,34 @@ int main()
 
     case 4:
         {
-            //Choix du numéro du sommet initial
-            std::cout<<std::endl<<"Votre point de la station : ";
-            std::cin>>num;
+            //Choix de l'algorithme en fonction des besoins
+            std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
+            std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
+            std::cout << "\n   Votre choix : ";
+            std::cin >> num1;
 
+            std::cout<<std::endl<<"\nVotre point de la station : ";
+            std::cin>>num2;
 
-            std::vector<int> arbre_BFS=g.BFS(num);
+            if (num1 == 1){
+            std::vector<int> arbre_BFS=g.BFS(num2);
             //affichage des chemins obtenus
-            std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num<<" :\n";
-            g.afficherParcours(num,arbre_BFS);
+            std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n";
+            g.afficherParcours(num2,arbre_BFS);
+            }
+
+            if (num1 == 2){
+
+                for(auto x : vec_sommets)
+                {
+                    if(num2 != x->getNum()){
+
+                    g.Dijkstra(num2,x->getNum());
+
+                    }
+                }
+            }
+
             retour_menu = fin_tache();
             if(retour_menu){system("cls"); choix = menu();}
 
@@ -108,13 +128,31 @@ int main()
 
     case 5:
         {
+            //Choix de l'algorithme en fonction des besoins
+            std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
+            std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
+            std::cout << "\n   Votre choix : ";
+            std::cin >> num1;
+
                 std::cout<<"\n Sommet de depart : ";
                 std::cin >> depart;
                 std::cout<<"\n Sommet d'arrivee : ";
                 std::cin >> arrivee;
 
-                //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee);
+                if (num1 == 1)
+                {
+                    std::vector<int> arbre_BFS=g.BFS(num2);
+                    //affichage des chemins obtenus
+                    std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n";
+                    g.afficher1ParcoursBFS(depart,arrivee,arbre_BFS);
+                }
+
+                if (num1 == 2)
+                {
+                    //Appel de l'algorithme de Dijkstra
+                     g.Dijkstra(depart,arrivee);
+                }
+
                 retour_menu = fin_tache();
                 if(retour_menu){system("cls"); choix = menu();}
 

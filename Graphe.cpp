@@ -72,27 +72,6 @@ Graphe::Graphe(std::string nomFichier)
 
 }
 
-///Affichage arborecsence
-void afficherParcours(size_t num,const std::vector<int>& arbre)
-{
-    for(size_t i=0; i<arbre.size(); ++i)
-    {
-        if(i!=num)
-        {
-            if(arbre[i]!=-1)
-            {
-                std::cout<<i<<" <-- ";
-                size_t j=arbre[i];
-                while(j!=num)
-                {
-                    std::cout<<j<<" <-- ";
-                    j=arbre[j];
-                }
-                std::cout<<j<<std::endl;
-            }
-        }
-    }
-}
 
 void Graphe::Dijkstra(int depart,int arrivee)
 {
@@ -271,16 +250,59 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
     }
 }
 
+void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre)
+{
+    double poids;
+    std::vector<int> tampon;
 
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        if(i == num2)
+        {
+            tampon.push_back(i);
+        }
+            if(i!=num)
+            {
+                if(arbre[i]!=-1)
+                {
+                    std::cout<<i<<"<- ";
+                    size_t j=arbre[i];
+                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                    poids=Poids_Chemin_S1_S2(j,i);
+
+                    if(i == num2)
+                    {
+                       tampon.push_back(j);
+                    }
+                    while(j!=num)
+                    {
+                       // std::cout<<j<<"<- ";
+                        size_t tmp = j;
+                        j=arbre[j];
+                        std::string m=Type_Chemin_S1_S2(j,tmp);
+                        std::string n=Nom_Chemin_S1_S2(j,tmp);
+                        poids=poids+Poids_Chemin_S1_S2(j,i);
+                        if(i == num2)
+                        {
+                            tampon.push_back(j);
+                        }
+                        //std::cout<<m<<" "<<n<<" <-";
+                        }
+                    //std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
+            }
+        }
+    }
+    for(auto x : tampon)
+    {
+        std::cout << x << " <-- ";
+    }
+}
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
     double poids;
     for(size_t i=0; i<arbre.size(); ++i)
     {
-        //for(int n=0;n<m_sommets.size();n++)
-        //
-
             if(i!=num)
             {
                 //size_t tmp=arbre[i];
@@ -316,6 +338,7 @@ void Graphe::afficher_sommet() const
         std::cout  <<s->getNum() << "     " <<s->getNom() << "     " << s->getAltitude() << std::endl;
     }
 }
+
 void Graphe::afficher_arc() const
 {
     std::cout<<"\n    Liste des trajets :\n"<<std::endl;
@@ -333,7 +356,7 @@ void Graphe::infoTrajet()
 {
     int passage = 0;
     std::string nomTrajet;
-    std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cout<<"\nSur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
     std::cout<<"\nVotre choix : ";
     std::cin >> nomTrajet;
     for(int i=0;i<m_trajets.size();i++)
@@ -380,63 +403,6 @@ void Graphe::infoSommet()
     std::cout<<"\n\n\n";
 
 }
-
-/*void Graphe::infoTrajet() //question 4.3 petit 3-a
-{
-    std::string nomTrajet;
-    std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
-    std::cin >> nomTrajet;
-    for (auto s : m_trajets)
-    {
-        if (s->getNom().compare(nomTrajet) == 0)
-        {
-            std::cout << std::endl << s->getNom() <<" "<< s->getType() << " part de " << s->getExtremites().first->getNum()<< " et arrive a " << s->getExtremites().second->getNum()<<std::endl;
-        }
-    }
-
-} */
-
-/*void Graphe::infoSommet()//question 4.3 petit 3-b
-{
-
-    int nomSommet;
-    std::cout<<"Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
-    std::cin >> nomSommet;
-     std::cout<<"infos sur "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
-std::vector<std::pair<Sommet*,double>> tampon1 = m_sommets[nomSommet-1]->getSuccesseurs();
-     std::cout<<"trajets arrivant a "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
-       for (auto s : tampon1)
-{
-         for (auto p : m_trajets)
-         {
-             if ((p->getExtremites().second->getNum()==m_sommets[nomSommet-1]->getNum())&&(p->getExtremites().first->getNum() == s.first->getNum()))
-                 {
-                     std::cout<<"piste : "<< p->getNom() << " "<<p->getType()<<std::endl;
-                 }
-         }
-     }
-
-     std::cout<<"trajets partant de "<< m_sommets[nomSommet-1]->getNom()<<" : "<< std::endl;
-
-     for (auto s : tampon1)
-     {
-         for (auto p : m_trajets)
-         {
-
-             if ((p->getExtremites().first->getNum()==m_sommets[nomSommet-1]->getNum())&&(p->getExtremites().second->getNum() == s.first->getNum()))
-                 {
-std::cout<<"piste : "<< p->getNom()<<" "<<p->getType() <<std::endl;
-                 }
-
-         }
-     }
-
-
-//    for (auto s : m_sommets[nomSommet-1]->getSuccesseurs())
-//    {
-//      std::cout<<"piste : "<< m_trajets[m_sommets[nomSommet-1],s]->getNom() <<std::endl;
-//    }
-} */
 
 Graphe::~Graphe()
 {

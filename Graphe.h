@@ -34,6 +34,7 @@ public :
 
     std::vector<int> BFS(int num_S0);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
+    void afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre);
     double Poids_Chemin_S1_S2(int s1,int s2);
     //void infoTrajet();
     void infoSommet();
