@@ -64,11 +64,11 @@ Graphe::Graphe(std::string nomFichier)
     }
 
     //Liste des successeurs pour vérification
-    for(auto y : m_sommets)
-    {
-        y->afficher();
-        std::cout << "\n" << std::endl;
-    }
+//    for(auto y : m_sommets)
+//    {
+//        y->afficher();
+//        std::cout << "\n" << std::endl;
+//    }
 
 }
 
@@ -331,18 +331,22 @@ void Graphe::afficher_arc() const
 
 void Graphe::infoTrajet()
 {
+    int passage = 0;
     std::string nomTrajet;
     std::cout<<"Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cout<<"\nVotre choix : ";
     std::cin >> nomTrajet;
     for(int i=0;i<m_trajets.size();i++)
     {
         if(m_trajets[i]->getNom()==nomTrajet)
-        {
+        {   passage++;
             std::string depart=m_trajets[i]->getExtremites().first->getNom();
             std::string arrive=m_trajets[i]->getExtremites().second->getNom();
-            std::cout<<"\n Depart : "<<depart<<"\n Arrive : "<<arrive<<std::endl;
+            std::cout<<"\n Depart : "<<depart<<"\n Arrive : "<<arrive<<"\n"<<std::endl;
         }
+
     }
+    if(passage == 0){std::cout << "\nErreur sur le trajet renseigne !\n" << std::endl;}
 }
 
 void Graphe::infoSommet()
