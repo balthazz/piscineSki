@@ -54,7 +54,6 @@ public :
 
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();
-
     void personnaliser();
 
 
