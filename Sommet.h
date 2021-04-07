@@ -39,6 +39,8 @@ public :
     {
         return m_predecesseurs;
     }
+    void setSuccesseur(std::vector<std::pair<Sommet*,double>>& val){m_successeurs=val;}
+    void setPrede(std::vector<std::pair<Sommet*,double>>& val){m_predecesseurs=val;}
     /* pour ajouter un successeur à la liste*/
     void ajouterSucc(std::pair<Sommet*,double> p)
     {
