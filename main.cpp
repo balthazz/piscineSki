@@ -132,7 +132,7 @@ int main()
 
             if (num1 == 1)
             {
-                std::vector<int> arbre_BFS=g.BFS(num2);
+                std::vector<int> arbre_BFS=g.BFS(num2,g.getPreference());
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
                 g.afficherParcours(num2,arbre_BFS);
@@ -177,7 +177,7 @@ int main()
 
             if (num1 == 1)
             {
-                std::vector<int> arbre_BFS=g.BFS(depart);
+                std::vector<int> arbre_BFS=g.BFS(depart,g.getPreference());
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<depart<<" :\n";
                 g.afficher1ParcoursBFS(depart,arrivee,arbre_BFS);

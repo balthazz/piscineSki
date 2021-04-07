@@ -16,6 +16,9 @@ private :
     std::vector<Trajet*> m_trajets;
     std::vector<Sommet*> sauvegarde_sommets;
     std::vector<Trajet*> sauvegarde_trajets;
+    std::vector<std::string> m_preference;
+    std::vector<std::string> m_preference_initial;
+
     //std::vector<int> numCC;
 
 public :
@@ -39,7 +42,7 @@ public :
 
     void Dijkstra(int depart,int arrivee);
 
-    std::vector<int> BFS(int num_S0);
+    std::vector<int> BFS(int num_S0,std::vector<std::string> preference);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
     void afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre);
     double Poids_Chemin_S1_S2(int s1,int s2);
@@ -48,6 +51,10 @@ public :
 
     std::vector<Sommet*> Avoir_So2_avec_So1(int s1);
 
+    std::vector<std::string> getPreference(){return m_preference;}
+    void setPreference(std::vector<std::string> preference){m_preference=preference;}
+    std::vector<std::string> getPreference_initial(){return m_preference_initial;}
+    void setPreference_initial(std::vector<std::string> preference_initial){m_preference_initial=preference_initial;}
     ///Donne le nom du trajet entre deux sommet donnés
     std::string Nom_Chemin_S1_S2(int s1,int s2);
     ///Donne le type du trajet entre deux sommet donnés
@@ -61,6 +68,10 @@ public :
     ///Donne l'objet Trajet avec son numero
     Trajet* trajet_avec_son_Id(int id);
     void Effacer_successeur_sommet_quand_efface_trajet(Trajet* trajet_efface);
+    Trajet* trajet_avec_ses_succ(Sommet* som1,Sommet* som2);
+
+
+
 
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();

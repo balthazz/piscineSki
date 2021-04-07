@@ -73,7 +73,19 @@ Graphe::Graphe(std::string nomFichier)
 //        y->afficher();
 //        std::cout << "\n" << std::endl;
 //    }
+    m_preference.push_back("V");
+    m_preference.push_back("R");
+    m_preference.push_back("B");
+    m_preference.push_back("N");
+    m_preference.push_back("TK");
+    m_preference.push_back("SURF");
+    m_preference.push_back("TS");
+    m_preference.push_back("TPH");
+    m_preference.push_back("BUS");
+    m_preference.push_back("TC");
+    m_preference.push_back("TSD");
 
+    m_preference_initial = m_preference;
 }
 
 
@@ -175,15 +187,19 @@ void Graphe::Dijkstra(int depart,int arrivee)
 
 
 /// Parcours BFS
-std::vector<int> Graphe::BFS(int num_S0)
+std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 {
     std::queue<Sommet*>pile;
+    std::pair<Sommet*,Sommet*> tampon;
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size(),0);
     //pour noter les prédécesseurs
     std::vector<int> predec((int)m_sommets.size(),-1);
+
+    bool comparaison;
+
     //étape initiale
-    pile.push(m_sommets[num_S0-1]);
+    pile.push(m_sommets[num_S0]);
     couleurs[num_S0]=1;
     Sommet*so;
     //tant que la pile n'est pas vide
@@ -194,9 +210,23 @@ std::vector<int> Graphe::BFS(int num_S0)
 
         for(auto succ : so->getSuccesseurs())
         {
-            if(couleurs[succ.first->getNum()]==0) //s'il n'est pas marqué
+            Trajet* nvxTrajet = trajet_avec_ses_succ(so,succ.first);
+
+            for(auto pref : preference)
             {
-                couleurs[succ.first->getNum()]=1; //on le marque
+                if(!pref.compare(nvxTrajet->getType()))
+                {
+                    comparaison = true;
+                    break;
+                }
+                else
+                {
+                    comparaison = false;
+                }
+            }
+
+            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué
+            {   couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
                 pile.push(succ.first);//on le met dans la pile
             }
@@ -294,18 +324,16 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
     }
 }
 
-/*void Graphe::Effacer_successeur_sommet_quand_efface_trajet(Trajet* trajet_efface)
+Trajet* Graphe::trajet_avec_ses_succ(Sommet* som1,Sommet* som2)
 {
-    std::vector<std::pair<Sommet*,double>> succTampon;
-    trajet_efface->getExtremites().first;
-    for(int i=0;i<m_sommets.size();i++)
+    for(int i=0;i<m_trajets.size();i++)
     {
-        if(m_sommets[i]->getSuccesseurs()!=trajet_efface->getExtremites().second)
-        {
-            succTampon=
-        }
+        if((m_trajets[i]->getExtremites().first==som1)&&(m_trajets[i]->getExtremites().second==som2))
+           {
+               return m_trajets[i];
+           }
     }
-} */
+}
 
 void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre)
 {
@@ -421,8 +449,8 @@ void Graphe::infoTrajet()
 {
     int passage = 0;
     std::string nomTrajet;
-    std::cout<<"\nSur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
-    std::cout<<"\nVotre choix : ";
+    std::cout<<"\n   Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cout<<"\n   Votre choix : ";
     std::cin >> nomTrajet;
     for(int i=0; i<m_trajets.size(); i++)
     {
@@ -446,7 +474,7 @@ void Graphe::infoSommet()
 {
     std::string nomSommet;
     std::cout<<"\n   Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
-    std::cout<<"\n  Votre choix : ";
+    std::cout<<"\n   Votre choix : ";
     std::cin >> nomSommet;
     std::vector<std::string> Trajet_entrant;
     std::vector<std::string> Trajet_sortant;
@@ -478,111 +506,55 @@ void Graphe::infoSommet()
 
 void Graphe::personnaliser()
 {
-    for(auto y : m_sommets)
-    {
-        y->afficher();
-        std::cout << "\n" << std::endl;
-    }
+
     std::string choix_niveau;
-    std::vector<Trajet*> trajet_personnalise;
-    std::pair<Sommet*,Sommet*> tampon_extrem;
-    std::vector<std::pair<Sommet*,double>> tampon_pred2;
-    std::vector<std::pair<Sommet*,double>> tampon_succ2;
-    std::vector<Sommet*> newSommet;
-    std::cout<<"\n PARCOURS PERSONNALISE \n\n";
-    std::cout<<"Quel est votre niveau ?  debutant ( Verte + Bleue )   intermediaire ( Bleue + Rouge )  expert ( Rouge + Noire ) \n";
+
+    std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
+    std::cout<<"  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+    std::cout<<"\n  Votre choix : ";
+
     std::cin>>choix_niveau;
 
     if(choix_niveau=="debutant")
     {
-        for(int i=0;i<m_trajets.size();i++)
+        m_preference = m_preference_initial;
+
+        for(int i = 0 ; i < m_preference.size() ; i++)
         {
-            if((m_trajets[i]->getType()!="R") && (m_trajets[i]->getType()!="N") && (m_trajets[i]->getType()!="TK") && (m_trajets[i]->getType()!="TC")&& (m_trajets[i]->getType()!="KL")&& (m_trajets[i]->getType()!="TPH"))
+            if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
             {
-                trajet_personnalise.push_back(m_trajets[i]);
-                tampon_extrem = m_trajets[i]->getExtremites();
-                for(int j=0;j<m_sommets.size();j++)
-                {
-                    std::vector<std::pair<Sommet*,double>> tampon_succ;
-                    if(tampon_extrem.first->getNum()==m_sommets[j]->getNum())
-                    {
-                        tampon_succ.push_back(std::make_pair(tampon_extrem.second,m_trajets[i]->getPoids()));
-                       // m_sommets[tampon_extrem.second->getNum()]->ajouterPred(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
-                    }
-                   m_sommets[j]->setSuccesseur(tampon_succ);
-                }
-                 for(int j=0;j<m_sommets.size();j++)
-                {
-                    std::vector<std::pair<Sommet*,double>> tampon_pred;
-                    if(tampon_extrem.second->getNum()==m_sommets[j]->getNum())
-                    {
-                        tampon_pred.push_back(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
-                       // m_sommets[tampon_extrem.second->getNum()]->ajouterPred(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
-                    }
-                    m_sommets[j]->setPrede(tampon_pred);
-                }
-
-
+                m_preference.erase(m_preference.begin()+i);
             }
-
         }
-
-        m_trajets=trajet_personnalise;
-
-        for(int i=0;i<m_trajets.size();i++)
-        {
-            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
-        }
-        std::cout<<m_trajets.size()<<"\n";
-
     }
 
-    else if(choix_niveau=="intermediaire")
+
+     if(choix_niveau=="intermediaire")
     {
-        for(int i=0;i<m_trajets.size();i++)
+        m_preference = m_preference_initial;
+
+        for(int i = 0 ; i < m_preference.size() ; i++)
         {
-            if(m_trajets[i]->getType()!="N")
+            if (m_preference[i] == "N")
             {
-                trajet_personnalise.push_back(m_trajets[i]);
+                m_preference.erase(m_preference.begin()+i);
             }
-
         }
-        m_trajets=trajet_personnalise;
-
-        for(int i=0;i<m_trajets.size();i++)
-        {
-            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
-        }
-        std::cout<<m_trajets.size()<<"\n";
     }
-    else if(choix_niveau=="expert")
+
+
+     if(choix_niveau=="expert")
     {
-        m_trajets = sauvegarde_trajets;
-
-        for(int i=0;i<m_trajets.size();i++)
-        {
-            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
-        }
-        std::cout<<m_trajets.size()<<"\n";
+        m_preference = m_preference_initial;
     }
 
-    for(int i=0;i<m_sommets.size();i++)
-    {
-        tampon_pred2=m_sommets[i]->getPredecesseurs();
-        tampon_succ2=m_sommets[i]->getSuccesseurs();
-        if((tampon_pred2.size()==0) && (tampon_succ2.size()==0))
-        {
-           m_sommets.erase(m_sommets.begin()+i);
-        }
-    }
-    std::cout<<"\n nouveau nb sommet "<<m_sommets.size()<<std::endl;
-    for(auto y : m_sommets)
-    {
-        y->afficher();
-        std::cout << "\n" << std::endl;
-    }
+    //std::cout<<"\n nouveau nombre de sommets : "<<m_trajets.size()<<std::endl;
 
-
+//    for(auto y : m_sommets)
+//    {
+//        y->afficher();
+//        std::cout << "\n" << std::endl;
+//    }
 
 }
 
