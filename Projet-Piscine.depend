@@ -77,12 +77,13 @@
 	<fstream>
 	"Sommet.h"
 
-1617829658 source:c:\users\hp\desktop\piscineski\graphe.cpp
+1617834339 source:c:\users\hp\desktop\piscineski\graphe.cpp
 	"Graphe.h"
 
-1617830234 c:\users\hp\desktop\piscineski\graphe.h
+1617832813 c:\users\hp\desktop\piscineski\graphe.h
 	"Trajet.h"
 	<algorithm>
+	<conio.h>
 
 1617791615 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\graphe.h
 	"Trajet.h"

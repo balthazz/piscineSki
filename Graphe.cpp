@@ -190,6 +190,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
 std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 {
     std::queue<Sommet*>pile;
+    Trajet* nvxTrajet;
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size(),0);
     //pour noter les prédécesseurs
@@ -209,7 +210,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 
         for(auto succ : so->getSuccesseurs())
         {
-            Trajet* nvxTrajet = trajet_avec_ses_succ(so,succ.first);
+            nvxTrajet = trajet_avec_ses_succ(so,succ.first);
 
             for(auto pref : preference)
             {
@@ -506,19 +507,25 @@ void Graphe::infoSommet()
 
 void Graphe::personnaliser()
 {
-
+    int choix_preference;
     std::string choix_niveau;
+    std::string remontee;
 
     std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
-    std::cout<<"  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+    std::cout<<"  1. Preferences des pistes" << std::endl;
+    std::cout<<"  2. Preferences des remontees" << std::endl;
+    std::cout<<"\n   Votre choix : ";
+    std::cin >> choix_preference;
+
+    if(choix_preference == 1)
+    {
+    std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
     std::cout<<"\n  Votre choix : ";
 
     std::cin>>choix_niveau;
 
     if(choix_niveau=="debutant")
     {
-        m_preference = m_preference_initial;
-
         for(int i = 0 ; i < m_preference.size() ; i++)
         {
             if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
@@ -531,7 +538,8 @@ void Graphe::personnaliser()
 
      if(choix_niveau=="intermediaire")
     {
-        m_preference = m_preference_initial;
+        m_preference.push_back("R");
+        m_preference.push_back("SURF");
 
         for(int i = 0 ; i < m_preference.size() ; i++)
         {
@@ -545,7 +553,11 @@ void Graphe::personnaliser()
 
      if(choix_niveau=="expert")
     {
-        m_preference = m_preference_initial;
+        m_preference.push_back("V");
+        m_preference.push_back("B");
+        m_preference.push_back("R");
+        m_preference.push_back("N");
+        m_preference.push_back("SURF");
     }
 
     //std::cout<<"\n nouveau nombre de sommets : "<<m_trajets.size()<<std::endl;
@@ -555,7 +567,52 @@ void Graphe::personnaliser()
 //        y->afficher();
 //        std::cout << "\n" << std::endl;
 //    }
+    }
 
+    if (choix_preference == 2)
+    {
+
+        std::cout << "\n   Liste des remontees  : " << std::endl;
+        std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus \n 7. Reset" << std::endl;
+        std::cout << "\n  Que voulez vous retirer ? (Retour -> Enter) : ";
+
+        while(getch() != 13)
+    {
+
+        std::cin >> remontee;
+
+        if(remontee == "Teleski"){remontee = "TK";}
+        else if(remontee == "Telesiege"){remontee = "TS";}
+        else if(remontee == "Telecabine"){remontee = "TC";}
+        else if(remontee == "Telesiege Debrayable"){remontee = "TSD";}
+        else if(remontee == "Bus"){remontee = "BUS";}
+        else if(remontee == "Reset")
+        {m_preference.push_back("TK");
+         m_preference.push_back("TS");
+         m_preference.push_back("TC");
+         m_preference.push_back("TSD");
+         m_preference.push_back("BUS");}
+
+
+        for(int i = 0 ; i < m_preference.size() ; i++)
+        {
+            if (m_preference[i] == remontee)
+            {
+                m_preference.erase(m_preference.begin()+i);
+            }
+        }
+
+        system("cls");
+
+        std::cout << "\n   Liste des remontees : " << std::endl;
+        std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
+        std::cout << "\n  Votre choix (Retour -> Enter) : ";
+
+    }
+
+
+
+    }
 }
 
     void Graphe::kruskal()

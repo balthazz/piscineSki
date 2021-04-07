@@ -3,6 +3,7 @@
 
 #include "Trajet.h"
 #include <algorithm>
+#include <conio.h>
 
 #define valeur_max 9999
 
