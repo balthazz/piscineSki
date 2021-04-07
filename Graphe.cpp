@@ -478,10 +478,16 @@ void Graphe::infoSommet()
 
 void Graphe::personnaliser()
 {
+    for(auto y : m_sommets)
+    {
+        y->afficher();
+        std::cout << "\n" << std::endl;
+    }
     std::string choix_niveau;
     std::vector<Trajet*> trajet_personnalise;
     std::pair<Sommet*,Sommet*> tampon_extrem;
-    std::vector<std::pair<Sommet*,double>> tampon_succ;
+    std::vector<std::pair<Sommet*,double>> tampon_pred2;
+    std::vector<std::pair<Sommet*,double>> tampon_succ2;
     std::vector<Sommet*> newSommet;
     std::cout<<"\n PARCOURS PERSONNALISE \n\n";
     std::cout<<"Quel est votre niveau ?  debutant ( Verte + Bleue )   intermediaire ( Bleue + Rouge )  expert ( Rouge + Noire ) \n";
@@ -491,19 +497,32 @@ void Graphe::personnaliser()
     {
         for(int i=0;i<m_trajets.size();i++)
         {
-            if((m_trajets[i]->getType()!="R") || (m_trajets[i]->getType()!="N"))
+            if((m_trajets[i]->getType()!="R") && (m_trajets[i]->getType()!="N") && (m_trajets[i]->getType()!="TK") && (m_trajets[i]->getType()!="TC")&& (m_trajets[i]->getType()!="KL")&& (m_trajets[i]->getType()!="TPH"))
             {
                 trajet_personnalise.push_back(m_trajets[i]);
                 tampon_extrem = m_trajets[i]->getExtremites();
-                tampon_succ = tampon_extrem.first->getSuccesseurs();
-
-                for(int i = 0 ; i < tampon_succ.size() ; i++)
+                for(int j=0;j<m_sommets.size();j++)
                 {
-                    if (tampon_succ[i].first->getNum() != tampon_extrem.second->getNum())
+                    std::vector<std::pair<Sommet*,double>> tampon_succ;
+                    if(tampon_extrem.first->getNum()==m_sommets[j]->getNum())
                     {
-
+                        tampon_succ.push_back(std::make_pair(tampon_extrem.second,m_trajets[i]->getPoids()));
+                       // m_sommets[tampon_extrem.second->getNum()]->ajouterPred(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
                     }
+                   m_sommets[j]->setSuccesseur(tampon_succ);
                 }
+                 for(int j=0;j<m_sommets.size();j++)
+                {
+                    std::vector<std::pair<Sommet*,double>> tampon_pred;
+                    if(tampon_extrem.second->getNum()==m_sommets[j]->getNum())
+                    {
+                        tampon_pred.push_back(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
+                       // m_sommets[tampon_extrem.second->getNum()]->ajouterPred(std::make_pair(tampon_extrem.first,m_trajets[i]->getPoids()));
+                    }
+                    m_sommets[j]->setPrede(tampon_pred);
+                }
+
+
             }
 
         }
@@ -517,6 +536,7 @@ void Graphe::personnaliser()
         std::cout<<m_trajets.size()<<"\n";
 
     }
+
     else if(choix_niveau=="intermediaire")
     {
         for(int i=0;i<m_trajets.size();i++)
@@ -544,6 +564,22 @@ void Graphe::personnaliser()
             std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
         }
         std::cout<<m_trajets.size()<<"\n";
+    }
+
+    for(int i=0;i<m_sommets.size();i++)
+    {
+        tampon_pred2=m_sommets[i]->getPredecesseurs();
+        tampon_succ2=m_sommets[i]->getSuccesseurs();
+        if((tampon_pred2.size()==0) && (tampon_succ2.size()==0))
+        {
+           m_sommets.erase(m_sommets.begin()+i);
+        }
+    }
+    std::cout<<"\n nouveau nb sommet "<<m_sommets.size()<<std::endl;
+    for(auto y : m_sommets)
+    {
+        y->afficher();
+        std::cout << "\n" << std::endl;
     }
 
 

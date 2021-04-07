@@ -67,6 +67,7 @@ int main()
 
     std::cout << "\n            Projet piscine" << std::endl;
 
+
     choix = menu();
 
     while(quitter == false)
