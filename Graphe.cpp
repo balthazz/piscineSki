@@ -190,7 +190,6 @@ void Graphe::Dijkstra(int depart,int arrivee)
 std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 {
     std::queue<Sommet*>pile;
-    std::pair<Sommet*,Sommet*> tampon;
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size(),0);
     //pour noter les prédécesseurs
@@ -199,7 +198,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
     bool comparaison;
 
     //étape initiale
-    pile.push(m_sommets[num_S0]);
+    pile.push(m_sommets[num_S0-1]);
     couleurs[num_S0]=1;
     Sommet*so;
     //tant que la pile n'est pas vide
@@ -226,7 +225,8 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
             }
 
             if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué
-            {   couleurs[succ.first->getNum()]=1; //on le marque
+            {
+                couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
                 pile.push(succ.first);//on le met dans la pile
             }
