@@ -7,7 +7,7 @@ Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, st
     m_nom=nom;
     m_type=type;
 
-    if ((m_type == "N") || (m_type == "R") || (m_type == "B") || (m_type == "V"))
+    if ((m_type == "N") || (m_type == "R") || (m_type == "B") || (m_type == "V") || (m_type == "SURF"))
     {
         m_descente = true;
     }

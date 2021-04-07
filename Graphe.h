@@ -14,6 +14,8 @@ private :
     ///liste des sommets (vecteur de pointeurs sur Sommet)
     std::vector<Sommet*> m_sommets;
     std::vector<Trajet*> m_trajets;
+    std::vector<Sommet*> sauvegarde_sommets;
+    std::vector<Trajet*> sauvegarde_trajets;
     //std::vector<int> numCC;
 
 public :
@@ -26,6 +28,9 @@ public :
 
     std::vector<Sommet*> getSommets(){return m_sommets;};
     std::vector<Trajet*> getTrajets(){return m_trajets;};
+
+    std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
+    std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};
     //Fonction d'affichage de notre chargement de fichier graphe.txt
     void afficher_sommet() const;
     // Fonction d'affichage des aretes

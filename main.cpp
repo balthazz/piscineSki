@@ -216,6 +216,12 @@ int main()
         case 7:
             {
                 g.kruskal();
+                retour_menu = fin_tache();
+                if(retour_menu)
+                {
+                system("cls");
+                choix = menu();
+                }
             }
 
         case 8:
