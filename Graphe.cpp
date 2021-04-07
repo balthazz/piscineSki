@@ -291,6 +291,18 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
     }
 }
 
+/*void Graphe::Effacer_successeur_sommet_quand_efface_trajet(Trajet* trajet_efface)
+{
+    std::vector<std::pair<Sommet*,double>> succTampon;
+    trajet_efface->getExtremites().first;
+    for(int i=0;i<m_sommets.size();i++)
+    {
+        if(m_sommets[i]->getSuccesseurs()!=trajet_efface->getExtremites().second)
+        {
+            succTampon=
+        }
+    }
+} */
 
 void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre)
 {
@@ -463,7 +475,7 @@ void Graphe::infoSommet()
 void Graphe::personnaliser()
 {
     std::string choix_niveau;
-    std::vector<int> trajet_personnalise;
+    std::vector<Trajet*> trajet_personnalise;
     std::vector<Sommet*> copie = m_sommets;
     std::vector<Sommet*> newSommet;
     std::cout<<"\n PARCOURS PERSONNALISE \n\n";
@@ -475,9 +487,21 @@ void Graphe::personnaliser()
         {
             if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B"))
             {
-                trajet_personnalise.push_back(m_trajets[i]->getId());
+                trajet_personnalise.push_back(m_trajets[i]);
+            }
+            else if((m_trajets[i]->getType()=="KL") || (m_trajets[i]->getType()=="SURF") || (m_trajets[i]->getType()=="TPH")|| (m_trajets[i]->getType()=="TC")|| (m_trajets[i]->getType()=="TSD")|| (m_trajets[i]->getType()=="TS")|| (m_trajets[i]->getType()=="TK")|| (m_trajets[i]->getType()=="BUS"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]);
             }
         }
+        m_trajets=trajet_personnalise;
+
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
+        }
+        std::cout<<m_trajets.size()<<"\n";
+
     }
     if(choix_niveau=="intermediaire")
     {
@@ -485,9 +509,20 @@ void Graphe::personnaliser()
         {
             if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R"))
             {
-                trajet_personnalise.push_back(m_trajets[i]->getId());
+                trajet_personnalise.push_back(m_trajets[i]);
+            }
+            else if((m_trajets[i]->getType()=="KL") || (m_trajets[i]->getType()=="SURF") || (m_trajets[i]->getType()=="TPH")|| (m_trajets[i]->getType()=="TC")|| (m_trajets[i]->getType()=="TSD")|| (m_trajets[i]->getType()=="TS")|| (m_trajets[i]->getType()=="TK")|| (m_trajets[i]->getType()=="BUS"))
+            {
+                trajet_personnalise.push_back(m_trajets[i]);
             }
         }
+        m_trajets=trajet_personnalise;
+
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
+        }
+        std::cout<<m_trajets.size()<<"\n";
     }
     if(choix_niveau=="expert")
     {
@@ -495,25 +530,18 @@ void Graphe::personnaliser()
         {
             if((m_trajets[i]->getType()=="V") || (m_trajets[i]->getType()=="B") || (m_trajets[i]->getType()=="R") || (m_trajets[i]->getType()=="N"))
             {
-                trajet_personnalise.push_back(m_trajets[i]->getId());
+                trajet_personnalise.push_back(m_trajets[i]);
             }
         }
+        m_trajets=trajet_personnalise;
+
+        for(int i=0;i<m_trajets.size();i++)
+        {
+            std::cout<<m_trajets[i]->getType()<<" "<<m_trajets[i]->getNom()<<"\n";
+        }
+        std::cout<<m_trajets.size()<<"\n";
     }
-    for (int i=0;i<trajet_personnalise.size();i++)
-    {
-        std::string nomTrajet=nom_du_Trajet_avec_Id(trajet_personnalise[i]);
-        std::cout<<nomTrajet<<" \n";
-    }
-    for(int i=0 ; i<trajet_personnalise.size();i++)
-    {
-       newSommet.push_back(trajet_avec_son_Id(trajet_personnalise[i])->getExtremites().first);
-       newSommet.push_back(trajet_avec_son_Id(trajet_personnalise[i])->getExtremites().second);
-    }
-    m_sommets=newSommet;
-    for(int i=0;i<m_sommets.size();i++)
-    {
-        std::cout<<m_sommets[i]->getNom()<<"  ";
-    }
+
 
 
 }
