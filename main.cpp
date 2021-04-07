@@ -39,7 +39,7 @@ int menu() // Fonction d'affichage du menu des choix
 
     int choix_menu;
 
-    std::cout << "     Borne d'information - les Arcs" << std::endl;
+    std::cout << "\n     Borne d'information - les Arcs" << std::endl;
     std::cout<<"\n  1. Affichage du chargement fichier" << std::endl;
     std::cout<<"  2. Information sur un trajet " << std::endl;
     std::cout<<"  3. Information sur un point de la station " << std::endl;
@@ -65,7 +65,7 @@ int main()
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
-    std::cout << "\n            Projet piscine\n" << std::endl;
+    std::cout << "\n            Projet piscine" << std::endl;
 
     choix = menu();
 

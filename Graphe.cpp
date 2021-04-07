@@ -445,7 +445,8 @@ void Graphe::infoTrajet()
 void Graphe::infoSommet()
 {
     std::string nomSommet;
-    std::cout<<"Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cout<<"\n   Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
+    std::cout<<"\n  Votre choix : ";
     std::cin >> nomSommet;
     std::vector<std::string> Trajet_entrant;
     std::vector<std::string> Trajet_sortant;
@@ -506,6 +507,7 @@ void Graphe::personnaliser()
             }
 
         }
+
         m_trajets=trajet_personnalise;
 
         for(int i=0;i<m_trajets.size();i++)
