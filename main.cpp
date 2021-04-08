@@ -9,7 +9,7 @@
 #define valeur_max 9999
 
 #include "Graphe.h"
-#include "Dessin.h"
+
 
 void afficherTemps(int time)
 {
@@ -60,13 +60,13 @@ int main()
 {
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
-    //Dessin d;
+    Dessin d;
     //d.fond_Neige();
     //d.cadre();
     //d.petit_cadre();
     //d.Dessin_sapin(11,13);
     //system("PAUSE");
-    //d.gotoLigCol(0,0);
+    //d.gotoLigCol(9,0);
     //Initialisation variables
     int depart, arrivee, num1, num2, choix = 0;
     bool retour_menu = false, quitter = false;
@@ -143,6 +143,7 @@ int main()
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
                 g.afficherParcours(num2,arbre_BFS);
+
             }
 
             if (num1 == 2)
@@ -153,7 +154,7 @@ int main()
                     if(num2 != vec_sommets[i]->getNum())
                     {
 
-                        g.Dijkstra(num2,vec_sommets[i]->getNum());
+                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference());
 
                     }
                 }
@@ -193,7 +194,7 @@ int main()
             if (num1 == 2)
             {
                 //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee);
+                g.Dijkstra(depart,arrivee,g.getPreference());
             }
 
             retour_menu = fin_tache();

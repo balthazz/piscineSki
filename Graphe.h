@@ -8,6 +8,7 @@
 #include <conio.h>
 
 #include "Trajet.h"
+#include "Dessin.h"
 
 #define valeur_max 9999
 
@@ -26,6 +27,7 @@ private :
 
     std::vector<Sommet*> m_puits;
     std::vector<Sommet*> m_sources;
+    Dessin couleur;
     //std::vector<int> numCC;
 
 public :
@@ -50,7 +52,7 @@ public :
     void afficher_arc() const;
     //Fonction d'affichage arbre
 
-    void Dijkstra(int depart,int arrivee);
+    void Dijkstra(int depart,int arrivee,std::vector<std::string> preference);
 
     std::vector<int> BFS(int num_S0,std::vector<std::string> preference);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
@@ -79,6 +81,8 @@ public :
     Trajet* trajet_avec_son_Id(int id);
     ///Donne trajet a partir de ses extremites
     Trajet* trajet_avec_ses_succ(Sommet* som1,Sommet* som2);
+    ///Donne l'objet Sommet avec son numero
+    Sommet* sommet_avec_son_Id(int id);
 
 
 

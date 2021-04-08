@@ -25,6 +25,8 @@ public:
     void cadre();
     void petit_cadre();
 
+    void couleur_type(std::string texte);
+
 
 };
 

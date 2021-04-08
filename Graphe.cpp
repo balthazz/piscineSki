@@ -91,12 +91,14 @@ Graphe::Graphe(std::string nomFichier)
 
 
 
-void Graphe::Dijkstra(int depart,int arrivee)
+void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference)
 {
 
     ///initialisations
     //initialisation de notre tampon pair utilisé dans l'algo.
     std::pair<Sommet*,double> p;
+    bool comparaison;
+    Trajet* nvxTrajet;
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
     std::vector<int> pred(m_sommets.size(),-1);
@@ -145,8 +147,23 @@ void Graphe::Dijkstra(int depart,int arrivee)
 
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
+                Trajet* nvxTrajet = trajet_avec_ses_succ(p.first,succ.first);
 
-                if (succ.first->getMarque()== false) // si le successeur n'a pas été marqué
+                for(auto pref : preference)
+                {
+                    if(!pref.compare(nvxTrajet->getType()))
+                    {
+                        comparaison = true;
+                        break;
+                    }
+                    else
+                    {
+                        comparaison = false;
+                    }
+                }
+
+
+                if (succ.first->getMarque()== false && comparaison) // si le successeur n'a pas été marqué
                 {
                     // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'à ce predecesseur
                     double addition = p.first->getDistance() + succ.second;
@@ -164,10 +181,10 @@ void Graphe::Dijkstra(int depart,int arrivee)
     }
     ///Affichage des résultats
     ///Valeur du poids
-    std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+    std::cout<<"\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
     ///Chemin parcouru
-    std::cout << "\n Le chemin est le suivant : " << arrivee;
+    std::cout << "\n" << arrivee;
 
     int x = arrivee;
 
@@ -194,6 +211,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
 /// Parcours BFS
 std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 {
+
     std::queue<Sommet*>pile;
     Trajet* nvxTrajet;
     // pour le marquage
@@ -207,6 +225,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
     pile.push(m_sommets[num_S0-1]);
     couleurs[num_S0]=1;
     Sommet*so;
+
     //tant que la pile n'est pas vide
     while(!pile.empty())
     {
@@ -262,6 +281,17 @@ std::string Graphe::nom_du_Trajet_avec_Id(int num)
         {
             std::string tampon=m_trajets[i]->getNom();
             return tampon;
+        }
+    }
+}
+
+Sommet* Graphe::sommet_avec_son_Id(int num)
+{
+    for(int i=0; i<m_sommets.size(); i++)
+    {
+        if(m_sommets[i]->getNum()==num)
+        {
+            return m_sommets[i];
         }
     }
 }
@@ -383,7 +413,12 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
         std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
         if(tampon[i]!=num)
         {
-            std::cout<<tampon[i]<<"<--"<<m<<" "<<n<<"<--";
+            std::cout<<tampon[i]<<"<--";
+            couleur.couleur_type(m);
+            std::cout<<m<<" ";
+            std::cout<<n<<" ";
+            couleur.couleur(15);
+            std::cout<<"<--";
             poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
         else
@@ -407,7 +442,10 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
             {
                 std::cout<<i<<"<- ";
                 size_t j=arbre[i];
-                std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i)<<" <- ";
+                couleur.couleur_type(Type_Chemin_S1_S2(j,i));
+                std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i);
+                couleur.couleur(15);
+                std::cout<<" <- ";
                 poids=Poids_Chemin_S1_S2(j,i);
                 while(j!=num)
                 {
@@ -417,7 +455,10 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                     std::string m=Type_Chemin_S1_S2(j,tmp);
                     std::string n=Nom_Chemin_S1_S2(j,tmp);
                     poids=poids+Poids_Chemin_S1_S2(j,tmp);
-                    std::cout<<m<<" "<<n<<" <-";
+                    couleur.couleur_type(m);
+                    std::cout<<m<<" "<<n;
+                    couleur.couleur(15);
+                    std::cout<<" <-";
                 }
                 std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }

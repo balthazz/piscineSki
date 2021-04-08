@@ -113,6 +113,27 @@ void Dessin::fond_Neige()
 
 }
 
+void Dessin::couleur_type(std::string texte)
+{
+    if(texte=="B")
+    {
+       couleur(1);
+    }
+    else if(texte=="R")
+    {
+       couleur(4);
+    }
+    else if(texte=="N")
+    {
+       couleur(8);
+    }
+    else if((texte!="B") && (texte!="R") && (texte!="N") )
+    {
+       couleur(6);
+    }
+
+}
+
 Dessin::~Dessin()
 {
     //dtor
