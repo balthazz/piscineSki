@@ -9,6 +9,7 @@
 #define valeur_max 9999
 
 #include "Graphe.h"
+#include "Dessin.h"
 
 void afficherTemps(int time)
 {
@@ -60,7 +61,13 @@ int main()
 {
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
-
+    //Dessin d;
+    //d.fond_Neige();
+    //d.cadre();
+    //d.petit_cadre();
+    //d.Dessin_sapin(11,13);
+    //system("PAUSE");
+    //d.gotoLigCol(0,0);
     //Initialisation variables
     int depart, arrivee, num1, num2, choix = 0;
     bool retour_menu = false, quitter = false;

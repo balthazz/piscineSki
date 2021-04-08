@@ -1,9 +1,13 @@
 #ifndef GRAPHE_H
 #define GRAPHE_H
 
-#include "Trajet.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
 #include <algorithm>
 #include <conio.h>
+
+#include "Trajet.h"
 
 #define valeur_max 9999
 
@@ -77,7 +81,7 @@ public :
     std::string nom_du_Trajet_avec_Id(int num);
     ///Donne l'objet Trajet avec son numero
     Trajet* trajet_avec_son_Id(int id);
-    void Effacer_successeur_sommet_quand_efface_trajet(Trajet* trajet_efface);
+    ///Donne trajet a partir de ses extremites
     Trajet* trajet_avec_ses_succ(Sommet* som1,Sommet* som2);
 
 
@@ -90,6 +94,10 @@ public :
     void connexion();
     void deconnexion();
     void sauvegarde();
+    void gotoLigCol(int lig, int col);
+    void Dessin_skieur();
+    void fond_Neige();
+
 
 
 };

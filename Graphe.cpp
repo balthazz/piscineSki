@@ -68,7 +68,7 @@ Graphe::Graphe(std::string nomFichier)
     sauvegarde_trajets = m_trajets;
     sauvegarde_sommets = m_sommets;
 
-    ///Liste des successeurs pour vérification
+    ///Liste des successeurs pour vï¿½rification
 //    for(auto y : m_sommets)
 //    {
 //        y->afficher();
@@ -90,11 +90,12 @@ Graphe::Graphe(std::string nomFichier)
 }
 
 
+
 void Graphe::Dijkstra(int depart,int arrivee)
 {
 
     ///initialisations
-    //initialisation de notre tampon pair utilisé dans l'algo.
+    //initialisation de notre tampon pair utilisï¿½ dans l'algo.
     std::pair<Sommet*,double> p;
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
@@ -106,16 +107,16 @@ void Graphe::Dijkstra(int depart,int arrivee)
         x->setMarque(false);
     }
 
-    //Déclaration de la fonction de comparaison utilisée par la priority_queue
+    //Dï¿½claration de la fonction de comparaison utilisï¿½e par la priority_queue
     auto compare = [](std::pair<Sommet*,double> a, std::pair<Sommet*,double> b)
     {
         return b.second < a.second;
     };
 
-    //Déclaration de la file de priorité
+    //Dï¿½claration de la file de prioritï¿½
     std::priority_queue<std::pair<Sommet*,double>, std::vector<std::pair<Sommet*,double>>, decltype(compare)> file(compare);
 
-    //initialise tous les sommets à valeur théoriquement infinie sauf celui de départ.
+    //initialise tous les sommets ï¿½ valeur thï¿½oriquement infinie sauf celui de dï¿½part.
     for (auto s : m_sommets)
     {
         if (s->getNum()== depart)
@@ -128,40 +129,40 @@ void Graphe::Dijkstra(int depart,int arrivee)
         }
     }
 
-    //Insérer le sommet initial dans la file avec une distance nul car on ne bouge pas.
+    //Insï¿½rer le sommet initial dans la file avec une distance nul car on ne bouge pas.
     file.push(std::make_pair(m_sommets[depart-1],0));
 
     ///Boucle de recherche
 
     while (!file.empty()) //tant que notre file n'est pas vide on continue.
     {
-        p = file.top(); //je considére que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
+        p = file.top(); //je considï¿½re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
         file.pop();//je le supprime pour ne pas retomber dessus
 
-        if (p.first->getMarque()==false) // si le sommet n'a pas été marqué
+        if (p.first->getMarque()==false) // si le sommet n'a pas ï¿½tï¿½ marquï¿½
         {
             p.first->setMarque(true); //on marque le sommet
 
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
 
-                if (succ.first->getMarque()== false) // si le successeur n'a pas été marqué
+                if (succ.first->getMarque()== false) // si le successeur n'a pas ï¿½tï¿½ marquï¿½
                 {
-                    // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'à ce predecesseur
+                    // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'ï¿½ ce predecesseur
                     double addition = p.first->getDistance() + succ.second;
 
-                    if (addition < succ.first->getDistance()) //si ce chemin est plus petit que le précédent chemin enregistré alors on le remplace
+                    if (addition < succ.first->getDistance()) //si ce chemin est plus petit que le prï¿½cï¿½dent chemin enregistrï¿½ alors on le remplace
                     {
-                        succ.first->setDistance(addition); //on définit la nouvelle distance (plus courte) entre le départ et ce nouveau point(qui est un successeur du sommet qu'on étudiait)
+                        succ.first->setDistance(addition); //on dï¿½finit la nouvelle distance (plus courte) entre le dï¿½part et ce nouveau point(qui est un successeur du sommet qu'on ï¿½tudiait)
                         pred[succ.first->getNum()] =  p.first->getNum(); // On sauvegarde le predecesseur pour avoir une trace de notre chemin.
-                        file.push(succ); //Enfin, on rajoute notre successeur à la file de priorité.
+                        file.push(succ); //Enfin, on rajoute notre successeur ï¿½ la file de prioritï¿½.
 
                     }
                 }
             }
         }
     }
-    ///Affichage des résultats
+    ///Affichage des rï¿½sultats
     ///Valeur du poids
     std::cout<<"\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
@@ -176,12 +177,15 @@ void Graphe::Dijkstra(int depart,int arrivee)
         if( p <= m_sommets.size())
         {
 
-        std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
-        x = p;
+            std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
+            x = p;
 
         }
 
-        else{break;}
+        else
+        {
+            break;
+        }
     }
     std::cout << "\n";
 }
@@ -194,12 +198,12 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
     Trajet* nvxTrajet;
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size(),0);
-    //pour noter les prédécesseurs
+    //pour noter les prï¿½dï¿½cesseurs
     std::vector<int> predec((int)m_sommets.size(),-1);
 
     bool comparaison;
 
-    //étape initiale
+    //ï¿½tape initiale
     pile.push(m_sommets[num_S0-1]);
     couleurs[num_S0]=1;
     Sommet*so;
@@ -226,7 +230,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
                 }
             }
 
-            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué
+            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marquï¿½
             {
                 couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
@@ -265,7 +269,7 @@ std::string Graphe::nom_du_Trajet_avec_Id(int num)
 Trajet* Graphe::trajet_avec_son_Id(int id)
 {
     Trajet* tampon;
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if(m_trajets[i]->getId()==id)
         {
@@ -328,12 +332,12 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
 
 Trajet* Graphe::trajet_avec_ses_succ(Sommet* som1,Sommet* som2)
 {
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if((m_trajets[i]->getExtremites().first==som1)&&(m_trajets[i]->getExtremites().second==som2))
-           {
-               return m_trajets[i];
-           }
+        {
+            return m_trajets[i];
+        }
     }
 }
 
@@ -371,7 +375,7 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
         }
 
     }
-    for(int i=0;i<tampon.size();i++)
+    for(int i=0; i<tampon.size(); i++)
     {
         int tmp;
         tmp=tampon[i+1];
@@ -520,46 +524,46 @@ void Graphe::personnaliser()
 
     if(choix_preference == 1)
     {
-    std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
-    std::cout<<"\n  Votre choix : ";
+        std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+        std::cout<<"\n  Votre choix : ";
 
-    std::cin>>choix_niveau;
+        std::cin>>choix_niveau;
 
-    if(choix_niveau=="debutant")
-    {
-        for(int i = 0 ; i < m_preference.size() ; i++)
+        if(choix_niveau=="debutant")
         {
-            if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+            for(int i = 0 ; i < m_preference.size() ; i++)
             {
-                m_preference.erase(m_preference.begin()+i);
+                if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
             }
         }
-    }
 
 
-     if(choix_niveau=="intermediaire")
-    {
-        m_preference.push_back("R");
-        m_preference.push_back("SURF");
-
-        for(int i = 0 ; i < m_preference.size() ; i++)
+        if(choix_niveau=="intermediaire")
         {
-            if (m_preference[i] == "N")
+            m_preference.push_back("R");
+            m_preference.push_back("SURF");
+
+            for(int i = 0 ; i < m_preference.size() ; i++)
             {
-                m_preference.erase(m_preference.begin()+i);
+                if (m_preference[i] == "N")
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
             }
         }
-    }
 
 
-     if(choix_niveau=="expert")
-    {
-        m_preference.push_back("V");
-        m_preference.push_back("B");
-        m_preference.push_back("R");
-        m_preference.push_back("N");
-        m_preference.push_back("SURF");
-    }
+        if(choix_niveau=="expert")
+        {
+            m_preference.push_back("V");
+            m_preference.push_back("B");
+            m_preference.push_back("R");
+            m_preference.push_back("N");
+            m_preference.push_back("SURF");
+        }
 
 
     }
@@ -572,9 +576,9 @@ void Graphe::personnaliser()
         std::cout << "\n  Que voulez vous retirer ? (Retour -> Enter) : ";
 
         while(getch() != 13)
-    {
+        {
 
-        std::cin >> remontee;
+            std::cin >> remontee;
 
         if(remontee == "Teleski"){remontee = "TK";}
         else if(remontee == "Telesiege"){remontee = "TS";}
@@ -590,89 +594,96 @@ void Graphe::personnaliser()
          m_preference.push_back("BUS");}
 
 
-        for(int i = 0 ; i < m_preference.size() ; i++)
-        {
-            if (m_preference[i] == remontee)
+            for(int i = 0 ; i < m_preference.size() ; i++)
             {
-                m_preference.erase(m_preference.begin()+i);
+                if (m_preference[i] == remontee)
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
             }
-        }
 
-        system("cls");
+            system("cls");
 
-        std::cout << "\n   Liste des remontees : " << std::endl;
-        std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
-        std::cout << "\n  Votre choix (Retour -> Enter) : ";
+            std::cout << "\n   Liste des remontees : " << std::endl;
+            std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
+            std::cout << "\n  Votre choix (Retour -> Enter) : ";
 
         }
 
     }
 }
 
-    void Graphe::kruskal()
+void Graphe::kruskal()
+{
+    //Initialisation des variables principales
+    std::vector<Trajet*> resultat_krustal; //Notre arbre vide
+    std::pair<Sommet*,Sommet*> tampon;
+    std::vector<Trajet*> trajets_pistes;
+    double poidsTotal = 0;
+    int nombre_tour = 0;
+
+
+    for(auto x : m_trajets)
     {
-        //Initialisation des variables principales
-        std::vector<Trajet*> resultat_krustal; //Notre arbre vide
-        std::pair<Sommet*,Sommet*> tampon;
-        std::vector<Trajet*> trajets_pistes;
-        double poidsTotal = 0;
-        int nombre_tour = 0;
-
-
-        for(auto x : m_trajets)
+        if (x->getDescente() == true)
         {
-            if (x->getDescente() == true)
-            {
-                trajets_pistes.push_back(x);
-            }
+            trajets_pistes.push_back(x);
         }
+    }
 
-        //Tri du vecteur d'arrete par ordre croissant de poids
-        std::sort(trajets_pistes.begin(),trajets_pistes.end(),[](Trajet* a, Trajet* b){return a->getPoids() > b->getPoids();});
+    //Tri du vecteur d'arrete par ordre croissant de poids
+    std::sort(trajets_pistes.begin(),trajets_pistes.end(),[](Trajet* a, Trajet* b)
+    {
+        return a->getPoids() > b->getPoids();
+    });
 
-        while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de résultats est inférieur au nombre de sommets -1
+    while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de rï¿½sultats est infï¿½rieur au nombre de sommets -1
+    {
+        tampon = trajets_pistes[nombre_tour]->getExtremites(); // On rï¿½cupere les extremites de l'arete de poids le plus haut
+
+        if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vï¿½rifie si elle peut ï¿½tre sï¿½lectionnï¿½e
         {
-            tampon = trajets_pistes[nombre_tour]->getExtremites(); // On récupere les extremites de l'arete de poids le plus haut
+            resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete ï¿½ notre arbre de poids couvrant minimum
 
-            if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vérifie si elle peut être sélectionnée
+            //Check et actualisation des numCC
+
+            int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
+
+            for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
             {
-                resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete à notre arbre de poids couvrant minimum
-
-                //Check et actualisation des numCC
-
-                int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
-
-                for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
+                if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont ï¿½gaux, on remplace
                 {
-                    if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
-                    {
-                        m_sommets[k]->setNumCC(tampon.first->getNumCC());
-                    }
+                    m_sommets[k]->setNumCC(tampon.first->getNumCC());
                 }
             }
-
-                nombre_tour++; // On incrémente le nombre de tour
         }
 
+        nombre_tour++; // On incrï¿½mente le nombre de tour
+    }
 
-        //Affichage du résultat !
 
-        std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
+    //Affichage du rï¿½sultat !
 
-        for(auto x : resultat_krustal)
-        {
-            poidsTotal += x->getPoids(); //On incrémente le poids total pour chaque sommet dans l'arbre
+    std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
 
-            x->afficher(); //On affiche les arêtes et leurs poids
+    for(auto x : resultat_krustal)
+    {
+        poidsTotal += x->getPoids(); //On incrï¿½mente le poids total pour chaque sommet dans l'arbre
 
-            std::cout << "\n";
-        }
+        x->afficher(); //On affiche les arï¿½tes et leurs poids
 
-        std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
+        std::cout << "\n";
+    }
+
+    std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
 
 //        std::cout << trajets_pistes.size() << std::endl;
 //        std::cout << resultat_krustal.size() << std::endl;
-    }
+}
+
+
+
+
 
     void Graphe::connexion()
     {
