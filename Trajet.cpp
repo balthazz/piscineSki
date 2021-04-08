@@ -1,11 +1,12 @@
 #include "Trajet.h"
 
-Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type)
+Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type,double capacity)
 {
     m_extremites=extremites;
     m_id=id;
     m_nom=nom;
     m_type=type;
+    m_capacity=capacity;
 
     if ((m_type == "N") || (m_type == "R") || (m_type == "B") || (m_type == "V") || (m_type == "SURF"))
     {

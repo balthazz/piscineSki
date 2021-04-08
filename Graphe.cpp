@@ -36,15 +36,16 @@ Graphe::Graphe(std::string nomFichier)
     int id_trajet,sommet_1,sommet_2;
     std::string nom_trajet,type_trajet;
     std::pair<Sommet*,Sommet*> extremites;
+    double capacityArc;
 
     for(int i = 0 ; i < taille ; i++)
     {
-        ifs>>id_trajet>>nom_trajet>>type_trajet>>sommet_1>>sommet_2;
+        ifs>>id_trajet>>nom_trajet>>type_trajet>>sommet_1>>sommet_2>>capacityArc;
 
         extremites.first = m_sommets[sommet_1-1];
         extremites.second = m_sommets[sommet_2-1];
 
-        m_trajets.push_back(new Trajet{extremites,id_trajet,nom_trajet,type_trajet});
+        m_trajets.push_back(new Trajet{extremites,id_trajet,nom_trajet,type_trajet,capacityArc});
 
     }
 
