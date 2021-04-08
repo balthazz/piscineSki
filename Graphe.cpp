@@ -98,7 +98,6 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     //initialisation de notre tampon pair utilisé dans l'algo.
     std::pair<Sommet*,double> p;
     bool comparaison;
-    Trajet* nvxTrajet;
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
     std::vector<int> pred(m_sommets.size(),-1);
@@ -147,11 +146,10 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
 
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
-                Trajet* nvxTrajet = trajet_avec_ses_succ(p.first,succ.first);
 
                 for(auto pref : preference)
                 {
-                    if(!pref.compare(nvxTrajet->getType()))
+                    if(trajet_avec_ses_succ(p.first,succ.first)->getType() == pref)
                     {
                         comparaison = true;
                         break;
@@ -162,8 +160,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
                     }
                 }
 
-
-                if (succ.first->getMarque()== false && comparaison) // si le successeur n'a pas été marqué
+                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas été marqué
                 {
                     // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'à ce predecesseur
                     double addition = p.first->getDistance() + succ.second;
@@ -191,7 +188,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        if( p <= m_sommets.size())
+        if( p <= m_sommets.size()+1)
         {
 
             std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
@@ -213,11 +210,11 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 {
 
     std::queue<Sommet*>pile;
-    Trajet* nvxTrajet;
+
     // pour le marquage
-    std::vector<int> couleurs((int)m_sommets.size(),0);
+    std::vector<int> couleurs((int)m_sommets.size()+1,0);
     //pour noter les prédécesseurs
-    std::vector<int> predec((int)m_sommets.size(),-1);
+    std::vector<int> predec((int)m_sommets.size()+1,-1);
 
     bool comparaison;
 
@@ -234,11 +231,9 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 
         for(auto succ : so->getSuccesseurs())
         {
-            nvxTrajet = trajet_avec_ses_succ(so,succ.first);
-
             for(auto pref : preference)
             {
-                if(!pref.compare(nvxTrajet->getType()))
+                if(trajet_avec_ses_succ(so,succ.first)->getType() == pref)
                 {
                     comparaison = true;
                     break;
@@ -249,7 +244,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
                 }
             }
 
-            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué et pas dans preference
+            if((couleurs[succ.first->getNum()]==0) && (comparaison == true)) //s'il n'est pas marqué et pas dans preference
             {
                 couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
