@@ -89,6 +89,7 @@ Graphe::Graphe(std::string nomFichier)
 }
 
 
+
 void Graphe::Dijkstra(int depart,int arrivee)
 {
 
@@ -175,12 +176,15 @@ void Graphe::Dijkstra(int depart,int arrivee)
         if( p <= m_sommets.size())
         {
 
-        std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
-        x = p;
+            std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
+            x = p;
 
         }
 
-        else{break;}
+        else
+        {
+            break;
+        }
     }
     std::cout << "\n";
 }
@@ -264,7 +268,7 @@ std::string Graphe::nom_du_Trajet_avec_Id(int num)
 Trajet* Graphe::trajet_avec_son_Id(int id)
 {
     Trajet* tampon;
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if(m_trajets[i]->getId()==id)
         {
@@ -327,12 +331,12 @@ int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
 
 Trajet* Graphe::trajet_avec_ses_succ(Sommet* som1,Sommet* som2)
 {
-    for(int i=0;i<m_trajets.size();i++)
+    for(int i=0; i<m_trajets.size(); i++)
     {
         if((m_trajets[i]->getExtremites().first==som1)&&(m_trajets[i]->getExtremites().second==som2))
-           {
-               return m_trajets[i];
-           }
+        {
+            return m_trajets[i];
+        }
     }
 }
 
@@ -370,7 +374,7 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
         }
 
     }
-    for(int i=0;i<tampon.size();i++)
+    for(int i=0; i<tampon.size(); i++)
     {
         int tmp;
         tmp=tampon[i+1];
@@ -519,48 +523,48 @@ void Graphe::personnaliser()
 
     if(choix_preference == 1)
     {
-    std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
-    std::cout<<"\n  Votre choix : ";
+        std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+        std::cout<<"\n  Votre choix : ";
 
-    std::cin>>choix_niveau;
+        std::cin>>choix_niveau;
 
-    if(choix_niveau=="debutant")
-    {
-        for(int i = 0 ; i < m_preference.size() ; i++)
+        if(choix_niveau=="debutant")
         {
-            if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+            for(int i = 0 ; i < m_preference.size() ; i++)
             {
-                m_preference.erase(m_preference.begin()+i);
+                if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
             }
         }
-    }
 
 
-     if(choix_niveau=="intermediaire")
-    {
-        m_preference.push_back("R");
-        m_preference.push_back("SURF");
-
-        for(int i = 0 ; i < m_preference.size() ; i++)
+        if(choix_niveau=="intermediaire")
         {
-            if (m_preference[i] == "N")
+            m_preference.push_back("R");
+            m_preference.push_back("SURF");
+
+            for(int i = 0 ; i < m_preference.size() ; i++)
             {
-                m_preference.erase(m_preference.begin()+i);
+                if (m_preference[i] == "N")
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
             }
         }
-    }
 
 
-     if(choix_niveau=="expert")
-    {
-        m_preference.push_back("V");
-        m_preference.push_back("B");
-        m_preference.push_back("R");
-        m_preference.push_back("N");
-        m_preference.push_back("SURF");
-    }
+        if(choix_niveau=="expert")
+        {
+            m_preference.push_back("V");
+            m_preference.push_back("B");
+            m_preference.push_back("R");
+            m_preference.push_back("N");
+            m_preference.push_back("SURF");
+        }
 
-    //std::cout<<"\n nouveau nombre de sommets : "<<m_trajets.size()<<std::endl;
+        //std::cout<<"\n nouveau nombre de sommets : "<<m_trajets.size()<<std::endl;
 
 //    for(auto y : m_sommets)
 //    {
@@ -577,108 +581,132 @@ void Graphe::personnaliser()
         std::cout << "\n  Que voulez vous retirer ? (Retour -> Enter) : ";
 
         while(getch() != 13)
-    {
-
-        std::cin >> remontee;
-
-        if(remontee == "Teleski"){remontee = "TK";}
-        else if(remontee == "Telesiege"){remontee = "TS";}
-        else if(remontee == "Telecabine"){remontee = "TC";}
-        else if(remontee == "Telesiege Debrayable"){remontee = "TSD";}
-        else if(remontee == "Bus"){remontee = "BUS";}
-        else if(remontee == "Reset")
-        {m_preference.push_back("TK");
-         m_preference.push_back("TS");
-         m_preference.push_back("TC");
-         m_preference.push_back("TSD");
-         m_preference.push_back("BUS");}
-
-
-        for(int i = 0 ; i < m_preference.size() ; i++)
         {
-            if (m_preference[i] == remontee)
+
+            std::cin >> remontee;
+
+            if(remontee == "Teleski")
             {
-                m_preference.erase(m_preference.begin()+i);
+                remontee = "TK";
             }
+            else if(remontee == "Telesiege")
+            {
+                remontee = "TS";
+            }
+            else if(remontee == "Telecabine")
+            {
+                remontee = "TC";
+            }
+            else if(remontee == "Telesiege Debrayable")
+            {
+                remontee = "TSD";
+            }
+            else if(remontee == "Bus")
+            {
+                remontee = "BUS";
+            }
+            else if(remontee == "Reset")
+            {
+                m_preference.push_back("TK");
+                m_preference.push_back("TS");
+                m_preference.push_back("TC");
+                m_preference.push_back("TSD");
+                m_preference.push_back("BUS");
+            }
+
+
+            for(int i = 0 ; i < m_preference.size() ; i++)
+            {
+                if (m_preference[i] == remontee)
+                {
+                    m_preference.erase(m_preference.begin()+i);
+                }
+            }
+
+            system("cls");
+
+            std::cout << "\n   Liste des remontees : " << std::endl;
+            std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
+            std::cout << "\n  Votre choix (Retour -> Enter) : ";
+
         }
-
-        system("cls");
-
-        std::cout << "\n   Liste des remontees : " << std::endl;
-        std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
-        std::cout << "\n  Votre choix (Retour -> Enter) : ";
-
-    }
 
 
 
     }
 }
 
-    void Graphe::kruskal()
+void Graphe::kruskal()
+{
+    //Initialisation des variables principales
+    std::vector<Trajet*> resultat_krustal; //Notre arbre vide
+    std::pair<Sommet*,Sommet*> tampon;
+    std::vector<Trajet*> trajets_pistes;
+    double poidsTotal = 0;
+    int nombre_tour = 0;
+
+
+    for(auto x : m_trajets)
     {
-        //Initialisation des variables principales
-        std::vector<Trajet*> resultat_krustal; //Notre arbre vide
-        std::pair<Sommet*,Sommet*> tampon;
-        std::vector<Trajet*> trajets_pistes;
-        double poidsTotal = 0;
-        int nombre_tour = 0;
-
-
-        for(auto x : m_trajets)
+        if (x->getDescente() == true)
         {
-            if (x->getDescente() == true)
-            {
-                trajets_pistes.push_back(x);
-            }
+            trajets_pistes.push_back(x);
         }
+    }
 
-        //Tri du vecteur d'arrete par ordre croissant de poids
-        std::sort(trajets_pistes.begin(),trajets_pistes.end(),[](Trajet* a, Trajet* b){return a->getPoids() > b->getPoids();});
+    //Tri du vecteur d'arrete par ordre croissant de poids
+    std::sort(trajets_pistes.begin(),trajets_pistes.end(),[](Trajet* a, Trajet* b)
+    {
+        return a->getPoids() > b->getPoids();
+    });
 
-        while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de résultats est inférieur au nombre de sommets -1
+    while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de résultats est inférieur au nombre de sommets -1
+    {
+        tampon = trajets_pistes[nombre_tour]->getExtremites(); // On récupere les extremites de l'arete de poids le plus haut
+
+        if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vérifie si elle peut être sélectionnée
         {
-            tampon = trajets_pistes[nombre_tour]->getExtremites(); // On récupere les extremites de l'arete de poids le plus haut
+            resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete à notre arbre de poids couvrant minimum
 
-            if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vérifie si elle peut être sélectionnée
+            //Check et actualisation des numCC
+
+            int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
+
+            for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
             {
-                resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete à notre arbre de poids couvrant minimum
-
-                //Check et actualisation des numCC
-
-                int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
-
-                for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
+                if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
                 {
-                    if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
-                    {
-                        m_sommets[k]->setNumCC(tampon.first->getNumCC());
-                    }
+                    m_sommets[k]->setNumCC(tampon.first->getNumCC());
                 }
             }
-
-                nombre_tour++; // On incrémente le nombre de tour
         }
 
+        nombre_tour++; // On incrémente le nombre de tour
+    }
 
-        //Affichage du résultat !
 
-        std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
+    //Affichage du résultat !
 
-        for(auto x : resultat_krustal)
-        {
-            poidsTotal += x->getPoids(); //On incrémente le poids total pour chaque sommet dans l'arbre
+    std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
 
-            x->afficher(); //On affiche les arêtes et leurs poids
+    for(auto x : resultat_krustal)
+    {
+        poidsTotal += x->getPoids(); //On incrémente le poids total pour chaque sommet dans l'arbre
 
-            std::cout << "\n";
-        }
+        x->afficher(); //On affiche les arêtes et leurs poids
 
-        std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
+        std::cout << "\n";
+    }
+
+    std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
 
 //        std::cout << trajets_pistes.size() << std::endl;
 //        std::cout << resultat_krustal.size() << std::endl;
-    }
+}
+
+
+
+
 
 Graphe::~Graphe()
 {

@@ -32,12 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Dessin.h" />
 		<Unit filename="Graphe.cpp" />
 		<Unit filename="Graphe.h" />
 		<Unit filename="Sommet.cpp" />
 		<Unit filename="Sommet.h" />
 		<Unit filename="Trajet.cpp" />
 		<Unit filename="Trajet.h" />
+		<Unit filename="dessin.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
