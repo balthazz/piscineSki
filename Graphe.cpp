@@ -775,6 +775,77 @@ void Graphe::kruskal()
 //        std::cout << resultat_krustal.size() << std::endl;
 }
 
+bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'écart
+{
+    bool marque[ORDRE];
+    for (int i=0; i>ORDRE; i++)
+    {
+        marque[i]=false; //initialisation de tous les flots à 0
+    }
+
+    std::queue<int> file;
+    file.push(depart);
+    marque[depart]=true; //on marque le premier sommet (la source)
+    pred[depart]=-1;
+
+    while (!file.empty()) //loop
+    {
+        int i = file.front();
+        file.pop();
+        for (int j=0;j<ORDRE;j++)
+        {
+            if((marque[j]== false)&&(graphEc[i][j]>0))
+            {
+                if (j==arrivee)
+                {
+                    pred[j] = i; //  il y a un chemin entre la source et le puit
+                    return true;
+                }
+
+                file.push(j);
+                pred[j] = i;
+                marque[j] = true;
+            }
+        }
+    }
+    return false;
+}
+
+int Graphe::fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee)
+{
+    int i, j;
+    int graphEc[ORDRE][ORDRE];
+    for (int i=0;i<ORDRE;i++)
+    {
+        for (int j=0;j<ORDRE;j++)
+        {
+            graphEc[i][j] = graphe[i][j] ;
+        }
+    }
+
+    int pred [ORDRE]; //ce tableau enregistre le chemin via les predecesseurs
+    int flotMaximum=0; //on initialise le flot max à 0
+
+    while(fordFulkBfs(graphEc, depart, arrivee, pred))
+    {
+        int flotDuChemin;
+        for(j = arrivee; j != depart; j = pred[j])
+        {
+            i=pred[j];
+            flotDuChemin = std::min(flotDuChemin, graphEc[i][j]);
+
+        }
+        for(j = arrivee; j != depart; j = pred[j])
+        {
+            i=pred[j];
+            graphEc[i][j]-=flotMaximum;
+            graphEc[j][i]+=flotMaximum;
+        }
+        flotMaximum+=flotDuChemin;
+    }
+    return flotMaximum;
+}
+
 void Graphe::connexion()
 {
     std::string nom, date;

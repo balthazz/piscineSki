@@ -8,6 +8,7 @@
 
 #define valeur_max 9999
 
+
 #include "Graphe.h"
 
 
@@ -49,7 +50,8 @@ int menu() // Fonction d'affichage du menu des choix
     std::cout<<"  6. Preferences " << std::endl;
     std::cout<<"  7. Team ski de fond :) " << std::endl;
     std::cout<<"  8. Espace utilisateur " << std::endl;
-    std::cout<<"  9. Quitter " << std::endl;
+    std::cout<<"  9. chemin avec le moins de monde " << std::endl;
+    std::cout<<" 10. Quitter " << std::endl;
 
     std::cout<<"\n     Votre choix : ";
     std::cin >> choix_menu;
@@ -259,6 +261,19 @@ int main()
             }
 
         case 9:
+        {
+
+
+            std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
+            std::cin >> depart;
+
+
+            std::cout << "choisissez le numero votre sommet d'arrivee" << std::endl;
+            std::cin >> arrivee;
+
+            break;
+        }
+        case 10:
         {
             quitter = true; // QUITTER
 

@@ -6,12 +6,13 @@
 #include <windows.h>
 #include <algorithm>
 #include <conio.h>
+#include <queue>
 
 #include "Trajet.h"
 #include "Dessin.h"
 
 #define valeur_max 9999
-
+#define ORDRE 37
 
 class Graphe
 {
@@ -25,8 +26,8 @@ private :
     std::vector<std::string> m_preference;
     std::vector<std::string> m_preference_initial;
 
-    std::vector<Sommet*> m_puits;
-    std::vector<Sommet*> m_sources;
+    Sommet* m_puits;
+    Sommet* m_sources;
     Dessin couleur;
 
     bool m_connexion = false;
@@ -43,8 +44,8 @@ public :
     std::vector<Sommet*> getSommets(){return m_sommets;};
     std::vector<Trajet*> getTrajets(){return m_trajets;};
 
-    std::vector<Sommet*> getPuits(){return m_puits;}; //pour les flots
-    std::vector<Sommet*> getSources(){return m_sources;};//pour les flots
+    Sommet* getPuits(){return m_puits;}; //pour les flots
+    Sommet* getSources(){return m_sources;};//pour les flots
 
     std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
     std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};
@@ -91,7 +92,6 @@ public :
 
 
 
-
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();
     void personnaliser();
@@ -99,6 +99,11 @@ public :
     void gotoLigCol(int lig, int col);
     void Dessin_skieur();
     void fond_Neige();
+
+    ///problème des flots max
+//    int matriceGraphe;
+    bool fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]);
+    int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
 
     void connexion();
     void deconnexion();
