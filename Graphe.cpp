@@ -764,11 +764,11 @@ void Graphe::connexion()
     idendite_user.first = nom;
     idendite_user.second = date;
 
-    std::ifstream ifs{"users.txt"};
+    std::ifstream ifs{"users.txt",std::ios::in};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
 
-    do
+    while(!ifs.eof())
     {
         ifs >> tampon_nom;
         ifs >> tampon_date;
@@ -784,9 +784,12 @@ void Graphe::connexion()
             tampon_pref.push_back(valeur_pref);
         }
 
+        if(idendite_user == identite_lambda)
+        {
+            break;
+        }
 
     }
-    while((ifs) || (idendite_user != identite_lambda));
 
     if(idendite_user == identite_lambda)
     {
@@ -794,7 +797,7 @@ void Graphe::connexion()
 
         m_connexion = true;
 
-        std::cout << "\n  Vous etes connecte !" << std::endl;
+        std::cout << "\n  Connexion reussie !" << std::endl;
     }
 
     else

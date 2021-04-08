@@ -37,7 +37,7 @@
 1617628869 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\src\graphe.cpp
 	"Graphe.h"
 
-1617886202 source:c:\users\hp\desktop\piscineski\main.cpp
+1617888826 source:c:\users\hp\desktop\piscineski\main.cpp
 	<iostream>
 	<vector>
 	<utility>
@@ -77,13 +77,17 @@
 	<fstream>
 	"Sommet.h"
 
-1617886148 source:c:\users\hp\desktop\piscineski\graphe.cpp
+1617888826 source:c:\users\hp\desktop\piscineski\graphe.cpp
 	"Graphe.h"
 
-1617885129 c:\users\hp\desktop\piscineski\graphe.h
-	"Trajet.h"
+1617888826 c:\users\hp\desktop\piscineski\graphe.h
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
 	<algorithm>
 	<conio.h>
+	"Trajet.h"
+	"Dessin.h"
 
 1617888697 c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\graphe.h
 	<stdio.h>
@@ -189,6 +193,17 @@
 	"Dessin.h"
 
 1617887736 d:\workspace\ece\ing2\piscine\piscineski\dessin.h
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<algorithm>
+	<conio.h>
+
+1617888826 source:c:\users\hp\desktop\piscineski\dessin.cpp
+	"Dessin.h"
+
+1617888826 c:\users\hp\desktop\piscineski\dessin.h
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
