@@ -22,6 +22,7 @@ private :
 
     std::vector<Sommet*> m_puits;
     std::vector<Sommet*> m_sources;
+    bool m_connexion = false;
     //std::vector<int> numCC;
 
 public :
@@ -40,6 +41,9 @@ public :
 
     std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
     std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};
+
+    bool getConnexion(){return m_connexion;}
+    void setConnexion(bool connexion){m_connexion = connexion;}
     //Fonction d'affichage de notre chargement de fichier graphe.txt
     void afficher_sommet() const;
     // Fonction d'affichage des aretes
@@ -83,6 +87,9 @@ public :
     void infoTrajet();
     void personnaliser();
     void kruskal();
+    void connexion();
+    void deconnexion();
+    void sauvegarde();
 
 
 };
