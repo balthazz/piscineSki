@@ -249,7 +249,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
                 }
             }
 
-            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué
+            if(couleurs[succ.first->getNum()]==0 && comparaison) //s'il n'est pas marqué et pas dans preference
             {
                 couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
@@ -418,6 +418,7 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
             std::cout<<m<<" ";
             std::cout<<n<<" ";
             couleur.couleur(15);
+            couleur.setColor(0);
             std::cout<<"<--";
             poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
@@ -444,6 +445,7 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                 size_t j=arbre[i];
                 couleur.couleur_type(Type_Chemin_S1_S2(j,i));
                 std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i);
+                couleur.setColor(0);
                 couleur.couleur(15);
                 std::cout<<" <- ";
                 poids=Poids_Chemin_S1_S2(j,i);
@@ -457,6 +459,7 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                     poids=poids+Poids_Chemin_S1_S2(j,tmp);
                     couleur.couleur_type(m);
                     std::cout<<m<<" "<<n;
+                    couleur.setColor(0);
                     couleur.couleur(15);
                     std::cout<<" <-";
                 }

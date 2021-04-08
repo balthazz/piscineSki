@@ -117,19 +117,19 @@ void Dessin::couleur_type(std::string texte)
 {
     if(texte=="B")
     {
-       couleur(1);
+       couleur(9);
     }
     else if(texte=="R")
     {
-       couleur(4);
+       couleur(12);
     }
     else if(texte=="N")
     {
-       couleur(8);
+       couleur(5);
     }
     else if((texte!="B") && (texte!="R") && (texte!="N") )
     {
-       couleur(6);
+       setColor(8);
     }
 
 }
