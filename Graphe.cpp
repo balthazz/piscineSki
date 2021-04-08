@@ -188,7 +188,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        if( p <= m_sommets.size()+1)
+        if(p <= (int)m_sommets.size())
         {
 
             std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
@@ -216,7 +216,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
     //pour noter les prédécesseurs
     std::vector<int> predec((int)m_sommets.size()+1,-1);
 
-    bool comparaison;
+    bool comparaison = true;
 
     //étape initiale
     pile.push(m_sommets[num_S0-1]);
@@ -258,117 +258,148 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 
 std::string Graphe::Nom_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    std::string resultat;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
         {
-            return m_trajets[i]->getNom();
+            resultat = m_trajets[i]->getNom();
         }
     }
+
+    return resultat;
 }
 
 std::string Graphe::nom_du_Trajet_avec_Id(int num)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    std::string resultat;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getId()==num)
         {
             std::string tampon=m_trajets[i]->getNom();
-            return tampon;
+            resultat = tampon;
         }
     }
+
+    return resultat;
 }
 
 Sommet* Graphe::sommet_avec_son_Id(int num)
 {
-    for(int i=0; i<m_sommets.size(); i++)
+    Sommet * resultat = NULL;
+
+    for(int i=0; i<(int)m_sommets.size(); i++)
     {
         if(m_sommets[i]->getNum()==num)
         {
-            return m_sommets[i];
+            resultat = m_sommets[i];
         }
     }
+
+    return resultat;
 }
 
 Trajet* Graphe::trajet_avec_son_Id(int id)
 {
-    Trajet* tampon;
-    for(int i=0; i<m_trajets.size(); i++)
+    Trajet* tampon = NULL;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getId()==id)
         {
             tampon=m_trajets[i];
-            return tampon;
         }
     }
+    return tampon;
 }
 
 std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    std::string resultat;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
         {
-            return m_trajets[i]->getType();
+            resultat = m_trajets[i]->getType();
         }
     }
+    return resultat;
 }
 
 
 double Graphe::Poids_Chemin_S1_S2(int s1,int s2)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    double resultat = 0;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
         if((tampon.first->getNum()==s1) && (tampon.second->getNum()==s2))
         {
-            return m_trajets[i]->getPoids();
+            resultat = m_trajets[i]->getPoids();
         }
     }
+
+    return resultat;
 }
 
 
 int Graphe::Num_du_Sommet_avec_Nom(std::string nom)
 {
-    for(int i=0; i<m_sommets.size(); i++)
+    int resultat = 0;
+
+    for(int i=0; i<(int)m_sommets.size(); i++)
     {
         if(m_sommets[i]->getNom()==nom)
         {
             int tampon=m_sommets[i]->getNum();
-            return tampon;
+            resultat = tampon;
         }
     }
+
+    return resultat;
 }
 
 
 int Graphe::Id_du_Trajet_avec_Nom(std::string nom)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    int resultat = 0;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getNom()==nom)
         {
             int tampon=m_trajets[i]->getId();
-            return tampon;
+            resultat = tampon;
         }
     }
+    return resultat;
 }
 
 Trajet* Graphe::trajet_avec_ses_succ(Sommet* som1,Sommet* som2)
 {
-    for(int i=0; i<m_trajets.size(); i++)
+    Trajet * resultat = NULL;
+
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if((m_trajets[i]->getExtremites().first==som1)&&(m_trajets[i]->getExtremites().second==som2))
         {
-            return m_trajets[i];
+            resultat = m_trajets[i];
         }
     }
+
+    return resultat;
 }
 
 void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arbre)
 {
-    double poids;
+    double poids = 0;
     std::vector<int> tampon;
 
     for(size_t i=0; i<arbre.size(); ++i)
@@ -389,7 +420,6 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 
                 while(j!=num)
                 {
-                    size_t tmp = j;
                     j=arbre[j];
                     if(i==num2)
                     {
@@ -400,13 +430,13 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
         }
 
     }
-    for(int i=0; i<tampon.size(); i++)
+    for(int i=0; i<(int)tampon.size(); i++)
     {
         int tmp;
         tmp=tampon[i+1];
         std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
         std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
-        if(tampon[i]!=num)
+        if(tampon[i]!=(int)num)
         {
             std::cout<<tampon[i]<<"<--";
             couleur.couleur_type(m);
@@ -429,7 +459,8 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
-    double poids;
+    double poids = 0;
+
     for(size_t i=0; i<arbre.size(); ++i)
     {
         if(i!=num)
@@ -497,7 +528,7 @@ void Graphe::infoTrajet()
     std::cout<<"\n   Sur quel trajet souhaitez vous etre renseigne ?"<< std::endl;
     std::cout<<"\n   Votre choix : ";
     std::cin >> nomTrajet;
-    for(int i=0; i<m_trajets.size(); i++)
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getNom()==nomTrajet)
         {
@@ -523,7 +554,7 @@ void Graphe::infoSommet()
     std::cin >> nomSommet;
     std::vector<std::string> Trajet_entrant;
     std::vector<std::string> Trajet_sortant;
-    for(int i=0; i<m_trajets.size(); i++)
+    for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getExtremites().first->getNom()==nomSommet)
         {
@@ -535,12 +566,12 @@ void Graphe::infoSommet()
         }
     }
     std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
-    for(int i=0; i<Trajet_entrant.size(); i++)
+    for(unsigned i=0; i<Trajet_entrant.size(); i++)
     {
         std::cout<<Trajet_entrant[i]<<"  ";
     }
     std::cout<<"\n\n Trajets qui partent a la station "<<nomSommet<<" : ";
-    for(int i=0; i<Trajet_sortant.size(); i++)
+    for(unsigned i=0; i<Trajet_sortant.size(); i++)
     {
         std::cout<<Trajet_sortant[i]<<"  ";
     }
@@ -570,7 +601,7 @@ void Graphe::personnaliser()
 
         if(choix_niveau=="debutant")
         {
-            for(int i = 0 ; i < m_preference.size() ; i++)
+            for(int i = 0 ; i < (int)m_preference.size() ; i++)
             {
                 if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
                 {
@@ -585,7 +616,7 @@ void Graphe::personnaliser()
             m_preference.push_back("R");
             m_preference.push_back("SURF");
 
-            for(int i = 0 ; i < m_preference.size() ; i++)
+            for(int i = 0 ; i < (int)m_preference.size() ; i++)
             {
                 if (m_preference[i] == "N")
                 {
@@ -655,7 +686,7 @@ void Graphe::personnaliser()
             }
 
 
-            for(int i = 0 ; i < m_preference.size() ; i++)
+            for(int i = 0 ; i < (int)m_preference.size() ; i++)
             {
                 if (m_preference[i] == remontee)
                 {
@@ -712,7 +743,7 @@ void Graphe::kruskal()
 
             int x = tampon.second->getNumCC(); // On sauvegarde notre point de comparaison
 
-            for(int k = 0 ; k < m_sommets.size() ; k++) // Pour tous les sommets
+            for(int k = 0 ; k < (int)m_sommets.size() ; k++) // Pour tous les sommets
             {
                 if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
                 {
