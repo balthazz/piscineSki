@@ -20,6 +20,8 @@ private :
     std::vector<std::string> m_preference;
     std::vector<std::string> m_preference_initial;
 
+    std::vector<Sommet*> m_puits;
+    std::vector<Sommet*> m_sources;
     //std::vector<int> numCC;
 
 public :
@@ -32,6 +34,9 @@ public :
 
     std::vector<Sommet*> getSommets(){return m_sommets;};
     std::vector<Trajet*> getTrajets(){return m_trajets;};
+
+    std::vector<Sommet*> getPuits(){return m_puits;}; //pour les flots
+    std::vector<Sommet*> getSources(){return m_sources;};//pour les flots
 
     std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
     std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};

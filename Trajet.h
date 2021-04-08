@@ -19,11 +19,12 @@ class Trajet{
       std::string m_type;
       double m_poids;
       bool m_marque;
+      double m_capacity;
 
   public:
       //Constructeur
       Trajet();
-      Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type);
+      Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type, double capacity);
 
       virtual ~Trajet();
 
@@ -69,6 +70,12 @@ class Trajet{
 
     void setDescente(bool descente)
     {m_descente = descente;}
+
+    void setCapacity(double capacity)
+    {m_capacity = capacity;}
+
+    double getCapacity()
+    {return m_capacity;}
 
     void afficher();
 
