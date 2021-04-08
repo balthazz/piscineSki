@@ -48,7 +48,8 @@ int menu() // Fonction d'affichage du menu des choix
     std::cout<<"  5. Chemin le plus rapide entre deux points " << std::endl;
     std::cout<<"  6. Preferences " << std::endl;
     std::cout<<"  7. Team ski de fond :) " << std::endl;
-    std::cout<<"  8. Quitter " << std::endl;
+    std::cout<<"  8. Espace utilisateur " << std::endl;
+    std::cout<<"  9. Quitter " << std::endl;
 
     std::cout<<"\n     Votre choix : ";
     std::cin >> choix_menu;
@@ -231,9 +232,33 @@ int main()
                 system("cls");
                 choix = menu();
                 }
+                break;
             }
 
         case 8:
+            {
+                int choix_utilisateur;
+                std::cout << "\n  ESPACE UTILISATEUR" << std::endl;
+                std::cout << "\n  1. Se connecter" << std::endl;
+                std::cout << "  2. Se deconnecter" << std::endl;
+                std::cout << "  3. Sauvegarder ses preferences" << std::endl;
+                std::cout << "\n  Votre choix : ";
+                std::cin >> choix_utilisateur;
+
+                if(choix_utilisateur == 1){g.connexion();}
+                else if(choix_utilisateur == 2){g.deconnexion();}
+                else if (choix_utilisateur == 3){g.sauvegarde();}
+
+                retour_menu = fin_tache();
+                if(retour_menu)
+                {
+                system("cls");
+                choix = menu();
+                }
+                break;
+            }
+
+        case 9:
         {
             quitter = true; // QUITTER
 
