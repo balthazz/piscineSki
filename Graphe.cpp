@@ -746,6 +746,114 @@ void Graphe::kruskal()
 //        std::cout << resultat_krustal.size() << std::endl;
 }
 
+void Graphe::connexion()
+{
+    std::string nom, date;
+    int taille_pref;
+    std::string valeur_pref;
+    std::vector<std::string> tampon_pref;
+    std::string tampon_nom,tampon_date;
+    std::pair<std::string,std::string> idendite_user, identite_lambda;
+
+    std::cout << "\n CONNEXION ESPACE UTILISATEUR" << std::endl;
+    std::cout << "\n  Nom de famille : ";
+    std::cin >> nom;
+    std::cout << "\n  Date de naissance (JJ/MM/AAAA) : ";
+    std::cin >> date;
+
+    idendite_user.first = nom;
+    idendite_user.second = date;
+
+    std::ifstream ifs{"users.txt"};
+    if (!ifs)
+        throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
+
+    do
+    {
+        ifs >> tampon_nom;
+        ifs >> tampon_date;
+
+        identite_lambda.first = tampon_nom;
+        identite_lambda.second = tampon_date;
+
+        ifs>>taille_pref;
+
+        for(int i = 0 ; i < taille_pref ; i++)
+        {
+            ifs>>valeur_pref;
+            tampon_pref.push_back(valeur_pref);
+        }
+
+
+    }
+    while((ifs) || (idendite_user != identite_lambda));
+
+    if(idendite_user == identite_lambda)
+    {
+        m_preference = tampon_pref;
+
+        m_connexion = true;
+
+        std::cout << "\n  Vous etes connecte !" << std::endl;
+    }
+
+    else
+    {
+        std::cout << "\n  Vous n'etes pas enregistre !" << std::endl;
+    }
+}
+
+void Graphe::deconnexion()
+{
+    if(m_connexion == true)
+    {
+        m_preference = m_preference_initial;
+        std::cout << "\n  Deconnexion reussie !" << std::endl;
+    }
+
+    else
+    {
+        std::cout << "\n  Vous n'etes meme pas connectes..." << std::endl;
+    }
+}
+
+void Graphe::sauvegarde()
+{
+    std::string nom,date;
+    std::vector<std::string> pref;
+
+//        for(int i = 0 ; i < m_preference_initial ; i++)
+//        {
+//            for(int j = 0 ; j < m_preference ; j++)
+//            {
+//                if
+//            }
+//        }
+
+    std::cout << "\n  SAUVEGARDE DE VOS DONNEES\n" << std::endl;
+    std::cout << "  Votre nom : ";
+    std::cin >> nom;
+    std::cout << "  Votre date de naissance (JJ/MM/AAAA) : ";
+    std::cin >> date;
+
+    std::ofstream fichier("users.txt", std::ios::out | std::ios::app);
+    //fichier.seekg(0, std::ios::end);
+
+    fichier << nom;
+    fichier << date;
+    fichier << "\n" << m_preference.size();
+
+    for(auto x : m_preference)
+    {
+        fichier<< "\n";
+        fichier << x;
+    }
+
+    fichier << "\n";
+
+    std::cout << "\n  Sauvegarde reussie !" << std::endl;
+}
+
 
 
 
