@@ -77,6 +77,8 @@ int main()
 
     std::cout << "\n            Projet piscine" << std::endl;
 
+//    g.flots(9, 12);
+
 
     choix = menu();
 

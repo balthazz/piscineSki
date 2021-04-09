@@ -22,8 +22,7 @@ Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, st
 
 void Trajet::afficher()
 {
-
-    std::cout << m_id << "  "<< m_nom << "   " << m_type << "  " <<m_extremites.first->getNum() << " <--> " << m_extremites.second->getNum();
+    std::cout << m_id << "  "<< m_nom << "   " << m_type << "  " <<m_extremites.first->getNum() << " <--> " << m_extremites.second->getNum()<< "    "<< m_capacity<<" skieurs/heure ";
 }
 
 double Trajet::calcul_poids()
