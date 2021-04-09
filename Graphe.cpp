@@ -244,6 +244,15 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
                 }
             }
 
+            for(auto x : piste_enlevee)
+            {
+                if(trajet_avec_ses_succ(so,succ.first)->getNom() == x)
+                {
+                    comparaison = false;
+                    break;
+                }
+            }
+
             if((couleurs[succ.first->getNum()]==0) && (comparaison == true)) //s'il n'est pas marqué et pas dans preference
             {
                 couleurs[succ.first->getNum()]=1; //on le marque
@@ -583,12 +592,14 @@ void Graphe::infoSommet()
 void Graphe::personnaliser()
 {
     int choix_preference;
+    bool trajet_ok = false;
     std::string choix_niveau;
     std::string remontee;
 
     std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
     std::cout<<"  1. Preferences des pistes" << std::endl;
     std::cout<<"  2. Preferences des remontees" << std::endl;
+    std::cout<<"  3. Exclure des pistes" << std::endl;
     std::cout<<"\n   Votre choix : ";
     std::cin >> choix_preference;
 
@@ -635,13 +646,6 @@ void Graphe::personnaliser()
             m_preference.push_back("SURF");
         }
 
-        //std::cout<<"\n nouveau nombre de sommets : "<<m_trajets.size()<<std::endl;
-
-//    for(auto y : m_sommets)
-//    {
-//        y->afficher();
-//        std::cout << "\n" << std::endl;
-//    }
     }
 
     if (choix_preference == 2)
@@ -705,6 +709,67 @@ void Graphe::personnaliser()
 
 
     }
+
+    if(choix_preference == 3)
+    {
+      std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
+      std::cout << "   Nom de la piste a retirer (Retour -> Enter) : ";
+
+        while(getch() != 13)
+        {
+
+            std::cin >> remontee;
+
+
+              if(remontee == "Reset")
+            {
+                if(piste_enlevee.size() != 0)
+                {
+                   for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
+                   {
+                    piste_enlevee.erase(piste_enlevee.begin()+i);
+                   }
+                }
+            }
+
+            else
+            {
+                for(auto x : m_trajets)
+                {
+                    if (x->getNom() == remontee)
+                    {
+                        trajet_ok = true;
+                        piste_enlevee.push_back(remontee);
+                        std::cout << "\n   Piste retiree !" << std::endl;
+                        Sleep(500);
+
+                        break;
+
+                    }
+
+                }
+
+                if(trajet_ok == false)
+                {
+                    std::cout << "\n  Cette piste n'existe pas..." << std::endl;
+                    Sleep(1000);
+                }
+            }
+
+
+            system("cls");
+
+            std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
+            std::cout << "   Nom de piste a retirer (Retour -> Enter) : ";
+        }
+
+
+
+
+        }
+
+
+
 }
 
 void Graphe::kruskal()
@@ -883,9 +948,9 @@ for (int i=0;i<ORDRE;i++)
 void Graphe::connexion()
 {
     std::string nom, date;
-    int taille_pref;
-    std::string valeur_pref;
-    std::vector<std::string> tampon_pref;
+    int taille_pref, nb_piste_enlevee;
+    std::string valeur_pref, piste;
+    std::vector<std::string> tampon_pref, tampon_piste;
     std::string tampon_nom,tampon_date;
     std::pair<std::string,std::string> idendite_user, identite_lambda;
 
@@ -918,6 +983,17 @@ void Graphe::connexion()
             tampon_pref.push_back(valeur_pref);
         }
 
+        ifs >> nb_piste_enlevee;
+
+        if(nb_piste_enlevee != 0)
+        {
+            for(int i = 0 ; i < nb_piste_enlevee ; i++)
+            {
+                ifs >> piste;
+                tampon_piste.push_back(piste);
+            }
+        }
+
         if(idendite_user == identite_lambda)
         {
             break;
@@ -928,6 +1004,7 @@ void Graphe::connexion()
     if(idendite_user == identite_lambda)
     {
         m_preference = tampon_pref;
+        piste_enlevee = tampon_piste;
 
         m_connexion = true;
 
@@ -945,6 +1022,12 @@ void Graphe::deconnexion()
     if(m_connexion == true)
     {
         m_preference = m_preference_initial;
+
+        for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
+        {
+            piste_enlevee.erase(piste_enlevee.begin()+i);
+        }
+
         std::cout << "\n  Deconnexion reussie !" << std::endl;
     }
 
@@ -966,9 +1049,15 @@ void Graphe::sauvegarde()
     std::cin >> date;
 
     std::ofstream fichier("users.txt", std::ios::out | std::ios::app);
-    //fichier.seekg(0, std::ios::end);
 
-    fichier << "\n" <<nom;
+    int position = fichier.tellp();
+
+    if(position != 0)
+    {
+       fichier << "\n";
+    }
+
+    fichier << nom;
     fichier << "\n"<< date;
     fichier << "\n" << m_preference.size();
 
@@ -979,6 +1068,17 @@ void Graphe::sauvegarde()
     }
 
     fichier << "\n";
+    fichier << piste_enlevee.size();
+    fichier <<"\n";
+
+    if (piste_enlevee.size() != 0)
+    {
+        for(auto x : piste_enlevee)
+        {
+            fichier << x;
+            fichier << "\n";
+        }
+    }
 
     std::cout << "\n  Sauvegarde reussie !" << std::endl;
 }

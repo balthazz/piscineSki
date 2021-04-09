@@ -31,7 +31,7 @@ double Trajet::calcul_poids()
     double altitude_S1_S2;
     altitude_S1_S2 = (m_extremites.second->getAltitude() - m_extremites.first->getAltitude())/100;
 
-    double poids;
+    double poids = 0;
 
     if(altitude_S1_S2 < 0)
     {

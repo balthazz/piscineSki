@@ -25,6 +25,7 @@ private :
     std::vector<Trajet*> sauvegarde_trajets;
     std::vector<std::string> m_preference;
     std::vector<std::string> m_preference_initial;
+    std::vector<std::string> piste_enlevee;
 
     Sommet* m_puits;
     Sommet* m_sources;
@@ -49,6 +50,8 @@ public :
 
     std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
     std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};
+    std::vector<std::string> getPiste_enlevee(){return piste_enlevee;};
+
 
     bool getConnexion(){return m_connexion;}
     void setConnexion(bool connexion){m_connexion = connexion;}
