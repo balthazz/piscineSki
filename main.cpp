@@ -22,7 +22,7 @@ void afficherTemps(int time)
 
 bool fin_tache()
 {
-    std::cout<< "\nAppuyez sur Enter pour revenir au menu" << std::endl;
+    std::cout<< "\nAppuyez sur Enter pour revenir au menu";
 
     while(getch() != 13)
     {

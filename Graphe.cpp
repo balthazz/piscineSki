@@ -68,12 +68,31 @@ Graphe::Graphe(std::string nomFichier)
     sauvegarde_trajets = m_trajets;
     sauvegarde_sommets = m_sommets;
 
-    ///Liste des successeurs pour vérification
+    std::string trajet;
+    std::ifstream fichier ("admin.txt");
+    if(!fichier)
+        {throw std::runtime_error("Impossible d'ouvrir en lecture admin.txt");}
+
+        while(!fichier.eof())
+        {
+            fichier >> trajet;
+
+            for(int i = 0 ; i < (int)m_trajets.size() ; i++)
+            {
+                if (m_trajets[i]->getNom() == trajet)
+                {
+                    m_trajets.erase(m_trajets.begin()+i);
+                }
+            }
+        }
+
+///Liste des successeurs pour vérification
 //    for(auto y : m_sommets)
 //    {
 //        y->afficher();
 //        std::cout << "\n" << std::endl;
 //    }
+
     m_preference.push_back("V");
     m_preference.push_back("R");
     m_preference.push_back("B");
@@ -203,6 +222,94 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     }
     std::cout << "\n";
 }
+
+bool Graphe::finParcours(std::vector<double> &parcours)
+{
+    for(int i = 0 ; i < (int)parcours.size() ; i++)
+    {
+        if(parcours[i] != -1)
+            return false;
+    }
+    return true;
+}
+
+/*void Graphe::Dijkstra(int depart,int arrive)
+{
+    // -1 represente les colonnes finies ,tableau qui stoque les poids
+    std::vector<double> parcours(m_sommets.size(),-1);
+    //chaque sommet a un predecesseur qaund on le parcourt , son parent
+    std::vector<Sommet*> parents;
+    //stoque l'accumulation des poids
+    double poids;
+    double ancien_poids;
+    //chaque sommet est son propre parent au depart
+
+    for(int i=0; i<m_sommets.size(); i++)
+    {
+        parents.push_back(sommet_avec_son_Id(i));
+    }
+    Sommet* somDepart=sommet_avec_son_Id(depart);
+    Sommet* somArrive=sommet_avec_son_Id(arrive);
+    Sommet* somActif;
+
+    somActif=somDepart;
+
+    do
+    {
+        //ajouter ses successeurs au tableau des chemins
+        for(int i = 0 ; i < somActif->getSuccesseurs().size(); i++)
+        {
+            if(somActif->getSuccesseurs()[i].first != parents[somActif->getNum()])
+            {
+                if(somActif->getSuccesseurs()[i].second + poids < parcours[somActif->getSuccesseurs()[i].first->getNum()] || parcours[somActif->getSuccesseurs()[i].first->getNum()] == -1)
+                {
+                    parcours[somActif->getSuccesseurs()[i].first->getNum()] = somActif->getSuccesseurs()[i].second + poids;
+                    parents[somActif->getSuccesseurs()[i].first->getNum()] = somActif;
+                }
+            }
+        }
+        //On regarde quel est le poid le plus petit
+        int minVal = 15000;
+        Sommet* minSom;
+
+        for(int i = 0 ; i < parcours.size() ; i++)
+        {
+            if(parcours[i] != -1 && parcours[i] < minVal)
+            {
+                minVal = parcours[i];
+                minSom = sommet_avec_son_Id(i);
+            }
+        }
+        //minSom est le sommet avec le chemin le plus petit, on va vers lui en lui disant qui est son parent et on enleve son chemin
+        somActif = minSom;
+        poids = parcours[somActif->getNum()];
+        parcours[somActif->getNum()] = -1;
+
+    }while(somActif != somArrive && !finParcours(parcours));
+
+
+     int j = somArrive->getNum();
+     std::cout<< j << " <- " ;
+
+    do
+    {
+        j=parents[j]->getNum();
+        std::cout<< j << " <- " ;
+
+        if (j == somDepart->getNum())
+        {
+            break;
+        }
+    }
+    while(j != somDepart->getNum());
+
+//     for(const auto& x : parents)
+//     {
+//         std::cout << x->getNum() << " <- ";
+//     }
+
+
+}*/
 
 
 /// Parcours BFS
@@ -761,7 +868,7 @@ void Graphe::personnaliser()
 
             std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
             std::cout << "   Nom de piste a retirer (Retour -> Enter) : ";
-        }
+          }
 
 
 
@@ -926,7 +1033,7 @@ int Graphe::fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee)
 
     while(fordFulkBfs(graphEc, depart, arrivee, pred))
     {
-        int flotDuChemin;
+        int flotDuChemin = 0;
         for(j = arrivee; j != depart; j = pred[j])
         {
             i=pred[j];
@@ -989,25 +1096,114 @@ void Graphe::flots (int depart, int arrivee)
 
 void Graphe::connexion()
 {
-    std::string nom, date;
+    std::string nom, date, nom_trajet;
     int taille_pref, nb_piste_enlevee;
+    bool trajet_ok = false;
     std::string valeur_pref, piste;
     std::vector<std::string> tampon_pref, tampon_piste;
     std::string tampon_nom,tampon_date;
-    std::pair<std::string,std::string> idendite_user, identite_lambda;
+    std::pair<std::string,std::string> identite_user, identite_lambda;
+    std::pair<std::string,std::string> identite_admin = std::make_pair("Touchousse","08/06/2001");
 
-    std::cout << "\n CONNEXION ESPACE UTILISATEUR" << std::endl;
+    system("cls");
+
+    std::cout << "\n    CONNEXION ESPACE UTILISATEUR" << std::endl;
     std::cout << "\n  Nom de famille : ";
     std::cin >> nom;
-    std::cout << "\n  Date de naissance (JJ/MM/AAAA) : ";
+    std::cout << "  Date de naissance (JJ/MM/AAAA) : ";
     std::cin >> date;
 
-    idendite_user.first = nom;
-    idendite_user.second = date;
+    identite_user.first = nom;
+    identite_user.second = date;
+
+    if(identite_user == identite_admin)
+    {
+        std::cout << "\n    ADMIN CONNECTED";
+        Sleep(1500);
+        system("cls");
+
+        std::cout << "\n  Nom de la piste / remontee a exclure \n  => Commandes : save ou reset" << std::endl;
+        std::cout << "\n  Votre choix : ";
+
+        while(getch() != 13)
+        {
+            std::cin >> nom_trajet;
+
+            if (nom_trajet == "save")
+        {
+            std::ofstream ifs{"admin.txt", std::ios::out | std::ios::app};
+
+            if (!ifs)
+            throw std::runtime_error( "Impossible d'ouvrir en ecriture le fichier admin.txt" );
+
+                for(auto x : piste_enlevee)
+                {
+                    ifs << "\n";
+                    ifs << x;
+                }
+
+            std::cout << "\n   Sauvegarde reussie !" << std::endl;
+            break;
+        }
+
+        else if(nom_trajet == "reset")
+        {
+
+            for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
+            {
+                piste_enlevee.erase(piste_enlevee.begin()+i);
+            }
+
+            m_trajets = sauvegarde_trajets;
+
+            std::ofstream fichier ("admin.txt");
+
+                std::cout << "\n   Reset reussi !" << std::endl;
+                break;
+
+        }
+
+        else{
+
+            for(auto x : m_trajets)
+                {
+                    if (x->getNom() == nom_trajet)
+                    {
+                        trajet_ok = true;
+                        piste_enlevee.push_back(nom_trajet);
+                        std::cout << "\n   Piste retiree !" << std::endl;
+                        Sleep(500);
+
+                        break;
+
+                    }
+
+                }
+
+                if(trajet_ok == false)
+                {
+                    std::cout << "\n  Cette piste n'existe pas..." << std::endl;
+                    Sleep(1000);
+                }
+
+                system("cls");
+
+                std::cout << "\n  Nom de la piste / remontee a exclure \n  => Commandes : save ou reset" << std::endl;
+                std::cout << "\n  Votre choix : ";
+        }
+        }
+
+    }
 
     std::ifstream ifs{"users.txt",std::ios::in};
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
+
+    else{
+
+    std::ifstream ifs{"users.txt",std::ios::in};
+    if (!ifs)
+    throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
 
     while(!ifs.eof())
     {
@@ -1036,14 +1232,14 @@ void Graphe::connexion()
             }
         }
 
-        if(idendite_user == identite_lambda)
+        if(identite_user == identite_lambda)
         {
             break;
         }
 
     }
 
-    if(idendite_user == identite_lambda)
+    if(identite_user == identite_lambda)
     {
         m_preference = tampon_pref;
         piste_enlevee = tampon_piste;
@@ -1053,9 +1249,10 @@ void Graphe::connexion()
         std::cout << "\n  Connexion reussie !" << std::endl;
     }
 
-    else
+    else if(identite_user != identite_admin)
     {
         std::cout << "\n  Vous n'etes pas enregistre !" << std::endl;
+    }
     }
 }
 

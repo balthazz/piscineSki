@@ -61,7 +61,9 @@ public :
     void afficher_arc() const;
     //Fonction d'affichage arbre
 
-    void Dijkstra(int depart,int arrivee,std::vector<std::string> preference);
+    void Dijkstra(int depart,int arrivee, std::vector<std::string> preference);
+    bool finParcours(std::vector<double> &parcours);
+
 
     std::vector<int> BFS(int num_S0,std::vector<std::string> preference);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
