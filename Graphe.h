@@ -101,7 +101,7 @@ public :
     void fond_Neige();
 
     ///problème des flots max
-//    int matriceGraphe;
+    void flots (int depart, int arrivee);
     bool fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]);
     int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
 

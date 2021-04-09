@@ -19,7 +19,7 @@ class Trajet{
       std::string m_type;
       double m_poids;
       bool m_marque;
-      double m_capacity;
+      int m_capacity;
 
   public:
       //Constructeur
@@ -71,10 +71,10 @@ class Trajet{
     void setDescente(bool descente)
     {m_descente = descente;}
 
-    void setCapacity(double capacity)
+    void setCapacity(int capacity)
     {m_capacity = capacity;}
 
-    double getCapacity()
+    int getCapacity()
     {return m_capacity;}
 
     void afficher();

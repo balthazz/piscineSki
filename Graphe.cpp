@@ -846,6 +846,33 @@ int Graphe::fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee)
     return flotMaximum;
 }
 
+void Graphe::flots (int depart, int arrivee)
+{
+    std::cout << "\n probleme des flots maximums" << std::endl;
+    // chargement de la matrice d'adjacence à partir du graphe
+    int matAdj[ORDRE][ORDRE];
+
+for (int i=0;i<ORDRE;i++)
+    {
+        for (int j=0;j<ORDRE;j++)
+        {
+            matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
+        }
+    }
+        for(int i=0; i<(int)m_trajets.size(); i++)
+    {
+        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+        matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacité
+    }
+
+
+
+
+    //appel de l'algo de ford-fulkerson
+    std::cout << "le flot possible maximum est "<< fordFulkerson(matAdj,depart,arrivee) << std::endl;
+
+}
+
 void Graphe::connexion()
 {
     std::string nom, date;

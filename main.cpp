@@ -262,14 +262,21 @@ int main()
 
         case 9:
         {
-
-
             std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
             std::cin >> depart;
 
 
             std::cout << "choisissez le numero votre sommet d'arrivee" << std::endl;
             std::cin >> arrivee;
+
+            g.flots(depart, arrivee);
+
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
+                system("cls");
+                choix = menu();
+            }
 
             break;
         }
