@@ -86,7 +86,7 @@ Graphe::Graphe(std::string nomFichier)
             }
         }
 
-///Liste des successeurs pour vérification
+///Liste des successeurs pour vï¿½rification
 //    for(auto y : m_sommets)
 //    {
 //        y->afficher();
@@ -114,7 +114,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
 {
 
     ///initialisations
-    //initialisation de notre tampon pair utilisé dans l'algo.
+    //initialisation de notre tampon pair utilisï¿½ dans l'algo.
     std::pair<Sommet*,double> p;
     bool comparaison;
 
@@ -127,16 +127,16 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
         x->setMarque(false);
     }
 
-    //Déclaration de la fonction de comparaison utilisée par la priority_queue
+    //Dï¿½claration de la fonction de comparaison utilisï¿½e par la priority_queue
     auto compare = [](std::pair<Sommet*,double> a, std::pair<Sommet*,double> b)
     {
         return b.second < a.second;
     };
 
-    //Déclaration de la file de priorité
+    //Dï¿½claration de la file de prioritï¿½
     std::priority_queue<std::pair<Sommet*,double>, std::vector<std::pair<Sommet*,double>>, decltype(compare)> file(compare);
 
-    //initialise tous les sommets à valeur théoriquement infinie sauf celui de départ.
+    //initialise tous les sommets ï¿½ valeur thï¿½oriquement infinie sauf celui de dï¿½part.
     for (auto s : m_sommets)
     {
         if (s->getNum()== depart)
@@ -149,17 +149,17 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
         }
     }
 
-    //Insérer le sommet initial dans la file avec une distance nul car on ne bouge pas.
+    //Insï¿½rer le sommet initial dans la file avec une distance nul car on ne bouge pas.
     file.push(std::make_pair(m_sommets[depart-1],0));
 
     ///Boucle de recherche
 
     while (!file.empty()) //tant que notre file n'est pas vide on continue.
     {
-        p = file.top(); //je considére que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
+        p = file.top(); //je considï¿½re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
         file.pop();//je le supprime pour ne pas retomber dessus
 
-        if (p.first->getMarque()==false) // si le sommet n'a pas été marqué
+        if (p.first->getMarque()==false) // si le sommet n'a pas ï¿½tï¿½ marquï¿½
         {
             p.first->setMarque(true); //on marque le sommet
 
@@ -179,23 +179,23 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
                     }
                 }
 
-                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas été marqué
+                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas ï¿½tï¿½ marquï¿½
                 {
-                    // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'à ce predecesseur
+                    // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'ï¿½ ce predecesseur
                     double addition = p.first->getDistance() + succ.second;
 
-                    if (addition < succ.first->getDistance()) //si ce chemin est plus petit que le précédent chemin enregistré alors on le remplace
+                    if (addition < succ.first->getDistance()) //si ce chemin est plus petit que le prï¿½cï¿½dent chemin enregistrï¿½ alors on le remplace
                     {
-                        succ.first->setDistance(addition); //on définit la nouvelle distance (plus courte) entre le départ et ce nouveau point(qui est un successeur du sommet qu'on étudiait)
+                        succ.first->setDistance(addition); //on dï¿½finit la nouvelle distance (plus courte) entre le dï¿½part et ce nouveau point(qui est un successeur du sommet qu'on ï¿½tudiait)
                         pred[succ.first->getNum()] =  p.first->getNum(); // On sauvegarde le predecesseur pour avoir une trace de notre chemin.
-                        file.push(succ); //Enfin, on rajoute notre successeur à la file de priorité.
+                        file.push(succ); //Enfin, on rajoute notre successeur ï¿½ la file de prioritï¿½.
 
                     }
                 }
             }
         }
     }
-    ///Affichage des résultats
+    ///Affichage des rï¿½sultats
     ///Valeur du poids
     std::cout<<"\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
@@ -320,12 +320,12 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size()+1,0);
-    //pour noter les prédécesseurs
+    //pour noter les prï¿½dï¿½cesseurs
     std::vector<int> predec((int)m_sommets.size()+1,-1);
 
     bool comparaison = true;
 
-    //étape initiale
+    //ï¿½tape initiale
     pile.push(m_sommets[num_S0-1]);
     couleurs[num_S0]=1;
     Sommet*so;
@@ -360,7 +360,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
                 }
             }
 
-            if((couleurs[succ.first->getNum()]==0) && (comparaison == true)) //s'il n'est pas marqué et pas dans preference
+            if((couleurs[succ.first->getNum()]==0) && (comparaison == true)) //s'il n'est pas marquï¿½ et pas dans preference
             {
                 couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
@@ -819,8 +819,8 @@ void Graphe::personnaliser()
 
     if(choix_preference == 3)
     {
-      std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
-      std::cout << "   Nom de la piste a retirer (Retour -> Enter) : ";
+        std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
+        std::cout << "   Nom de la piste a retirer (Retour -> Enter) : ";
 
         while(getch() != 13)
         {
@@ -828,14 +828,14 @@ void Graphe::personnaliser()
             std::cin >> remontee;
 
 
-              if(remontee == "Reset")
+            if(remontee == "Reset")
             {
                 if(piste_enlevee.size() != 0)
                 {
-                   for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
-                   {
-                    piste_enlevee.erase(piste_enlevee.begin()+i);
-                   }
+                    for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
+                    {
+                        piste_enlevee.erase(piste_enlevee.begin()+i);
+                    }
                 }
             }
 
@@ -873,7 +873,7 @@ void Graphe::personnaliser()
 
 
 
-        }
+    }
 
 
 
@@ -903,13 +903,13 @@ void Graphe::kruskal()
         return a->getPoids() > b->getPoids();
     });
 
-    while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de résultats est inférieur au nombre de sommets -1
+    while(resultat_krustal.size() < m_sommets.size()-4) // Tant que notre arbre de rï¿½sultats est infï¿½rieur au nombre de sommets -1
     {
-        tampon = trajets_pistes[nombre_tour]->getExtremites(); // On récupere les extremites de l'arete de poids le plus haut
+        tampon = trajets_pistes[nombre_tour]->getExtremites(); // On rï¿½cupere les extremites de l'arete de poids le plus haut
 
-        if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vérifie si elle peut être sélectionnée
+        if(tampon.first->getNumCC() != tampon.second->getNumCC()) //On vï¿½rifie si elle peut ï¿½tre sï¿½lectionnï¿½e
         {
-            resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete à notre arbre de poids couvrant minimum
+            resultat_krustal.push_back(trajets_pistes[nombre_tour]); // Si oui, on ajoute l'arete ï¿½ notre arbre de poids couvrant minimum
 
             //Check et actualisation des numCC
 
@@ -917,26 +917,26 @@ void Graphe::kruskal()
 
             for(int k = 0 ; k < (int)m_sommets.size() ; k++) // Pour tous les sommets
             {
-                if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont égaux, on remplace
+                if (m_sommets[k]->getNumCC() == x) // Si les NumCC sont ï¿½gaux, on remplace
                 {
                     m_sommets[k]->setNumCC(tampon.first->getNumCC());
                 }
             }
         }
 
-        nombre_tour++; // On incrémente le nombre de tour
+        nombre_tour++; // On incrï¿½mente le nombre de tour
     }
 
 
-    //Affichage du résultat !
+    //Affichage du rï¿½sultat !
 
     std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
 
     for(auto x : resultat_krustal)
     {
-        poidsTotal += x->getPoids(); //On incrémente le poids total pour chaque sommet dans l'arbre
+        poidsTotal += x->getPoids(); //On incrï¿½mente le poids total pour chaque sommet dans l'arbre
 
-        x->afficher(); //On affiche les arêtes et leurs poids
+        x->afficher(); //On affiche les arï¿½tes et leurs poids
 
         std::cout << "\n";
     }
@@ -947,45 +947,37 @@ void Graphe::kruskal()
 //        std::cout << resultat_krustal.size() << std::endl;
 }
 
-bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'écart
+bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'ï¿½cart
 {
     bool marque[ORDRE];
     for (int j=0; j>ORDRE; j++)
     {
-        marque[j]=false; //initialisation de tous les somments à 0
+        marque[j]=false; //initialisation de tous les somments ï¿½ 0
     }
-
-    std::vector<int> Trajet_source;
-    std::vector<int> Trajet_puit;
-    for(int i=0; i<(int)m_trajets.size(); i++) //parcours des trajets
-    {
-        if(m_trajets[i]->getExtremites().second->getNum()==depart) //si c'est un trajet qui arrive à la source
-        {
-            Trajet_source.push_back(m_trajets[i]->getExtremites().first->getNum());
-        }
-        if(m_trajets[i]->getExtremites().first->getNum()==arrivee) //si c'est un trajet qui part du puit
-        {
-            Trajet_puit.push_back(m_trajets[i]->getExtremites().second->getNum());
-        }
-    }
-    for(unsigned i=0; i<Trajet_source.size(); i++) // marquage de tous les trajets arrivant à la source
-    {
-        marque[Trajet_source[i]]=true;
-    }
-
-    for(unsigned i=0; i<Trajet_puit.size(); i++) // marquage de tous les trajets sortant du puit
-    {
-        marque[Trajet_puit[i]]=true;
-    }
-
-
-
-
-
-
-
+//std::cout << "spoutnik ";
+//    std::vector<int> Trajet_source;
+//    std::vector<int> Trajet_puit;
+//    for(int i=0; i<(int)m_trajets.size(); i++) //parcours des trajets
+//    {
+//        if(m_trajets[i]->getExtremites().second->getNum()==depart) //si c'est un trajet qui arrive ï¿½ la source
+//        {
+//            Trajet_source.push_back(m_trajets[i]->getExtremites().first->getNum());
+//        }
+//        if(m_trajets[i]->getExtremites().first->getNum()==arrivee) //si c'est un trajet qui part du puit
+//        {
+//            Trajet_puit.push_back(m_trajets[i]->getExtremites().second->getNum());
+//        }
+//    }
+//    for(unsigned i=0; i<Trajet_source.size(); i++) // marquage de tous les trajets arrivant ï¿½ la source
+//    {
+//        marque[Trajet_source[i]]=true;
+//    }
+//
+//    for(unsigned i=0; i<Trajet_puit.size(); i++) // marquage de tous les trajets sortant du puit
+//    {
+//        marque[Trajet_puit[i]]=true;
+//    }
     //marquage des flot entrant dansla source
-
     //marquage des arretes sortant du puit
 
     std::queue<int> file;
@@ -999,11 +991,14 @@ bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int
         file.pop();
         for (int j=0; j<ORDRE; j++)
         {
+            std::cout << " j "<<j<<" i "<<i<<" graphe ecart = "<<graphEc[j][i]<<" marquee? " <<marque[j]<<std::endl;
+//              std::cout <<" graphe ecart = "<<graphEc[i][j]<< "         j="<<j<<" i="<<i<<std::endl;
             if((marque[j]== false)&&(graphEc[i][j]>0))
             {
                 if (j==arrivee)
                 {
                     pred[j] = i; //  il y a un chemin entre la source et le puit
+                    std::cout << "fiiin";
                     return true;
                 }
 
@@ -1027,9 +1022,17 @@ int Graphe::fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee)
             graphEc[i][j] = graphe[i][j] ;
         }
     }
+//    for (int i=0; i<ORDRE; i++)
+//    {
+//        for (int j=0; j<ORDRE; j++)
+//        {
+//            std::cout << graphEc[i][j] <<" ";
+//        }
+//        std::cout <<std::endl;
+//    }
 
     int pred [ORDRE]; //ce tableau enregistre le chemin via les predecesseurs
-    int flotMaximum=0; //on initialise le flot max à 0
+    int flotMaximum=0; //on initialise le flot max ï¿½ 0
 
     while(fordFulkBfs(graphEc, depart, arrivee, pred))
     {
@@ -1054,31 +1057,41 @@ int Graphe::fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee)
 void Graphe::flots (int depart, int arrivee)
 {
     std::cout << "\n probleme des flots maximums" << std::endl;
-    // chargement de la matrice d'adjacence à partir du graphe
-    int matAdj[ORDRE][ORDRE];
+    // chargement de la matrice d'adjacence ï¿½ partir du graphe
+    int matAdj[ORDRE][ORDRE]= {
+        {0,0,0,0,0,0,0},
+        {4,0,0,0,0,0,0},
+        {9,0,0,0,0,0,0},
+        {0,3,0,0,0,0,0},
+        {0,2,8,0,0,0,0},
+        {0,0,0,1,4,0,0},
+        {0,0,0,3,10,1,0}
+    };
 
-    for (int i=0; i<ORDRE; i++)
-    {
-        for (int j=0; j<ORDRE; j++)
-        {
-            matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
-        }
-    }
-    for(int i=0; i<(int)m_trajets.size(); i++)
-    {
-        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
-        matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacité
-        std::cout <<  matAdj[tampon.first->getNum()][tampon.second->getNum()] <<" "<< std::endl;
-    }
+//    for (int i=0; i<ORDRE; i++)
+//    {
+//        for (int j=0; j<ORDRE; j++)
+//        {
+//            matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
+//        }
+//    }
+//    for(int i=0; i<(int)m_trajets.size(); i++)
+//    {
+//        std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
+//        matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacitï¿½
+//        std::cout <<  matAdj[tampon.first->getNum()][tampon.second->getNum()] <<" "<< std::endl;
+//    }
+//
+//    for (int i=0; i<ORDRE; i++)
+//    {
+//        for (int j=0; j<ORDRE; j++)
+//        {
+//            std::cout << matAdj[i][j] <<" ";
+//        }
+//        std::cout <<std::endl;
+//    }
 
-    for (int i=0; i<ORDRE; i++)
-    {
-        for (int j=0; j<ORDRE; j++)
-        {
-            std::cout << matAdj[i][j] <<" ";
-        }
-        std::cout <<std::endl;
-    }
+
     int maxFlot;
     maxFlot = fordFulkerson(matAdj,depart,arrivee);  //appel de l'algo de ford-fulkerson
 
@@ -1293,7 +1306,7 @@ void Graphe::sauvegarde()
 
     if(position != 0)
     {
-       fichier << "\n";
+        fichier << "\n";
     }
 
     fichier << nom;

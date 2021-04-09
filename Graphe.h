@@ -12,7 +12,7 @@
 #include "Dessin.h"
 
 #define valeur_max 9999
-#define ORDRE 37
+#define ORDRE 7
 
 class Graphe
 {
