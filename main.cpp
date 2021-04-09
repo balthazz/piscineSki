@@ -152,7 +152,7 @@ int main()
             if (num1 == 2)
             {
 
-                for(int i = 0 ; i < (int)vec_sommets.size() ; ++i)
+                for(int i = 0 ; i < vec_sommets.size() ; ++i)
                 {
                     if(num2 != vec_sommets[i]->getNum())
                     {

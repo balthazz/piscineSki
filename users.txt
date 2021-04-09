@@ -76,14 +76,3 @@ TPH
 BUS
 TC
 TSD
-Thomas
-08/09/2005
-8
-V
-B
-TK
-TS
-TPH
-BUS
-TC
-TSD

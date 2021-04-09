@@ -959,6 +959,14 @@ void Graphe::sauvegarde()
     std::string nom,date;
     std::vector<std::string> pref;
 
+//        for(int i = 0 ; i < m_preference_initial ; i++)
+//        {
+//            for(int j = 0 ; j < m_preference ; j++)
+//            {
+//                if
+//            }
+//        }
+
     std::cout << "\n  SAUVEGARDE DE VOS DONNEES\n" << std::endl;
     std::cout << "  Votre nom : ";
     std::cin >> nom;
@@ -968,8 +976,8 @@ void Graphe::sauvegarde()
     std::ofstream fichier("users.txt", std::ios::out | std::ios::app);
     //fichier.seekg(0, std::ios::end);
 
-    fichier << "\n" <<nom;
-    fichier << "\n"<< date;
+    fichier << nom;
+    fichier << date;
     fichier << "\n" << m_preference.size();
 
     for(auto x : m_preference)
