@@ -865,7 +865,14 @@ for (int i=0;i<ORDRE;i++)
         matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacité
     }
 
-
+for (int i=0;i<ORDRE;i++)
+    {
+        for (int j=0;j<ORDRE;j++)
+        {
+            std::cout << matAdj[i][j] <<" ";
+        }
+        std::cout <<std::endl;
+    }
 
 
     //appel de l'algo de ford-fulkerson
