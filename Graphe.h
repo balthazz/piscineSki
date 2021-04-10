@@ -12,8 +12,8 @@
 #include "Dessin.h"
 
 #define valeur_max 9999
-#define ORDRE 37
-#define V 37
+#define ORDRE 7
+
 class Graphe
 {
 
@@ -43,46 +43,19 @@ public :
     /*destructeur*/
     virtual ~Graphe();
 
-    std::vector<Sommet*> getSommets()
-    {
-        return m_sommets;
-    };
-    std::vector<Trajet*> getTrajets()
-    {
-        return m_trajets;
-    };
+    std::vector<Sommet*> getSommets(){return m_sommets;};
+    std::vector<Trajet*> getTrajets(){return m_trajets;};
 
-    Sommet* getPuits()
-    {
-        return m_puits;
-    }; //pour les flots
-    Sommet* getSources()
-    {
-        return m_sources;
-    };//pour les flots
+    Sommet* getPuits(){return m_puits;}; //pour les flots
+    Sommet* getSources(){return m_sources;};//pour les flots
 
-    std::vector<Sommet*> getSauvegarde_sommets()
-    {
-        return sauvegarde_sommets;
-    };
-    std::vector<Trajet*> getSauvegarde_trajets()
-    {
-        return sauvegarde_trajets;
-    };
-    std::vector<std::string> getPiste_enlevee()
-    {
-        return piste_enlevee;
-    };
+    std::vector<Sommet*> getSauvegarde_sommets(){return sauvegarde_sommets;};
+    std::vector<Trajet*> getSauvegarde_trajets(){return sauvegarde_trajets;};
+    std::vector<std::string> getPiste_enlevee(){return piste_enlevee;};
 
 
-    bool getConnexion()
-    {
-        return m_connexion;
-    }
-    void setConnexion(bool connexion)
-    {
-        m_connexion = connexion;
-    }
+    bool getConnexion(){return m_connexion;}
+    void setConnexion(bool connexion){m_connexion = connexion;}
     //Fonction d'affichage de notre chargement de fichier graphe.txt
     void afficher_sommet() const;
     // Fonction d'affichage des aretes
@@ -102,7 +75,6 @@ public :
 
     std::vector<Sommet*> Avoir_So2_avec_So1(int s1);
 
-<<<<<<< Updated upstream
     std::vector<std::string> getPreference(){return m_preference;}
     void setPreference(std::vector<std::string> preference){m_preference=preference;}
     std::vector<std::string> getPreference_initial(){return m_preference_initial;}
@@ -110,24 +82,6 @@ public :
     std::vector<std::string> getTrajets_fermes(){return m_trajets_fermes;}
 
 
-=======
-    std::vector<std::string> getPreference()
-    {
-        return m_preference;
-    }
-    void setPreference(std::vector<std::string> preference)
-    {
-        m_preference=preference;
-    }
-    std::vector<std::string> getPreference_initial()
-    {
-        return m_preference_initial;
-    }
-    void setPreference_initial(std::vector<std::string> preference_initial)
-    {
-        m_preference_initial=preference_initial;
-    }
->>>>>>> Stashed changes
     ///Donne le nom du trajet entre deux sommet donnés
     std::string Nom_Chemin_S1_S2(int s1,int s2);
     ///Donne le type du trajet entre deux sommet donnés
@@ -161,8 +115,7 @@ public :
     ///problème des flots max
     void flots (int depart, int arrivee);
     bool fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]);
-    //int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
-    void prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE] );
+    int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
 
     void connexion();
     void deconnexion();

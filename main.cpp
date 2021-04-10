@@ -116,14 +116,7 @@ int main()
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
-<<<<<<< Updated upstream
     //g.flots(1,7);
-=======
-    std::cout << "\n            Projet piscine" << std::endl;
-//
-//    g.flots(31,24);
-//std::cin >>depart;
->>>>>>> Stashed changes
 
     choix = menu();
     int choix_menu = atoi(choix.c_str());
@@ -148,7 +141,10 @@ int main()
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
             }
+
             break;
+
+
         }
 
         case 2:
@@ -163,7 +159,9 @@ int main()
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
             }
+
             break;
+
         }
 
         case 3:
