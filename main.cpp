@@ -116,7 +116,8 @@ int main()
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
-    //g.flots(1,7);
+
+    std::cout << "\n            Projet piscine" << std::endl;
 
     choix = menu();
     int choix_menu = atoi(choix.c_str());
@@ -141,10 +142,7 @@ int main()
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
             }
-
             break;
-
-
         }
 
         case 2:
@@ -159,9 +157,7 @@ int main()
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
             }
-
             break;
-
         }
 
         case 3:
