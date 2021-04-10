@@ -18,7 +18,9 @@ class Graphe
 {
 
 private :
+
     ///liste des sommets (vecteur de pointeurs sur Sommet)
+
     std::vector<Sommet*> m_sommets;
     std::vector<Trajet*> m_trajets;
     std::vector<Sommet*> sauvegarde_sommets;
@@ -101,6 +103,8 @@ public :
     Trajet* trajet_avec_ses_succ(Sommet* som1,Sommet* som2);
     ///Donne l'objet Sommet avec son numero
     Sommet* sommet_avec_son_Id(int id);
+
+
 
 
 

@@ -215,53 +215,64 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
     ///Affichage des r�sultats
     ///Valeur du poids
 
-    std::cout << "\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : ";
-    couleur.couleur(6);
-    std::cout << m_sommets[arrivee-1]->getDistance();
-    couleur.couleur(15);
-    std::cout << " minutes ";
-
-    ///si il y a une condition de temps et qu'elle est respectée
-    if((m_sommets[arrivee-1]->getDistance()<=condition_temps) && (condition_temps!=0))
+    if(m_sommets[arrivee-1]->getDistance()!=9999)
     {
-        std::cout<<"<--";
-        couleur.couleur(10);
-        std::cout <<" TEMPS SUFFISANT "<< std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+        std::cout << "\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : ";
+        couleur.couleur(6);
+        std::cout << m_sommets[arrivee-1]->getDistance();
         couleur.couleur(15);
-    }
+        std::cout << " minutes ";
 
-    ///si il y a une condition de temps et qu'elle n'est pas respectée
-    else if((m_sommets[arrivee-1]->getDistance()>condition_temps) && (condition_temps!=0))
+        ///si il y a une condition de temps et qu'elle est respectée
+        if((m_sommets[arrivee-1]->getDistance()<=condition_temps) && (condition_temps!=0))
+        {
+            std::cout<<"<--";
+            couleur.couleur(10);
+            std::cout <<" TEMPS SUFFISANT "<< std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+            couleur.couleur(15);
+        }
+
+        ///si il y a une condition de temps et qu'elle n'est pas respectée
+        else if((m_sommets[arrivee-1]->getDistance()>condition_temps) && (condition_temps!=0))
+        {
+            double depassement=m_sommets[arrivee-1]->getDistance()-condition_temps;
+            std::cout<<"<--";
+            couleur.couleur(4);
+            std::cout <<" TEMPS INSUFFISANT + "<<depassement<<" minutes" <<std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+            couleur.setColor(0);
+            couleur.couleur(15);
+        }
+        ///Chemin parcouru
+
+
+
+        std::cout << "\n\n" << arrivee;
+
+
+        int x = arrivee;
+
+        //On parcourt notre vecteurs de predecesseurs.
+        for (int p = pred[arrivee]; p != -1; p = pred[p])
+        {
+            std::cout << " <- ";
+            couleur.couleur_type(Type_Chemin_S1_S2(p,x));
+            std::cout << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x);
+            couleur.setColor(0);
+            couleur.couleur(15);
+            std::cout << " <- " << p;
+            x = p;
+        }
+
+        std::cout << "\n";
+    }
+    else
     {
-        double depassement=m_sommets[arrivee-1]->getDistance()-condition_temps;
-        std::cout<<"<--";
+        std::cout<<"\n"<<arrivee;
         couleur.couleur(4);
-        std::cout <<" TEMPS INSUFFISANT + "<<depassement<<" minutes" <<std::endl; //on affiche le plus court chemin entre les deux sommets choisis
-        couleur.setColor(0);
+        std::cout<<" : Aucun chemins possibles\n\n";
         couleur.couleur(15);
+
     }
-    ///Chemin parcouru
-
-
-
-    std::cout << "\n\n" << arrivee;
-
-
-    int x = arrivee;
-
-    //On parcourt notre vecteurs de predecesseurs.
-    for (int p = pred[arrivee]; p != -1; p = pred[p])
-    {
-        std::cout << " <- ";
-        couleur.couleur_type(Type_Chemin_S1_S2(p,x));
-        std::cout << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x);
-        couleur.setColor(0);
-        couleur.couleur(15);
-        std::cout << " <- " << p;
-        x = p;
-    }
-
-    std::cout << "\n";
 
 
 
@@ -273,6 +284,7 @@ std::vector<int> Graphe::BFS(int num_S0)
 {
 
     std::queue<Sommet*>pile;
+    int indice;
 
     // pour le marquage
     std::vector<int> couleurs((int)m_sommets.size()+1,0);
@@ -321,9 +333,11 @@ std::vector<int> Graphe::BFS(int num_S0)
                 couleurs[succ.first->getNum()]=1; //on le marque
                 predec[succ.first->getNum()]= so->getNum();
                 pile.push(succ.first);//on le met dans la pile
+                indice++;
             }
         }
     }
+    sommet_avec_son_Id(num_S0)->setTaille_BFS(indice);
     return predec;
 }
 
@@ -487,98 +501,113 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 {
     double poids = 0;
     std::vector<int> tampon;
-        for(size_t i=0; i<arbre.size(); ++i)
+
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        if(i==num2)
         {
-            if(i==num2)
+            tampon.push_back(i);
+        }
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
             {
-                tampon.push_back(i);
-            }
-            if(i!=num)
-            {
-                if(arbre[i]!=-1)
+                size_t j=arbre[i];
+                if(i==num2)
                 {
-                    size_t j=arbre[i];
+                    tampon.push_back(j);
+                }
+
+                while(j!=num)
+                {
+                    j=arbre[j];
                     if(i==num2)
                     {
                         tampon.push_back(j);
                     }
-
-                    while(j!=num)
-                    {
-                        j=arbre[j];
-                        if(i==num2)
-                        {
-                            tampon.push_back(j);
-                        }
-                    }
                 }
             }
-
         }
-        for(int i=0; i<(int)tampon.size(); i++)
+
+    }
+    for(int i=0; i<(int)tampon.size(); i++)
+    {
+        int tmp;
+        tmp=tampon[i+1];
+        std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
+        std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
+        if(tampon[i]!=(int)num)
         {
-            int tmp;
-            tmp=tampon[i+1];
-            std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
-            std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
-            if(tampon[i]!=(int)num)
-            {
-                std::cout<<tampon[i]<<"<--";
-                couleur.couleur_type(m);
-                std::cout<<m<<" ";
-                std::cout<<n<<" ";
-                couleur.setColor(0);
-                couleur.couleur(15);
-                std::cout<<"<--";
-                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-            }
-            else
-            {
-                std::cout<<tampon[i];
-                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-            }
+            std::cout<<tampon[i]<<"<--";
+            couleur.couleur_type(m);
+            std::cout<<m<<" ";
+            std::cout<<n<<" ";
+            couleur.setColor(0);
+            couleur.couleur(15);
+            std::cout<<"<--";
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
-
+        else
+        {
+            std::cout<<tampon[i];
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
+        }
+    }
     std::cout<<"\n Temps : "<<poids<<" minutes"<<std::endl;
 
+    if(poids==0)
+    {
+        couleur.couleur(4);
+        std::cout<<"Aucun chemins possibles";
+        couleur.couleur(15);
+    }
 }
 
 
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
-    double poids = 0;
-
-    for(size_t i=0; i<arbre.size(); ++i)
+    int tampon=sommet_avec_son_Id(num)->getTaille_BFS();
+    if(tampon!=num)
     {
-        if(i!=num)
+        double poids = 0;
+        for(size_t i=0; i<arbre.size(); ++i)
         {
-            if(arbre[i]!=-1)
+            if(i!=num)
             {
-                std::cout<<i<<"<- ";
-                size_t j=arbre[i];
-                couleur.couleur_type(Type_Chemin_S1_S2(j,i));
-                std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i);
-                couleur.setColor(0);
-                couleur.couleur(15);
-                std::cout<<" <- ";
-                poids=Poids_Chemin_S1_S2(j,i);
-                while(j!=num)
+                if(arbre[i]!=-1)
                 {
-                    std::cout<<j<<"<- ";
-                    size_t tmp = j;
-                    j=arbre[j];
-                    std::string m=Type_Chemin_S1_S2(j,tmp);
-                    std::string n=Nom_Chemin_S1_S2(j,tmp);
-                    poids=poids+Poids_Chemin_S1_S2(j,tmp);
-                    couleur.couleur_type(m);
-                    std::cout<<m<<" "<<n;
+                    std::cout<<i<<"<- ";
+                    size_t j=arbre[i];
+                    couleur.couleur_type(Type_Chemin_S1_S2(j,i));
+                    std::cout<<Type_Chemin_S1_S2(j,i)<<" "<<Nom_Chemin_S1_S2(j,i);
                     couleur.setColor(0);
                     couleur.couleur(15);
-                    std::cout<<" <-";
+                    std::cout<<" <- ";
+                    poids=Poids_Chemin_S1_S2(j,i);
+                    while(j!=num)
+                    {
+                        std::cout<<j<<"<- ";
+                        size_t tmp = j;
+                        j=arbre[j];
+                        std::string m=Type_Chemin_S1_S2(j,tmp);
+                        std::string n=Nom_Chemin_S1_S2(j,tmp);
+                        poids=poids+Poids_Chemin_S1_S2(j,tmp);
+                        couleur.couleur_type(m);
+                        std::cout<<m<<" "<<n;
+                        couleur.setColor(0);
+                        couleur.couleur(15);
+                        std::cout<<" <-";
+                    }
+                    std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
                 }
-                std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
             }
         }
+    }
+    else
+    {
+        couleur.couleur(4);
+        std::cout<<"Aucun chemins possibles \n";
+        couleur.couleur(15);
     }
 }
 

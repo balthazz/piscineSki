@@ -16,6 +16,7 @@ private :
     double m_altitude;
     bool m_marque = false;
     double m_distance;
+    int m_taille_BFS;
     int m_numCC;
     ///chaque sommet possède la liste de ses successeurs et de ses prédecesseurs(des vecteurs de pointeurs sur Sommet)
     std::vector<std::pair<Sommet*,double>> m_predecesseurs;
@@ -41,6 +42,8 @@ public :
     }
     void setSuccesseur(std::vector<std::pair<Sommet*,double>>& val){m_successeurs=val;}
     void setPrede(std::vector<std::pair<Sommet*,double>>& val){m_predecesseurs=val;}
+    int getTaille_BFS(){return m_taille_BFS;}
+    void setTaille_BFS(int taille){m_taille_BFS=taille;}
     /* pour ajouter un successeur à la liste*/
     void ajouterSucc(std::pair<Sommet*,double> p)
     {
