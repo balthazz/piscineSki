@@ -190,7 +190,7 @@ int main()
                     if(num2 != vec_sommets[i]->getNum())
                     {
 
-                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference(),0);
+                        g.Dijkstra(num2,vec_sommets[i]->getNum(),0);
 
                     }
                 }
@@ -198,16 +198,18 @@ int main()
 
             if (num1 == 3)
             {
-                int temps;
-                std::cout<<"\nVous souhaitez arriver dans combien de temps ?  minutes: ";
+                double temps;
+                std::cout<<"\n   Vous souhaitez arriver dans combien de temps ?" << std::endl;
+                std::cout<<"\n   Temps en minutes : ";
                 std::cin>>temps;
+
                 for(int i = 0 ; i < (int)vec_sommets.size() ; ++i)
                 {
                     if(num2 != vec_sommets[i]->getNum())
                     {
 
                         //Appel de l'algorithme de Dijkstra
-                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference(),temps);
+                        g.Dijkstra(num2,vec_sommets[i]->getNum(),temps);
 
                     }
                 }
@@ -266,16 +268,17 @@ int main()
             if (num1 == 2)
             {
                 //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee,g.getPreference(),0);
+                g.Dijkstra(depart,arrivee,0);
             }
 
              if (num1 == 3)
             {
-                int temps;
-                std::cout<<"\nVous souhaitez arriver dans combien de temps ?  minutes: ";
+                double temps;
+                std::cout<<"\n   Vous souhaitez arriver dans combien de temps ?" << std::endl;
+                std::cout<<"\n   Temps en minutes : ";
                 std::cin>>temps;
                 //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee,g.getPreference(),temps);
+                g.Dijkstra(depart,arrivee,temps);
             }
 
             retour_menu = fin_tache();
