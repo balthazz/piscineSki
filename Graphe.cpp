@@ -553,12 +553,18 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
             poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
     }
-    std::cout<<"\n Temps : "<<poids<<" minutes"<<std::endl;
+
+    std::cout<<"\n Temps : ";
+    couleur.couleur(6);
+    std::cout<<poids;
+    couleur.couleur(15);
+    std::cout<<" minutes"<<std::endl;
 
     if(poids==0)
     {
+        system("cls");
         couleur.couleur(4);
-        std::cout<<"Aucun chemins possibles";
+        std::cout<<"\n\n   Aucun chemins possibles\n";
         couleur.couleur(15);
     }
 }
@@ -598,7 +604,11 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
                         couleur.couleur(15);
                         std::cout<<" <-";
                     }
-                    std::cout<<j<<"\n  Temps : "<<poids<<" minutes\n"<<std::endl;
+                    std::cout<<j<<"\n  Temps : ";
+                    couleur.couleur(6);
+                    std::cout<<poids;
+                    couleur.couleur(15);
+                    std::cout<<" minutes\n"<<std::endl;
                 }
             }
         }

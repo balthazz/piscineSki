@@ -45,7 +45,7 @@ std::string menu() // Fonction d'affichage du menu des choix
         d.couleur(12);
         std::cout<<"Attention pistes/remontees fermees !";
 
-        for(int i=0; i<g.getTrajets_fermes().size(); i++)
+        for(int i=0; i< (int)g.getTrajets_fermes().size(); i++)
         {
             std::string tampon=g.getTrajets_fermes()[i];
             std::string tampon2=g.trajet_avec_son_nom(tampon)->getType();
@@ -115,9 +115,6 @@ int main()
     std::string choix, num;
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
-
-
-    std::cout << "\n            Projet piscine" << std::endl;
 
     choix = menu();
     int choix_menu = atoi(choix.c_str());
