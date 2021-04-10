@@ -32,8 +32,7 @@ public:
     void petit_skieur3(int lig,int col);
     void les_arcs(int lig,int col);
     void dessin_menu();
-    void tire_fesse(int lig,int col);
-
+    void utilisateur();
 
 
 

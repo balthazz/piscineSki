@@ -72,20 +72,23 @@ Graphe::Graphe(std::string nomFichier)
 
     std::ifstream fichier ("admin.txt");
     if(!fichier)
-        {throw std::runtime_error("Impossible d'ouvrir en lecture admin.txt");}
+    {
+        throw std::runtime_error("Impossible d'ouvrir en lecture admin.txt");
+    }
 
-        while(!fichier.eof())
+    while(!fichier.eof())
+    {
+        fichier >> trajet;
+
+        for(int i = 0 ; i < (int)m_trajets.size() ; i++)
         {
-            fichier >> trajet;
-
-            for(int i = 0 ; i < (int)m_trajets.size() ; i++)
+            if (m_trajets[i]->getNom() == trajet)
             {
-                if (m_trajets[i]->getNom() == trajet)
-                {
-                    m_trajets.erase(m_trajets.begin()+i);
-                }
+                m_trajets_fermes.push_back(trajet);
+                m_trajets.erase(m_trajets.begin()+i);
             }
         }
+    }
 
 ///Liste des successeurs pour verification
 //    for(auto y : m_sommets)
@@ -158,12 +161,12 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
 
     while (!file.empty()) //tant que notre file n'est pas vide on continue.
     {
-         p = file.top(); //je consid�re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
-         file.pop();//je le supprime pour ne pas retomber dessus
+        p = file.top(); //je consid�re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
+        file.pop();//je le supprime pour ne pas retomber dessus
 
-         if (p.first->getMarque()==false) // si le sommet n'a pas été marqué
-            {
-              p.first->setMarque(true);
+        if (p.first->getMarque()==false) // si le sommet n'a pas été marqué
+        {
+            p.first->setMarque(true);
 
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
@@ -182,13 +185,13 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
                 }
 
                 for(auto x : piste_enlevee)
-               {
-                if(trajet_avec_ses_succ(p.first,succ.first)->getNom() == x)
                 {
-                    comparaison = false;
-                    break;
+                    if(trajet_avec_ses_succ(p.first,succ.first)->getNom() == x)
+                    {
+                        comparaison = false;
+                        break;
+                    }
                 }
-               }
 
                 if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas �t� marqu�
                 {
@@ -205,7 +208,7 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
 
                     }
                 }
-           }
+            }
         }
     }
 
@@ -241,7 +244,7 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
 
 
 
-  std::cout << "\n\n" << arrivee;
+    std::cout << "\n\n" << arrivee;
 
 
     int x = arrivee;
@@ -249,13 +252,13 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-            std::cout << " <- ";
-            couleur.couleur_type(Type_Chemin_S1_S2(p,x));
-            std::cout << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x);
-            couleur.setColor(0);
-            couleur.couleur(15);
-            std::cout << " <- " << p;
-            x = p;
+        std::cout << " <- ";
+        couleur.couleur_type(Type_Chemin_S1_S2(p,x));
+        std::cout << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x);
+        couleur.setColor(0);
+        couleur.couleur(15);
+        std::cout << " <- " << p;
+        x = p;
     }
 
     std::cout << "\n";
@@ -386,6 +389,20 @@ Trajet* Graphe::trajet_avec_son_Id(int id)
     return tampon;
 }
 
+Trajet* Graphe::trajet_avec_son_nom(std::string nom)
+{
+    Trajet* tampon = NULL;
+
+    for(int i=0; i<(int)sauvegarde_trajets.size(); i++)
+    {
+        if(sauvegarde_trajets[i]->getNom()==nom)
+        {
+            tampon=sauvegarde_trajets[i];
+        }
+    }
+    return tampon;
+}
+
 std::string Graphe::Type_Chemin_S1_S2(int s1,int s2)
 {
     std::string resultat;
@@ -470,59 +487,60 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 {
     double poids = 0;
     std::vector<int> tampon;
-
-    for(size_t i=0; i<arbre.size(); ++i)
-    {
-        if(i==num2)
+        for(size_t i=0; i<arbre.size(); ++i)
         {
-            tampon.push_back(i);
-        }
-        if(i!=num)
-        {
-            if(arbre[i]!=-1)
+            if(i==num2)
             {
-                size_t j=arbre[i];
-                if(i==num2)
+                tampon.push_back(i);
+            }
+            if(i!=num)
+            {
+                if(arbre[i]!=-1)
                 {
-                    tampon.push_back(j);
-                }
-
-                while(j!=num)
-                {
-                    j=arbre[j];
+                    size_t j=arbre[i];
                     if(i==num2)
                     {
                         tampon.push_back(j);
                     }
+
+                    while(j!=num)
+                    {
+                        j=arbre[j];
+                        if(i==num2)
+                        {
+                            tampon.push_back(j);
+                        }
+                    }
                 }
+            }
+
+        }
+        for(int i=0; i<(int)tampon.size(); i++)
+        {
+            int tmp;
+            tmp=tampon[i+1];
+            std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
+            std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
+            if(tampon[i]!=(int)num)
+            {
+                std::cout<<tampon[i]<<"<--";
+                couleur.couleur_type(m);
+                std::cout<<m<<" ";
+                std::cout<<n<<" ";
+                couleur.setColor(0);
+                couleur.couleur(15);
+                std::cout<<"<--";
+                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
+            }
+            else
+            {
+                std::cout<<tampon[i];
+                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
             }
         }
 
-    }
-    for(int i=0; i<(int)tampon.size(); i++)
-    {
-        int tmp;
-        tmp=tampon[i+1];
-        std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
-        std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
-        if(tampon[i]!=(int)num)
-        {
-            std::cout<<tampon[i]<<"<--";
-            couleur.couleur_type(m);
-            std::cout<<m<<" ";
-            std::cout<<n<<" ";
-            couleur.setColor(0);
-            couleur.couleur(15);
-            std::cout<<"<--";
-            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-        }
-        else
-        {
-            std::cout<<tampon[i];
-            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-        }
-    }
     std::cout<<"\n Temps : "<<poids<<" minutes"<<std::endl;
+
 }
 
 
@@ -639,20 +657,25 @@ void Graphe::infoSommet()
         }
     }
 
-    if(passage == true){
-    std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
-    for(unsigned i=0; i<Trajet_entrant.size(); i++)
+    if(passage == true)
     {
-        std::cout<<Trajet_entrant[i]<<"  ";
+        std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
+        for(unsigned i=0; i<Trajet_entrant.size(); i++)
+        {
+            std::cout<<Trajet_entrant[i]<<"  ";
+        }
+        std::cout<<"\n\n Trajets qui partent a la station "<<nomSommet<<" : ";
+        for(unsigned i=0; i<Trajet_sortant.size(); i++)
+        {
+            std::cout<<Trajet_sortant[i]<<"  ";
+        }
+        std::cout<<"\n\n\n";
     }
-    std::cout<<"\n\n Trajets qui partent a la station "<<nomSommet<<" : ";
-    for(unsigned i=0; i<Trajet_sortant.size(); i++)
-    {
-        std::cout<<Trajet_sortant[i]<<"  ";
-    }
-    std::cout<<"\n\n\n";}
 
-    else{std::cout << "\n   Ce numero de sommet n'existe pas...\n" << std::endl;}
+    else
+    {
+        std::cout << "\n   Ce numero de sommet n'existe pas...\n" << std::endl;
+    }
 
 }
 
@@ -666,28 +689,35 @@ void Graphe::personnaliser()
     bool trajet_ok = false;
     bool passage = false;
 
-            do{
+    do
+    {
 
-            system("cls");
+        system("cls");
 
-            std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
-            std::cout<<"  1. Preferences des pistes" << std::endl;
-            std::cout<<"  2. Preferences des remontees" << std::endl;
-            std::cout<<"  3. Exclure des pistes" << std::endl;
-            std::cout<<"\n   Votre choix : ";
+        std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
+        std::cout<<"  1. Preferences des pistes" << std::endl;
+        std::cout<<"  2. Preferences des remontees" << std::endl;
+        std::cout<<"  3. Exclure des pistes" << std::endl;
+        std::cout<<"\n   Votre choix : ";
 
-            std::cin >> choix;
+        std::cin >> choix;
 
-            if((choix == "1") || (choix == "2") || (choix == "3"))
-            {
-                choix_preference = atoi(choix.c_str());
-                passage = true;
-                break;
-            }
-            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
+        if((choix == "1") || (choix == "2") || (choix == "3"))
+        {
+            choix_preference = atoi(choix.c_str());
+            passage = true;
+            break;
+        }
+        else
+        {
+            std::cin.ignore();
+            std::cout << "\n   Choisissez une option valide...\n" << std::endl;
+            Sleep(1000);
+        }
 
 
-            }while(passage == false);
+    }
+    while(passage == false);
 
     if(choix_preference == 1)
     {
@@ -697,54 +727,56 @@ void Graphe::personnaliser()
         while(getch() != 13)
         {
 
-        std::cin>> choix_niveau;
+            std::cin>> choix_niveau;
 
-        if(choix_niveau=="debutant")
-        {
-            for(int i = 0 ; i < (int)m_preference.size() ; i++)
+            if(choix_niveau=="debutant")
             {
-                if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+                for(int i = 0 ; i < (int)m_preference.size() ; i++)
                 {
-                    m_preference.erase(m_preference.begin()+i);
+                    if ((m_preference[i] == "N") || (m_preference[i] == "R") || (m_preference[i] == "SURF"))
+                    {
+                        m_preference.erase(m_preference.begin()+i);
+                    }
                 }
+                break;
             }
-            break;
-        }
 
 
-        else if(choix_niveau=="intermediaire")
-        {
-            m_preference.push_back("R");
-            m_preference.push_back("SURF");
-
-            for(int i = 0 ; i < (int)m_preference.size() ; i++)
+            else if(choix_niveau=="intermediaire")
             {
-                if (m_preference[i] == "N")
+                m_preference.push_back("R");
+                m_preference.push_back("SURF");
+
+                for(int i = 0 ; i < (int)m_preference.size() ; i++)
                 {
-                    m_preference.erase(m_preference.begin()+i);
+                    if (m_preference[i] == "N")
+                    {
+                        m_preference.erase(m_preference.begin()+i);
+                    }
                 }
-            }
-            break;
-        }
-
-
-        else if(choix_niveau=="expert")
-        {
-            m_preference.push_back("R");
-            m_preference.push_back("N");
-            m_preference.push_back("SURF");
-            break;
-        }
-
-        else{
-                std::cout << "\n  Choix non valide ! " << std::endl; Sleep(1000);
+                break;
             }
 
-        system("cls");
 
-        std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
-        std::cout<<"\n  Votre choix : ";
-      }
+            else if(choix_niveau=="expert")
+            {
+                m_preference.push_back("R");
+                m_preference.push_back("N");
+                m_preference.push_back("SURF");
+                break;
+            }
+
+            else
+            {
+                std::cout << "\n  Choix non valide ! " << std::endl;
+                Sleep(1000);
+            }
+
+            system("cls");
+
+            std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+            std::cout<<"\n  Votre choix : ";
+        }
     }
 
     if (choix_preference == 2)
@@ -787,8 +819,10 @@ void Graphe::personnaliser()
                 m_preference.push_back("BUS");
             }
 
-            else{
-                std::cout << "\n  Choix non valide ! " << std::endl; Sleep(1000);
+            else
+            {
+                std::cout << "\n  Choix non valide ! " << std::endl;
+                Sleep(1000);
             }
 
             for(int i = 0 ; i < (int)m_preference.size() ; i++)
@@ -860,7 +894,7 @@ void Graphe::personnaliser()
 
             std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
             std::cout << "   Nom de piste a retirer (Retour -> Enter) : ";
-          }
+        }
 
 
 
@@ -928,34 +962,25 @@ void Graphe::ski_de_fond()
 
     for(auto x : resultat_krustal)
     {
-            passage++;
+        passage++;
 
-            poidsTotal += x->getPoids();
-            couleur.couleur_type(x->getType());
-            std::cout << x->getType() << " " << x->getNom();
-            couleur.setColor(0);
-            couleur.couleur(15);
+        poidsTotal += x->getPoids();
+        couleur.couleur_type(x->getType());
+        std::cout << x->getType() << " " << x->getNom();
+        couleur.setColor(0);
+        couleur.couleur(15);
 
-            if(passage != (int)resultat_krustal.size())
-            {
-                std::cout << " <-> ";
-            }
+        if(passage != (int)resultat_krustal.size())
+        {
+            std::cout << " <-> ";
+        }
 
-            if(passage%2)
-            {
-                std::cout<<"\n";
-            }
-    }
-    for(auto x : resultat_krustal)
-    {
-            std::cout << " <- ";
-            couleur.couleur_type(x->getType());
-            std::cout << x->getType() << " " << x->getNom();
-            couleur.setColor(0);
-            couleur.couleur(15);
+        if(passage%2)
+        {
+            std::cout<<"\n";
+        }
     }
 
-    std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
 
     std::cout << "\n Le temps total est de : ";
     couleur.couleur(6);
@@ -1075,7 +1100,8 @@ void Graphe::flots (int depart, int arrivee)
 {
     std::cout << "\n probleme des flots maximums" << std::endl;
     // chargement de la matrice d'adjacence � partir du graphe
-    int matAdj[ORDRE][ORDRE]= {
+    int matAdj[ORDRE][ORDRE]=
+    {
         {0,0,0,0,0,0,0},
         {4,0,0,0,0,0,0},
         {9,0,0,0,0,0,0},
@@ -1160,11 +1186,11 @@ void Graphe::connexion()
             std::cin >> nom_trajet;
 
             if (nom_trajet == "save")
-        {
-            std::ofstream ifs{"admin.txt", std::ios::out | std::ios::app};
+            {
+                std::ofstream ifs{"admin.txt", std::ios::out | std::ios::app};
 
-            if (!ifs)
-            throw std::runtime_error( "Impossible d'ouvrir en ecriture le fichier admin.txt" );
+                if (!ifs)
+                    throw std::runtime_error( "Impossible d'ouvrir en ecriture le fichier admin.txt" );
 
                 for(auto x : piste_enlevee)
                 {
@@ -1172,30 +1198,31 @@ void Graphe::connexion()
                     ifs << x;
                 }
 
-            std::cout << "\n   Sauvegarde reussie !" << std::endl;
-            break;
-        }
-
-        else if(nom_trajet == "reset")
-        {
-
-            for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
-            {
-                piste_enlevee.erase(piste_enlevee.begin()+i);
+                std::cout << "\n   Sauvegarde reussie !" << std::endl;
+                break;
             }
 
-            m_trajets = sauvegarde_trajets;
+            else if(nom_trajet == "reset")
+            {
 
-            std::ofstream fichier ("admin.txt");
+                for(int i = 0 ; i < (int)piste_enlevee.size() ; i++)
+                {
+                    piste_enlevee.erase(piste_enlevee.begin()+i);
+                }
+
+                m_trajets = sauvegarde_trajets;
+
+                std::ofstream fichier ("admin.txt");
 
                 std::cout << "\n   Reset reussi !" << std::endl;
                 break;
 
-        }
+            }
 
-        else{
+            else
+            {
 
-            for(auto x : m_trajets)
+                for(auto x : m_trajets)
                 {
                     if (x->getNom() == nom_trajet)
                     {
@@ -1220,7 +1247,7 @@ void Graphe::connexion()
 
                 std::cout << "\n  Nom de la piste / remontee a exclure \n  => Commandes : save ou reset" << std::endl;
                 std::cout << "\n  Votre choix : ";
-        }
+            }
         }
 
     }
@@ -1229,60 +1256,61 @@ void Graphe::connexion()
     if (!ifs)
         throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
 
-    else{
-
-    std::ifstream ifs{"users.txt",std::ios::in};
-    if (!ifs)
-    throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
-
-    while(!ifs.eof())
+    else
     {
-        ifs >> tampon_nom;
-        ifs >> tampon_date;
 
-        identite_lambda.first = tampon_nom;
-        identite_lambda.second = tampon_date;
+        std::ifstream ifs{"users.txt",std::ios::in};
+        if (!ifs)
+            throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
 
-        ifs>>taille_pref;
-
-        for(int i = 0 ; i < taille_pref ; i++)
+        while(!ifs.eof())
         {
-            ifs>>valeur_pref;
-            tampon_pref.push_back(valeur_pref);
-        }
+            ifs >> tampon_nom;
+            ifs >> tampon_date;
 
-        ifs >> nb_piste_enlevee;
+            identite_lambda.first = tampon_nom;
+            identite_lambda.second = tampon_date;
 
-        if(nb_piste_enlevee != 0)
-        {
-            for(int i = 0 ; i < nb_piste_enlevee ; i++)
+            ifs>>taille_pref;
+
+            for(int i = 0 ; i < taille_pref ; i++)
             {
-                ifs >> piste;
-                tampon_piste.push_back(piste);
+                ifs>>valeur_pref;
+                tampon_pref.push_back(valeur_pref);
             }
+
+            ifs >> nb_piste_enlevee;
+
+            if(nb_piste_enlevee != 0)
+            {
+                for(int i = 0 ; i < nb_piste_enlevee ; i++)
+                {
+                    ifs >> piste;
+                    tampon_piste.push_back(piste);
+                }
+            }
+
+            if(identite_user == identite_lambda)
+            {
+                break;
+            }
+
         }
 
         if(identite_user == identite_lambda)
         {
-            break;
+            m_preference = tampon_pref;
+            piste_enlevee = tampon_piste;
+
+            m_connexion = true;
+
+            std::cout << "\n  Connexion reussie !" << std::endl;
         }
 
-    }
-
-    if(identite_user == identite_lambda)
-    {
-        m_preference = tampon_pref;
-        piste_enlevee = tampon_piste;
-
-        m_connexion = true;
-
-        std::cout << "\n  Connexion reussie !" << std::endl;
-    }
-
-    else if(identite_user != identite_admin)
-    {
-        std::cout << "\n  Vous n'etes pas enregistre !" << std::endl;
-    }
+        else if(identite_user != identite_admin)
+        {
+            std::cout << "\n  Vous n'etes pas enregistre !" << std::endl;
+        }
     }
 }
 

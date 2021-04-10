@@ -68,14 +68,14 @@ void Dessin::petit_cadre(int lig,int col)
 {
     gotoLigCol(lig,col);
     couleur(3);
-    std::cout<<"--------------------------------\n";
+    std::cout<<"-----------------------------------------\n";
     for(int i=0; i<10; i++)
     {
         gotoLigCol(lig+1+i,col);
-        std::cout<<"||                            ||\n";
+        std::cout<<"||                                     ||\n";
     }
     gotoLigCol(lig+10,col);
-    std::cout<<"--------------------------------\n";
+    std::cout<<"-----------------------------------------\n";
 
 }
 
@@ -137,39 +137,7 @@ void Dessin::petit_skieur2(int lig,int col)
 
 }
 
-void Dessin::tire_fesse(int lig,int col)
-{
-    gotoLigCol(lig,col);
-    std::cout<<"  _";
-    gotoLigCol(lig+1,col);
-    std::cout<<"    \\\ ";
-    gotoLigCol(lig+2,col);
-    std::cout<<"     \\\          \\\ ";
-    gotoLigCol(lig+3,col);
-    std::cout<<" ==0_/\\\     ==0_/\\\ ";
-    gotoLigCol(lig+4,col);
-    couleur(5);
-    std::cout<<"  /\\\_ \\\,  ";
-    couleur(15);
-    std::cout<<" \\\,";
-    couleur(6);
-    std::cout<<"     /\\\  ";
-    couleur(15);
-    std::cout<<" \\\_";
-    gotoLigCol(lig+5,col);
-    couleur(8);
-    std::cout<<"  |\\\    ";
-    couleur(10);
-    std::cout<<"    |\\\ \\\    ";
-    gotoLigCol(lig+6,col);
-    couleur(8);
-    std::cout<<" /  |   ";
-    couleur(10);
-    std::cout<<"   /  |     ";
-    couleur(15);
-    gotoLigCol(lig+7,col);
-    std::cout<<"_  _    _  _    ";
-}
+
 
 
 void Dessin::skieur_2(int lig,int col)
@@ -405,13 +373,18 @@ void Dessin::dessin_menu()
 {
     fond_Neige();
     cadre(13,0);
-    petit_cadre(2,80);
+    petit_cadre(2,75);
     Dessin_sapin(9,13);
     les_arcs(2,1);
     petit_skieur(15,65);
     petit_skieur(47,85);
     petit_skieur3(35,68);
     petit_skieur2(22,85);
+}
+
+void Dessin::utilisateur()
+{
+
 }
 
 Dessin::~Dessin()

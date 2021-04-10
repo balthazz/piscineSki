@@ -26,6 +26,7 @@ private :
     std::vector<std::string> m_preference;
     std::vector<std::string> m_preference_initial;
     std::vector<std::string> piste_enlevee;
+    std::vector<std::string> m_trajets_fermes;
 
     Sommet* m_puits;
     Sommet* m_sources;
@@ -78,6 +79,9 @@ public :
     void setPreference(std::vector<std::string> preference){m_preference=preference;}
     std::vector<std::string> getPreference_initial(){return m_preference_initial;}
     void setPreference_initial(std::vector<std::string> preference_initial){m_preference_initial=preference_initial;}
+    std::vector<std::string> getTrajets_fermes(){return m_trajets_fermes;}
+
+
     ///Donne le nom du trajet entre deux sommet donnés
     std::string Nom_Chemin_S1_S2(int s1,int s2);
     ///Donne le type du trajet entre deux sommet donnés
@@ -90,6 +94,9 @@ public :
     std::string nom_du_Trajet_avec_Id(int num);
     ///Donne l'objet Trajet avec son numero
     Trajet* trajet_avec_son_Id(int id);
+    ///Donne l'objet Trajet avec son nom
+    Trajet* trajet_avec_son_nom(std::string nom);
+
     ///Donne trajet a partir de ses extremites
     Trajet* trajet_avec_ses_succ(Sommet* som1,Sommet* som2);
     ///Donne l'objet Sommet avec son numero

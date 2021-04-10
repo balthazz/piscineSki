@@ -28,44 +28,79 @@ std::string menu() // Fonction d'affichage du menu des choix
     std::string c;
     bool passage = false;
     Dessin d;
+    Graphe g{"data_arcs.txt"};
     d.dessin_menu();
 
-   do{
-    d.gotoLigCol(18,4);
-    std::cout << "     BORNE D'INFORMATION - LES ARCS";
-    d.gotoLigCol(20,4);
-    std::cout<<"  1. Affichage du chargement fichier";
-    d.gotoLigCol(22,4);
-    std::cout<<"  2. Information sur un trajet ";
-    d.gotoLigCol(24,4);
-    std::cout<<"  3. Information sur un point de la station ";
-    d.gotoLigCol(26,4);
-    std::cout<<"  4. Tous les plus courts chemins a partir d'un point ";
-    d.gotoLigCol(28,4);
-    std::cout<<"  5. Chemin le plus rapide entre deux points ";
-    d.gotoLigCol(30,4);
-    std::cout<<"  6. Preferences ";
-    d.gotoLigCol(32,4);
-    std::cout<<"  7. Team ski de fond :slight_smile: ";
-    d.gotoLigCol(34,4);
-    std::cout<<"  8. Espace utilisateur ";
-    d.gotoLigCol(36,4);
-    std::cout<<"  9. chemin avec le moins de monde ";
-    d.gotoLigCol(38,4);
-    std::cout<<" 10. Quitter ";
 
-    d.gotoLigCol(40,7);
-
-    std::cout<<"     VOTRE CHOIX : ";
-    std::cin >> c;
-
-    if((c == "1") ||(c == "2") ||(c == "3") ||(c == "4") ||(c == "5") ||(c == "6") ||(c == "7") ||(c == "8") ||(c == "9") ||(c == "10"))
+    if(g.getTrajets_fermes().size()==0)
     {
-        passage = true;
+        d.gotoLigCol(3,78);
+        d.couleur(10);
+        std::cout<<"Aucunes pistes ou remontees fermees ";
+        d.couleur(15);
     }
-    else{std::cout << "\n Choix non valide ! "<<std::endl; Sleep(1000); system("cls");}
+    else if(g.getTrajets_fermes().size()>0)
+    {
+        d.gotoLigCol(3,78);
+        d.couleur(12);
+        std::cout<<"Attention pistes/remontees fermees !";
 
-    }while(passage == false);
+        for(int i=0; i<g.getTrajets_fermes().size(); i++)
+        {
+            std::string tampon=g.getTrajets_fermes()[i];
+            std::string tampon2=g.trajet_avec_son_nom(tampon)->getType();
+            d.couleur_type(tampon2);
+            d.gotoLigCol(5+i,80);
+            std::cout<<"- "<<g.getTrajets_fermes()[i]<<std::endl;
+            d.setColor(0);
+            d.couleur(15);
+        }
+
+    }
+
+    do
+    {
+        d.gotoLigCol(16,4);
+        std::cout << "     BORNE D'INFORMATION - LES ARCS";
+        d.gotoLigCol(19,4);
+        std::cout<<"  1. Affichage du chargement fichier";
+        d.gotoLigCol(21,4);
+        std::cout<<"  2. Information sur un trajet ";
+        d.gotoLigCol(23,4);
+        std::cout<<"  3. Information sur un point de la station ";
+        d.gotoLigCol(25,4);
+        std::cout<<"  4. Tous les plus courts chemins a partir d'un point ";
+        d.gotoLigCol(27,4);
+        std::cout<<"  5. Chemin le plus rapide entre deux points ";
+        d.gotoLigCol(29,4);
+        std::cout<<"  6. Preferences ";
+        d.gotoLigCol(31,4);
+        std::cout<<"  7. Team ski de fond :) ";
+        d.gotoLigCol(33,4);
+        std::cout<<"  8. Espace utilisateur ";
+        d.gotoLigCol(35,4);
+        std::cout<<"  9. chemin avec le moins de monde ";
+        d.gotoLigCol(37,4);
+        std::cout<<" 10. Quitter ";
+
+        d.gotoLigCol(39,7);
+
+        std::cout<<"     VOTRE CHOIX : ";
+        std::cin >> c;
+
+        if((c == "1") ||(c == "2") ||(c == "3") ||(c == "4") ||(c == "5") ||(c == "6") ||(c == "7") ||(c == "8") ||(c == "9") ||(c == "10"))
+        {
+            passage = true;
+        }
+        else
+        {
+            std::cout << "\n Choix non valide ! "<<std::endl;
+            Sleep(1000);
+            system("cls");
+        }
+
+    }
+    while(passage == false);
 
     return c;
 }
@@ -83,8 +118,8 @@ int main()
 
     //g.flots(1,7);
 
-      choix = menu();
-      int choix_menu = atoi(choix.c_str());
+    choix = menu();
+    int choix_menu = atoi(choix.c_str());
 
     while(quitter == false)
     {
@@ -150,25 +185,32 @@ int main()
 
             bool passage = false;
             //Choix de l'algorithme en fonction des besoins
-            do{
-
-            system("cls");
-
-            std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
-            std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
-            std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
-            std::cout << "\n   Votre choix : ";
-            std::cin >> num;
-
-            if((num == "1") || (num == "2") || (num == "3"))
+            do
             {
-                num1 = atoi(num.c_str());
-                passage = true;
+
+                system("cls");
+
+                std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
+                std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
+                std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
+                std::cout << "\n   Votre choix : ";
+                std::cin >> num;
+
+                if((num == "1") || (num == "2") || (num == "3"))
+                {
+                    num1 = atoi(num.c_str());
+                    passage = true;
+                }
+
+                else
+                {
+                    std::cin.ignore();
+                    std::cout << "\n   Choisissez une option valide...\n" << std::endl;
+                    Sleep(1000);
+                }
+
             }
-
-            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
-
-            }while(passage == false);
+            while(passage == false);
 
             std::cout<<std::endl<<"\n   Votre point de la station : ";
             std::cin>>num2;
@@ -230,27 +272,34 @@ int main()
         {
             bool passage = false;
 
-            do{
-
-            system("cls");
-
-            //Choix de l'algorithme en fonction des besoins
-            std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
-            std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
-            std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
-
-            std::cout << "\n   Votre choix : ";
-            std::cin >> num;
-
-            if((num == "1") || (num == "2") || (num == "3"))
+            do
             {
-                num1 = atoi(num.c_str());
-                passage = true;
-                break;
-            }
-            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
 
-            }while(passage == false);
+                system("cls");
+
+                //Choix de l'algorithme en fonction des besoins
+                std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
+                std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
+                std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
+
+                std::cout << "\n   Votre choix : ";
+                std::cin >> num;
+
+                if((num == "1") || (num == "2") || (num == "3"))
+                {
+                    num1 = atoi(num.c_str());
+                    passage = true;
+                    break;
+                }
+                else
+                {
+                    std::cin.ignore();
+                    std::cout << "\n   Choisissez une option valide...\n" << std::endl;
+                    Sleep(1000);
+                }
+
+            }
+            while(passage == false);
 
             std::cout<<"\n Sommet de depart : ";
             std::cin >> depart;
@@ -271,7 +320,7 @@ int main()
                 g.Dijkstra(depart,arrivee,0);
             }
 
-             if (num1 == 3)
+            if (num1 == 3)
             {
                 double temps;
                 std::cout<<"\n   Vous souhaitez arriver dans combien de temps ?" << std::endl;
@@ -303,6 +352,8 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
+
             }
 
             break;
@@ -310,30 +361,31 @@ int main()
         }
 
         case 7:
-            {
-                system("cls");
+        {
+            system("cls");
 
-                g.ski_de_fond();
-                retour_menu = fin_tache();
-                if(retour_menu)
-                {
+            g.ski_de_fond();
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
                 system("cls");
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
-                }
-                break;
             }
+            break;
+        }
 
         case 8:
-            {
+        {
 
-             bool passage = false;
-             std::string choix_utilisateur;
+            bool passage = false;
+            std::string choix_utilisateur;
             //Choix de l'algorithme en fonction des besoins
 
-            do{
+            do
+            {
 
-            system("cls");
+                system("cls");
 
                 std::cout << "\n  ESPACE UTILISATEUR" << std::endl;
                 std::cout << "\n  1. Se connecter" << std::endl;
@@ -342,30 +394,45 @@ int main()
                 std::cout << "\n  Votre choix : ";
                 std::cin >> choix_utilisateur;
 
-            if((choix_utilisateur == "1") || (choix_utilisateur == "2") || (choix_utilisateur == "3"))
+                if((choix_utilisateur == "1") || (choix_utilisateur == "2") || (choix_utilisateur == "3"))
+                {
+                    passage = true;
+                    break;
+                }
+
+                else
+                {
+                    std::cin.ignore();
+                    std::cout << "\n   Choisissez une option valide...\n" << std::endl;
+                    Sleep(1000);
+                }
+
+            }
+            while(passage == false);
+
+
+            if(choix_utilisateur == "1")
             {
-                passage = true;
-                break;
+                g.connexion();
+            }
+            else if(choix_utilisateur == "2")
+            {
+                g.deconnexion();
+            }
+            else if (choix_utilisateur == "3")
+            {
+                g.sauvegarde();
             }
 
-            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
-
-            }while(passage == false);
-
-
-                if(choix_utilisateur == "1"){g.connexion();}
-                else if(choix_utilisateur == "2"){g.deconnexion();}
-                else if (choix_utilisateur == "3"){g.sauvegarde();}
-
-                retour_menu = fin_tache();
-                if(retour_menu)
-                {
+            retour_menu = fin_tache();
+            if(retour_menu)
+            {
                 system("cls");
                 choix = menu();
                 choix_menu = atoi(choix.c_str());
-                }
-                break;
             }
+            break;
+        }
 
         case 9:
         {
