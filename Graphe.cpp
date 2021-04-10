@@ -111,14 +111,22 @@ Graphe::Graphe(std::string nomFichier)
 
 
 
-void Graphe::Dijkstra(int depart,int arrivee)
+void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference,int condition_temps)
 {
 
     ///initialisations
     //initialisation de notre tampon pair utilis� dans l'algo.
     std::pair<Sommet*,double> p;
+    std::pair<Sommet*,double> tampon;
 
     bool comparaison;
+
+    int temps=9999;
+
+    if(condition_temps>0)
+    {
+        temps=condition_temps;
+    }
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
     std::vector<int> pred(m_sommets.size(),-1);
@@ -168,7 +176,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
 
-                for(auto pref : m_preference)
+                for(auto pref : preference)
                 {
                     if(trajet_avec_ses_succ(p.first,succ.first)->getType() == pref)
                     {
@@ -190,7 +198,7 @@ void Graphe::Dijkstra(int depart,int arrivee)
                 }
                }
 
-                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas �t� marqu�
+                if ((succ.first->getMarque()== false) /*&& (comparaison == true)*/) // si le successeur n'a pas �t� marqu�
                 {
 
                     // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'� ce predecesseur
@@ -211,14 +219,38 @@ void Graphe::Dijkstra(int depart,int arrivee)
 
     ///Affichage des r�sultats
     ///Valeur du poids
+
     std::cout << "\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : ";
     couleur.couleur(6);
     std::cout << m_sommets[arrivee-1]->getDistance();
     couleur.couleur(15);
-    std::cout << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+    std::cout << " minutes ";
 
+    ///si il y a une condition de temps et qu'elle est respectée
+    if((m_sommets[arrivee-1]->getDistance()<=temps) && condition_temps!=0)
+    {
+        std::cout<<"<--";
+        couleur.couleur(10);
+        std::cout <<" TEMPS SUFFISANT "<< std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+        couleur.couleur(15);
+    }
+
+    ///si il y a une condition de temps et qu'elle n'est pas respectée
+    else if((m_sommets[arrivee-1]->getDistance()>temps) && condition_temps!=0)
+    {
+        int depassement=m_sommets[arrivee-1]->getDistance()-temps;
+        std::cout<<"<--";
+        couleur.couleur(4);
+        std::cout <<" TEMPS INSUFFISANT  +"<<depassement<<" minutes" <<std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+        couleur.setColor(0);
+        couleur.couleur(15);
+    }
     ///Chemin parcouru
-    std::cout << "\n" << arrivee;
+
+
+
+  std::cout << "\n\n" << arrivee;
+
 
     int x = arrivee;
 
@@ -235,6 +267,10 @@ void Graphe::Dijkstra(int depart,int arrivee)
     }
 
     std::cout << "\n";
+
+
+
+
 }
 
 /// Parcours BFS
@@ -483,8 +519,8 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
             couleur.couleur_type(m);
             std::cout<<m<<" ";
             std::cout<<n<<" ";
-            couleur.couleur(15);
             couleur.setColor(0);
+            couleur.couleur(15);
             std::cout<<"<--";
             poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
@@ -903,6 +939,15 @@ void Graphe::ski_de_fond()
         x->afficher(); //On affiche les ar�tes et leurs poids
 
         std::cout << "\n";
+    }
+
+    for(auto x : resultat_krustal)
+    {
+            std::cout << " <- ";
+            couleur.couleur_type(x->getType());
+            std::cout << x->getType() << " " << x->getNom();
+            couleur.setColor(0);
+            couleur.couleur(15);
     }
 
     std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
