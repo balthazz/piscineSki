@@ -888,37 +888,42 @@ void Graphe::ski_de_fond()
             }
         }
 
-        nombre_tour++; // On incr�mente le nombre de tour
+        nombre_tour++; // On incremente le nombre de tour
     }
 
 
-    //Affichage du r�sultat !
+    //Affichage du resultat !
 
-    std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
+    std::cout << "\n Chemin maximum couvrant la station pour le ski de fond :) \n" << std::endl;
 
-//    for(auto x : resultat_krustal)
-//    {
-//        poidsTotal += x->getPoids(); //On incr�mente le poids total pour chaque sommet dans l'arbre
-//
-//        x->afficher(); //On affiche les ar�tes et leurs poids
-//
-//        std::cout << "\n";
-//    }
+    int passage = 0;
 
     for(auto x : resultat_krustal)
     {
+            passage++;
+
+            poidsTotal += x->getPoids();
             couleur.couleur_type(x->getType());
             std::cout << x->getType() << " " << x->getNom();
             couleur.setColor(0);
             couleur.couleur(15);
-            std::cout << " <-> ";
 
+            if(passage != (int)resultat_krustal.size())
+            {
+                std::cout << " <-> ";
+            }
+
+            if(passage%2)
+            {
+                std::cout<<"\n";
+            }
     }
 
-    std::cout << "\n Le temps total est de : " << poidsTotal << " minutes" << std::endl; // Affichage du poids total de l'arbre
-
-//        std::cout << trajets_pistes.size() << std::endl;
-//        std::cout << resultat_krustal.size() << std::endl;
+    std::cout << "\n Le temps total est de : ";
+    couleur.couleur(6);
+    std::cout << poidsTotal;
+    couleur.couleur(15);
+    std::cout << " minutes" << std::endl;
 }
 
 bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'�cart

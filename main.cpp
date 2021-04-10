@@ -54,16 +54,17 @@ std::string menu() // Fonction d'affichage du menu des choix
     std::cout<<" 10. Quitter ";
 
     d.gotoLigCol(40,7);
+
     std::cout<<"     VOTRE CHOIX : ";
     std::cin >> c;
+
     if((c == "1") ||(c == "2") ||(c == "3") ||(c == "4") ||(c == "5") ||(c == "6") ||(c == "7") ||(c == "8") ||(c == "9") ||(c == "10"))
     {
         passage = true;
-        break;
     }
     else{std::cout << "\n Choix non valide ! "<<std::endl; Sleep(1000); system("cls");}
 
-  }while(passage == false);
+    }while(passage == false);
 
     return c;
 }
@@ -98,10 +99,12 @@ int main()
             g.afficher_sommet();
             g.afficher_arc();
             retour_menu = fin_tache();
+
             if(retour_menu)
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
@@ -119,6 +122,7 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
@@ -135,6 +139,7 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
@@ -158,7 +163,6 @@ int main()
             {
                 num1 = atoi(num.c_str());
                 passage = true;
-                break;
             }
 
             else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
@@ -196,6 +200,7 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
@@ -249,6 +254,7 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
@@ -281,6 +287,7 @@ int main()
                 {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
                 }
                 break;
             }
@@ -323,6 +330,7 @@ int main()
                 {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
                 }
                 break;
             }
@@ -345,6 +353,7 @@ int main()
             {
                 system("cls");
                 choix = menu();
+                choix_menu = atoi(choix.c_str());
             }
 
             break;
