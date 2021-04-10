@@ -488,57 +488,57 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 {
     double poids = 0;
     std::vector<int> tampon;
-        for(size_t i=0; i<arbre.size(); ++i)
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
+        if(i==num2)
         {
-            if(i==num2)
+            tampon.push_back(i);
+        }
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
             {
-                tampon.push_back(i);
-            }
-            if(i!=num)
-            {
-                if(arbre[i]!=-1)
+                size_t j=arbre[i];
+                if(i==num2)
                 {
-                    size_t j=arbre[i];
+                    tampon.push_back(j);
+                }
+
+                while(j!=num)
+                {
+                    j=arbre[j];
                     if(i==num2)
                     {
                         tampon.push_back(j);
                     }
-
-                    while(j!=num)
-                    {
-                        j=arbre[j];
-                        if(i==num2)
-                        {
-                            tampon.push_back(j);
-                        }
-                    }
                 }
             }
+        }
 
-        }
-        for(int i=0; i<(int)tampon.size(); i++)
+    }
+    for(int i=0; i<(int)tampon.size(); i++)
+    {
+        int tmp;
+        tmp=tampon[i+1];
+        std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
+        std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
+        if(tampon[i]!=(int)num)
         {
-            int tmp;
-            tmp=tampon[i+1];
-            std::string m=Type_Chemin_S1_S2(tmp,tampon[i]);
-            std::string n=Nom_Chemin_S1_S2(tmp,tampon[i]);
-            if(tampon[i]!=(int)num)
-            {
-                std::cout<<tampon[i]<<"<--";
-                couleur.couleur_type(m);
-                std::cout<<m<<" ";
-                std::cout<<n<<" ";
-                couleur.setColor(0);
-                couleur.couleur(15);
-                std::cout<<"<--";
-                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-            }
-            else
-            {
-                std::cout<<tampon[i];
-                poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
-            }
+            std::cout<<tampon[i]<<"<--";
+            couleur.couleur_type(m);
+            std::cout<<m<<" ";
+            std::cout<<n<<" ";
+            couleur.setColor(0);
+            couleur.couleur(15);
+            std::cout<<"<--";
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
         }
+        else
+        {
+            std::cout<<tampon[i];
+            poids=poids+Poids_Chemin_S1_S2(tmp,tampon[i]);
+        }
+    }
 
     std::cout<<"\n Temps : "<<poids<<" minutes"<<std::endl;
 
@@ -1015,91 +1015,30 @@ void Graphe::prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE])
         marque[Trajet_puit[i]]=true;
     }
 }
-//bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'�cart
-//{
-//    bool marque[ORDRE];
-//    for (int j=0; j>ORDRE; j++)
-//    {
-//        marque[j]=false; //initialisation de tous les somments a 0
-//    }
-//
-//    prepareSourcesFord( depart, arrivee, marque);
-//
-//    //marquage des flot entrant dansla source
-//    //marquage des arretes sortant du puit
-//
-//    std::queue<int> file;
-//    file.push(depart);
-//    marque[depart]=true; //on marque le premier sommet (la source)
-//    pred[depart]=-1;
-//
-//    while (!file.empty()) //loop du BFS
-//    {
-//        int i = file.front();
-//        file.pop();
-//
-//        for (int j=0; j<ORDRE; j++)
-//        {
-////    for (int i=0; i<ORDRE; i++)
-////    {
-////        for (int j=0; j<ORDRE; j++)
-////        {
-////            std::cout << graphEc[i][j] <<" ";                          ///le graphe s'affiche correctement
-////        }
-////        std::cout <<std::endl;
-////    }
-//
-////              std::cout <<" graphe ecart = "<<graphEc[i][j]<< "         j="<<j<<" i="<<i<<std::endl;
-//            if(marque[j]==false && graphEc[i][j]>0)
-//            {
-//                std::cout << "boucle"<<std::endl;
-//                if (j==arrivee)
-//                {
-//                    pred[j] = i; //  il y a un chemin entre la source et le puit
-//                    std::cout << "fiiin"<<pred[j]<<std::endl<<std::endl;
-//                    return true;
-//                }
-//                file.push(j);
-//                pred[j] = i;
-//                marque[j] = true;
-//            }
-//            std::cout << " j "<<j<<" i "<<i<<" graphe ecart = "<<graphEc[i][j]<<" marquee? " <<marque[j]<< "    pred [j]"<<  pred[j] <<std::endl;
-//        }
-//    }
-//    return false;
-//}
-
-
-// internet
 
 bool bfsFord(int rGraph[V][V], int s, int t, int parent[])
 {
-    // Create a visited array and mark all vertices as not
-    // visited
-    bool visited[V];
+
+    bool visited[V]; //tableau de marquage
     memset(visited, 0, sizeof(visited));
 
 //    prepareSourcesFord(s,t,visited[ORDRE]);
 
-    // Create a queue, enqueue source vertex and mark source
-    // vertex as visited
     std::queue<int> q;
     q.push(s);
     visited[s] = true;
     parent[s] = -1;
 
     // Standard BFS Loop
-    while (!q.empty()) {
+    while (!q.empty())
+    {
         int u = q.front();
         q.pop();
 
         for (int v = 0; v < V; v++)
+        {
+            if (visited[v] == false && rGraph[u][v] > 0)
             {
-            if (visited[v] == false && rGraph[u][v] > 0) {
-                // If we find a connection to the sink node,
-                // then there is no point in BFS anymore We
-                // just have to set its parent and can return
-                // true
                 if (v == t)
                 {
                     parent[v] = u;
@@ -1111,62 +1050,43 @@ bool bfsFord(int rGraph[V][V], int s, int t, int parent[])
             }
         }
     }
-
-    // We didn't reach sink in BFS starting from source, so
-    // return false
     return false;
 }
 
-// Returns the maximum flow from s to t in the given graph
+//retourne le flot max
 int fordFulkerson(int graph[V][V], int s, int t)
 {
     int u, v;
 
-    // Create a residual graph and fill the residual graph
-    // with given capacities in the original graph as
-    // residual capacities in residual graph
-    int rGraph[V]
-              [V]; // Residual graph where rGraph[i][j]
-                   // indicates residual capacity of edge
-                   // from i to j (if there is an edge. If
-                   // rGraph[i][j] is 0, then there is not)
-
+// création d'un graphe d'écart
+    int rGraph[V][V];
 
     for (u = 0; u < V; u++)
         for (v = 0; v < V; v++)
             rGraph[u][v] = graph[u][v];
 
-    int parent[V]; // This array is filled by BFS and to
-                   // store path
+    int parent[V]; // tablea qui enregistre les chemins parcourus de la source au puit
 
-    int max_flow = 0; // There is no flow initially
+    int max_flow = 0; // initialisation du flot a 0
 
-    // Augment the flow while tere is path from source to
-    // sink
-    while (bfsFord(rGraph, s, t, parent)) {
-        // Find minimum residual capacity of the edges along
-        // the path filled by BFS. Or we can say find the
-        // maximum flow through the path found.
+    while (bfsFord(rGraph, s, t, parent))
+    {
         int path_flow = INT_MAX;
-        for (v = t; v != s; v = parent[v]) {
+        for (v = t; v != s; v = parent[v])
+        {
             u = parent[v];
             path_flow = std::min(path_flow, rGraph[u][v]);
         }
-
-        // update residual capacities of the edges and
-        // reverse edges along the path
-        for (v = t; v != s; v = parent[v]) {
+        for (v = t; v != s; v = parent[v])
+        {
             u = parent[v];
             rGraph[u][v] -= path_flow;
             rGraph[v][u] += path_flow;
         }
 
-        // Add path flow to overall flow
-        max_flow += path_flow;
+        max_flow += path_flow;//actualise le flot maximum
     }
-
-    // Return the overall flow
-    return max_flow;
+    return max_flow;//retourne le flot maximum
 }
 
 
@@ -1177,7 +1097,7 @@ void Graphe::flots (int depart, int arrivee)
 {
     std::cout << "\n probleme des flots maximums" << std::endl;
 
-        int matAdj[ORDRE][ORDRE];
+    int matAdj[ORDRE][ORDRE];
 
     // chargement de la matrice d'adjacence � partir du graphe
     for (int i=0; i<ORDRE; i++)
@@ -1187,21 +1107,12 @@ void Graphe::flots (int depart, int arrivee)
             matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
         }
     }
+
     for(int i=0; i<(int)m_trajets.size(); i++)
     {
         std::pair<Sommet*,Sommet*> tampon=m_trajets[i]->getExtremites();
-        matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacit�
-//        std::cout <<  matAdj[tampon.first->getNum()][tampon.second->getNum()] <<" "<< std::endl; // affiche les flots des sommets
+        matAdj[tampon.first->getNum()][tampon.second->getNum()] = m_trajets[i]->getCapacity();// parours des arretes , pour chaque arrete on entre la capacitee
     }
-
-//    for (int i=0; i<ORDRE; i++)
-//    {
-//        for (int j=0; j<ORDRE; j++)
-//        {
-//            std::cout << matAdj[i][j] <<" ";      // affiche le tableau d'adjacence
-//        }
-//        std::cout <<std::endl;
-//    }
 
     int maxFlot;
     maxFlot = fordFulkerson(matAdj,depart-1,arrivee-1);  //appel de l'algo de ford-fulkerson
