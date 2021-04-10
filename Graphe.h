@@ -100,7 +100,7 @@ public :
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();
     void personnaliser();
-    void kruskal();
+    void ski_de_fond();
     void gotoLigCol(int lig, int col);
     void Dessin_skieur();
     void fond_Neige();

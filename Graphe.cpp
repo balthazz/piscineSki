@@ -86,7 +86,7 @@ Graphe::Graphe(std::string nomFichier)
             }
         }
 
-///Liste des successeurs pour v�rification
+///Liste des successeurs pour verification
 //    for(auto y : m_sommets)
 //    {
 //        y->afficher();
@@ -116,6 +116,8 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     ///initialisations
     //initialisation de notre tampon pair utilis� dans l'algo.
     std::pair<Sommet*,double> p;
+    std::pair<Sommet*,double> tampon;
+
     bool comparaison;
 
     //on initialise le vecteur des predecesseurs pour chaque sommet avec la valeur -1.
@@ -130,7 +132,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     //D�claration de la fonction de comparaison utilis�e par la priority_queue
     auto compare = [](std::pair<Sommet*,double> a, std::pair<Sommet*,double> b)
     {
-        return b.second < a.second;
+        return b.first->getDistance() < a.first->getDistance();
     };
 
     //D�claration de la file de priorit�
@@ -156,12 +158,12 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
 
     while (!file.empty()) //tant que notre file n'est pas vide on continue.
     {
-        p = file.top(); //je consid�re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
-        file.pop();//je le supprime pour ne pas retomber dessus
+         p = file.top(); //je consid�re que p est le successeur avec le plus cours chemin, je le choisi donc pour le reste de la boucle
+         file.pop();//je le supprime pour ne pas retomber dessus
 
-        if (p.first->getMarque()==false) // si le sommet n'a pas �t� marqu�
-        {
-            p.first->setMarque(true); //on marque le sommet
+         if (p.first->getMarque()==false) // si le sommet n'a pas été marqué
+            {
+              p.first->setMarque(true);
 
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
@@ -179,25 +181,41 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
                     }
                 }
 
-                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas �t� marqu�
+                for(auto x : piste_enlevee)
+               {
+                if(trajet_avec_ses_succ(p.first,succ.first)->getNom() == x)
                 {
+                    comparaison = false;
+                    break;
+                }
+               }
+
+                if ((succ.first->getMarque()== false) /*&& (comparaison == true)*/) // si le successeur n'a pas �t� marqu�
+                {
+
                     // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'� ce predecesseur
                     double addition = p.first->getDistance() + succ.second;
 
                     if (addition < succ.first->getDistance()) //si ce chemin est plus petit que le pr�c�dent chemin enregistr� alors on le remplace
                     {
+
                         succ.first->setDistance(addition); //on d�finit la nouvelle distance (plus courte) entre le d�part et ce nouveau point(qui est un successeur du sommet qu'on �tudiait)
                         pred[succ.first->getNum()] =  p.first->getNum(); // On sauvegarde le predecesseur pour avoir une trace de notre chemin.
                         file.push(succ); //Enfin, on rajoute notre successeur � la file de priorit�.
 
                     }
                 }
-            }
+           }
         }
     }
+
     ///Affichage des r�sultats
     ///Valeur du poids
-    std::cout<<"\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : "<< m_sommets[arrivee-1]->getDistance() << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
+    std::cout << "\n\n Le chemin le plus court entre le sommet "<< depart <<" et le sommet "<< arrivee <<" est de : ";
+    couleur.couleur(6);
+    std::cout << m_sommets[arrivee-1]->getDistance();
+    couleur.couleur(15);
+    std::cout << " minutes." << std::endl; //on affiche le plus court chemin entre les deux sommets choisis
 
     ///Chemin parcouru
     std::cout << "\n" << arrivee;
@@ -207,23 +225,19 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     //On parcourt notre vecteurs de predecesseurs.
     for (int p = pred[arrivee]; p != -1; p = pred[p])
     {
-        if(p <= (int)m_sommets.size())
-        {
-
-            std::cout << " <- " << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x) << " <- " << p;
+            std::cout << " <- ";
+            couleur.couleur_type(Type_Chemin_S1_S2(p,x));
+            std::cout << Type_Chemin_S1_S2(p,x) << " " << Nom_Chemin_S1_S2(p,x);
+            couleur.setColor(0);
+            couleur.couleur(15);
+            std::cout << " <- " << p;
             x = p;
-
-        }
-
-        else
-        {
-            break;
-        }
     }
+
     std::cout << "\n";
 }
 
-bool Graphe::finParcours(std::vector<double> &parcours)
+/*bool Graphe::finParcours(std::vector<double> &parcours)
 {
     for(int i = 0 ; i < (int)parcours.size() ; i++)
     {
@@ -231,7 +245,7 @@ bool Graphe::finParcours(std::vector<double> &parcours)
             return false;
     }
     return true;
-}
+}*/
 
 /*void Graphe::Dijkstra(int depart,int arrive)
 {
@@ -879,7 +893,7 @@ void Graphe::personnaliser()
 
 }
 
-void Graphe::kruskal()
+void Graphe::ski_de_fond()
 {
     //Initialisation des variables principales
     std::vector<Trajet*> resultat_krustal; //Notre arbre vide

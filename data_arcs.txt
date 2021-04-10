@@ -36,7 +36,7 @@
 35	35	              1830		
 36	arc1800	              1715		
 37	37	              2100		
-95
+97
 1	aiguille-rouge	     TPH	12	5	1200
 2	aiguille-rouge1	     N	        5	4	3000
 3	aiguille-rouge2      N	        4	3	3000
@@ -132,3 +132,5 @@
 93	villaroger1	     B	        8	2	2500
 94	villaroger2	     B	        2	1	2500
 95	vitesse	             KL	        12	6	500
+96      Ausetaint            V          6       8       2000
+97      Emicozar             V          29      20      2000

@@ -8,7 +8,6 @@
 
 #define valeur_max 9999
 
-
 #include "Graphe.h"
 
 
@@ -40,20 +39,33 @@ int menu() // Fonction d'affichage du menu des choix
     afficherTemps(temps); */
 
     int choix_menu;
+    Dessin d;
 
-    std::cout << "\n     Borne d'information - les Arcs" << std::endl;
-    std::cout<<"\n  1. Affichage du chargement fichier" << std::endl;
-    std::cout<<"  2. Information sur un trajet " << std::endl;
-    std::cout<<"  3. Information sur un point de la station " << std::endl;
-    std::cout<<"  4. Tous les plus courts chemins a partir d'un point " << std::endl;
-    std::cout<<"  5. Chemin le plus rapide entre deux points " << std::endl;
-    std::cout<<"  6. Preferences " << std::endl;
-    std::cout<<"  7. Team ski de fond :) " << std::endl;
-    std::cout<<"  8. Espace utilisateur " << std::endl;
-    std::cout<<"  9. chemin avec le moins de monde " << std::endl;
-    std::cout<<" 10. Quitter " << std::endl;
+    d.gotoLigCol(18,4);
+    std::cout << "     BORNE D'INFORMATION - LES ARCS";
+    d.gotoLigCol(20,4);
+    std::cout<<"  1. Affichage du chargement fichier";
+    d.gotoLigCol(22,4);
+    std::cout<<"  2. Information sur un trajet ";
+    d.gotoLigCol(24,4);
+    std::cout<<"  3. Information sur un point de la station ";
+    d.gotoLigCol(26,4);
+    std::cout<<"  4. Tous les plus courts chemins a partir d'un point ";
+    d.gotoLigCol(28,4);
+    std::cout<<"  5. Chemin le plus rapide entre deux points ";
+    d.gotoLigCol(30,4);
+    std::cout<<"  6. Preferences ";
+    d.gotoLigCol(32,4);
+    std::cout<<"  7. Team ski de fond :slight_smile: ";
+    d.gotoLigCol(34,4);
+    std::cout<<"  8. Espace utilisateur ";
+    d.gotoLigCol(36,4);
+    std::cout<<"  9. chemin avec le moins de monde ";
+    d.gotoLigCol(38,4);
+    std::cout<<" 10. Quitter ";
 
-    std::cout<<"\n     Votre choix : ";
+    d.gotoLigCol(40,7);
+    std::cout<<"     VOTRE CHOIX : ";
     std::cin >> choix_menu;
 
     return choix_menu;
@@ -64,21 +76,13 @@ int main()
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
     Dessin d;
-    //d.fond_Neige();
-    //d.cadre();
-    //d.petit_cadre();
-    //d.Dessin_sapin(11,13);
-    //system("PAUSE");
-    //d.gotoLigCol(9,0);
+    d.dessin_menu();
     //Initialisation variables
     int depart, arrivee, num1, num2, choix = 0;
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
-    std::cout << "\n            Projet piscine" << std::endl;
-
-    g.flots(1,7);
-
+    //g.flots(1,7);
 
     choix = menu();
 
@@ -89,6 +93,8 @@ int main()
         {
         case 1 :
         {
+            system("cls");
+
             ///Affichage du chargement du graphe.
             g.afficher_sommet();
             g.afficher_arc();
@@ -106,6 +112,8 @@ int main()
 
         case 2:
         {
+            system("cls");
+
             g.infoTrajet();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -120,6 +128,8 @@ int main()
 
         case 3:
         {
+            system("cls");
+
             g.infoSommet();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -133,6 +143,8 @@ int main()
 
         case 4:
         {
+            system("cls");
+
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
             std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
@@ -177,6 +189,7 @@ int main()
 
         case 5:
         {
+            system("cls");
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
             std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
@@ -215,6 +228,8 @@ int main()
 
         case 6:
         {
+            system("cls");
+
             g.personnaliser();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -229,7 +244,9 @@ int main()
 
         case 7:
             {
-                g.kruskal();
+                system("cls");
+
+                g.ski_de_fond();
                 retour_menu = fin_tache();
                 if(retour_menu)
                 {
@@ -241,6 +258,8 @@ int main()
 
         case 8:
             {
+                system("cls");
+
                 int choix_utilisateur;
                 std::cout << "\n  ESPACE UTILISATEUR" << std::endl;
                 std::cout << "\n  1. Se connecter" << std::endl;
@@ -264,6 +283,8 @@ int main()
 
         case 9:
         {
+            system("cls");
+
             std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
             std::cin >> depart;
 
