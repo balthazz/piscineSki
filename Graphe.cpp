@@ -932,13 +932,23 @@ void Graphe::ski_de_fond()
 
     std::cout << "\n Chemin maximum couvrant la station : \n" << std::endl;
 
+//    for(auto x : resultat_krustal)
+//    {
+//        poidsTotal += x->getPoids(); //On incr�mente le poids total pour chaque sommet dans l'arbre
+//
+//        x->afficher(); //On affiche les ar�tes et leurs poids
+//
+//        std::cout << "\n";
+//    }
+
     for(auto x : resultat_krustal)
     {
-        poidsTotal += x->getPoids(); //On incr�mente le poids total pour chaque sommet dans l'arbre
+            couleur.couleur_type(x->getType());
+            std::cout << x->getType() << " " << x->getNom();
+            couleur.setColor(0);
+            couleur.couleur(15);
+            std::cout << " <-> ";
 
-        x->afficher(); //On affiche les ar�tes et leurs poids
-
-        std::cout << "\n";
     }
 
     for(auto x : resultat_krustal)
