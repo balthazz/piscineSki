@@ -69,6 +69,7 @@ Graphe::Graphe(std::string nomFichier)
     sauvegarde_sommets = m_sommets;
 
     std::string trajet;
+
     std::ifstream fichier ("admin.txt");
     if(!fichier)
         {throw std::runtime_error("Impossible d'ouvrir en lecture admin.txt");}
@@ -110,13 +111,12 @@ Graphe::Graphe(std::string nomFichier)
 
 
 
-void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference)
+void Graphe::Dijkstra(int depart,int arrivee)
 {
 
     ///initialisations
     //initialisation de notre tampon pair utilis� dans l'algo.
     std::pair<Sommet*,double> p;
-    std::pair<Sommet*,double> tampon;
 
     bool comparaison;
 
@@ -168,7 +168,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
             for (auto succ : p.first->getSuccesseurs()) //pour chaque successeur :
             {
 
-                for(auto pref : preference)
+                for(auto pref : m_preference)
                 {
                     if(trajet_avec_ses_succ(p.first,succ.first)->getType() == pref)
                     {
@@ -190,7 +190,7 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
                 }
                }
 
-                if ((succ.first->getMarque()== false) /*&& (comparaison == true)*/) // si le successeur n'a pas �t� marqu�
+                if ((succ.first->getMarque()== false) && (comparaison == true)) // si le successeur n'a pas �t� marqu�
                 {
 
                     // on calcule le chemin parcourure jusqu'au sommet s, on additionne le poid du chemin jusqu'� ce predecesseur
@@ -237,97 +237,8 @@ void Graphe::Dijkstra(int depart,int arrivee,std::vector<std::string> preference
     std::cout << "\n";
 }
 
-/*bool Graphe::finParcours(std::vector<double> &parcours)
-{
-    for(int i = 0 ; i < (int)parcours.size() ; i++)
-    {
-        if(parcours[i] != -1)
-            return false;
-    }
-    return true;
-}*/
-
-/*void Graphe::Dijkstra(int depart,int arrive)
-{
-    // -1 represente les colonnes finies ,tableau qui stoque les poids
-    std::vector<double> parcours(m_sommets.size(),-1);
-    //chaque sommet a un predecesseur qaund on le parcourt , son parent
-    std::vector<Sommet*> parents;
-    //stoque l'accumulation des poids
-    double poids;
-    double ancien_poids;
-    //chaque sommet est son propre parent au depart
-
-    for(int i=0; i<m_sommets.size(); i++)
-    {
-        parents.push_back(sommet_avec_son_Id(i));
-    }
-    Sommet* somDepart=sommet_avec_son_Id(depart);
-    Sommet* somArrive=sommet_avec_son_Id(arrive);
-    Sommet* somActif;
-
-    somActif=somDepart;
-
-    do
-    {
-        //ajouter ses successeurs au tableau des chemins
-        for(int i = 0 ; i < somActif->getSuccesseurs().size(); i++)
-        {
-            if(somActif->getSuccesseurs()[i].first != parents[somActif->getNum()])
-            {
-                if(somActif->getSuccesseurs()[i].second + poids < parcours[somActif->getSuccesseurs()[i].first->getNum()] || parcours[somActif->getSuccesseurs()[i].first->getNum()] == -1)
-                {
-                    parcours[somActif->getSuccesseurs()[i].first->getNum()] = somActif->getSuccesseurs()[i].second + poids;
-                    parents[somActif->getSuccesseurs()[i].first->getNum()] = somActif;
-                }
-            }
-        }
-        //On regarde quel est le poid le plus petit
-        int minVal = 15000;
-        Sommet* minSom;
-
-        for(int i = 0 ; i < parcours.size() ; i++)
-        {
-            if(parcours[i] != -1 && parcours[i] < minVal)
-            {
-                minVal = parcours[i];
-                minSom = sommet_avec_son_Id(i);
-            }
-        }
-        //minSom est le sommet avec le chemin le plus petit, on va vers lui en lui disant qui est son parent et on enleve son chemin
-        somActif = minSom;
-        poids = parcours[somActif->getNum()];
-        parcours[somActif->getNum()] = -1;
-
-    }while(somActif != somArrive && !finParcours(parcours));
-
-
-     int j = somArrive->getNum();
-     std::cout<< j << " <- " ;
-
-    do
-    {
-        j=parents[j]->getNum();
-        std::cout<< j << " <- " ;
-
-        if (j == somDepart->getNum())
-        {
-            break;
-        }
-    }
-    while(j != somDepart->getNum());
-
-//     for(const auto& x : parents)
-//     {
-//         std::cout << x->getNum() << " <- ";
-//     }
-
-
-}*/
-
-
 /// Parcours BFS
-std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
+std::vector<int> Graphe::BFS(int num_S0)
 {
 
     std::queue<Sommet*>pile;
@@ -352,7 +263,7 @@ std::vector<int> Graphe::BFS(int num_S0,std::vector<std::string> preference)
 
         for(auto succ : so->getSuccesseurs())
         {
-            for(auto pref : preference)
+            for(auto pref : m_preference)
             {
                 if(trajet_avec_ses_succ(so,succ.first)->getType() == pref)
                 {
@@ -671,7 +582,7 @@ void Graphe::infoTrajet()
     }
     if(passage == 0)
     {
-        std::cout << "\nErreur sur le trajet renseigne !\n" << std::endl;
+        std::cout << "\n   Erreur sur le trajet renseigne !\n" << std::endl;
     }
 }
 
@@ -682,19 +593,25 @@ void Graphe::infoSommet()
     std::cout<<"\n   Sur quel numero de sommet souhaitez vous etre renseigne ?"<< std::endl;
     std::cout<<"\n   Votre choix : ";
     std::cin >> nomSommet;
+    bool passage = false;
     std::vector<std::string> Trajet_entrant;
     std::vector<std::string> Trajet_sortant;
+
     for(int i=0; i<(int)m_trajets.size(); i++)
     {
         if(m_trajets[i]->getExtremites().first->getNom()==nomSommet)
         {
+            passage = true;
             Trajet_sortant.push_back(m_trajets[i]->getNom());
         }
         if(m_trajets[i]->getExtremites().second->getNom()==nomSommet)
         {
+            passage = true;
             Trajet_entrant.push_back(m_trajets[i]->getNom());
         }
     }
+
+    if(passage == true){
     std::cout<<"\n Trajets qui arrivent a la station "<<nomSommet<<" : ";
     for(unsigned i=0; i<Trajet_entrant.size(); i++)
     {
@@ -705,7 +622,9 @@ void Graphe::infoSommet()
     {
         std::cout<<Trajet_sortant[i]<<"  ";
     }
-    std::cout<<"\n\n\n";
+    std::cout<<"\n\n\n";}
+
+    else{std::cout << "\n   Ce numero de sommet n'existe pas...\n" << std::endl;}
 
 }
 
@@ -713,23 +632,44 @@ void Graphe::infoSommet()
 void Graphe::personnaliser()
 {
     int choix_preference;
-    bool trajet_ok = false;
+    std::string choix;
     std::string choix_niveau;
     std::string remontee;
+    bool trajet_ok = false;
+    bool passage = false;
 
-    std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
-    std::cout<<"  1. Preferences des pistes" << std::endl;
-    std::cout<<"  2. Preferences des remontees" << std::endl;
-    std::cout<<"  3. Exclure des pistes" << std::endl;
-    std::cout<<"\n   Votre choix : ";
-    std::cin >> choix_preference;
+            do{
+
+            system("cls");
+
+            std::cout<<"\n    PARCOURS PERSONNALISE \n\n";
+            std::cout<<"  1. Preferences des pistes" << std::endl;
+            std::cout<<"  2. Preferences des remontees" << std::endl;
+            std::cout<<"  3. Exclure des pistes" << std::endl;
+            std::cout<<"\n   Votre choix : ";
+
+            std::cin >> choix;
+
+            if((choix == "1") || (choix == "2") || (choix == "3"))
+            {
+                choix_preference = atoi(choix.c_str());
+                passage = true;
+                break;
+            }
+            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
+
+
+            }while(passage == false);
 
     if(choix_preference == 1)
     {
         std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
         std::cout<<"\n  Votre choix : ";
 
-        std::cin>>choix_niveau;
+        while(getch() != 13)
+        {
+
+        std::cin>> choix_niveau;
 
         if(choix_niveau=="debutant")
         {
@@ -740,10 +680,11 @@ void Graphe::personnaliser()
                     m_preference.erase(m_preference.begin()+i);
                 }
             }
+            break;
         }
 
 
-        if(choix_niveau=="intermediaire")
+        else if(choix_niveau=="intermediaire")
         {
             m_preference.push_back("R");
             m_preference.push_back("SURF");
@@ -755,23 +696,31 @@ void Graphe::personnaliser()
                     m_preference.erase(m_preference.begin()+i);
                 }
             }
+            break;
         }
 
 
-        if(choix_niveau=="expert")
+        else if(choix_niveau=="expert")
         {
-            m_preference.push_back("V");
-            m_preference.push_back("B");
             m_preference.push_back("R");
             m_preference.push_back("N");
             m_preference.push_back("SURF");
+            break;
         }
 
+        else{
+                std::cout << "\n  Choix non valide ! " << std::endl; Sleep(1000);
+            }
+
+        system("cls");
+
+        std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
+        std::cout<<"\n  Votre choix : ";
+      }
     }
 
     if (choix_preference == 2)
     {
-
         std::cout << "\n   Liste des remontees  : " << std::endl;
         std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus \n 7. Reset" << std::endl;
         std::cout << "\n  Que voulez vous retirer ? (Retour -> Enter) : ";
@@ -810,6 +759,9 @@ void Graphe::personnaliser()
                 m_preference.push_back("BUS");
             }
 
+            else{
+                std::cout << "\n  Choix non valide ! " << std::endl; Sleep(1000);
+            }
 
             for(int i = 0 ; i < (int)m_preference.size() ; i++)
             {
@@ -822,12 +774,10 @@ void Graphe::personnaliser()
             system("cls");
 
             std::cout << "\n   Liste des remontees : " << std::endl;
-            std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus" << std::endl;
+            std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus \n 7. Reset" << std::endl;
             std::cout << "\n  Votre choix (Retour -> Enter) : ";
 
         }
-
-
 
     }
 

@@ -10,15 +10,6 @@
 
 #include "Graphe.h"
 
-
-void afficherTemps(int time)
-{
-    int minute=0, heure=0;
-    heure = time/60;
-    minute = time%60;
-    std::cout <<heure<<"h "<<minute<<"minutes "<< std::endl;
-}
-
 bool fin_tache()
 {
     std::cout<< "\nAppuyez sur Enter pour revenir au menu";
@@ -31,16 +22,14 @@ bool fin_tache()
     return true;
 }
 
-int menu() // Fonction d'affichage du menu des choix
+std::string menu() // Fonction d'affichage du menu des choix
 {
-    /*int temps;
-    std::cout<<"horloge ";
-    std::cin >> temps;
-    afficherTemps(temps); */
 
-    int choix_menu;
+    std::string c;
+    bool passage = false;
     Dessin d;
 
+   do{
     d.gotoLigCol(18,4);
     std::cout << "     BORNE D'INFORMATION - LES ARCS";
     d.gotoLigCol(20,4);
@@ -66,9 +55,17 @@ int menu() // Fonction d'affichage du menu des choix
 
     d.gotoLigCol(40,7);
     std::cout<<"     VOTRE CHOIX : ";
-    std::cin >> choix_menu;
+    std::cin >> c;
+    if((c == "1") ||(c == "2") ||(c == "3") ||(c == "4") ||(c == "5") ||(c == "6") ||(c == "7") ||(c == "8") ||(c == "9") ||(c == "10"))
+    {
+        passage = true;
+        break;
+    }
+    else{std::cout << "\n Choix non valide ! "<<std::endl; Sleep(1000); system("cls");}
 
-    return choix_menu;
+  }while(passage == false);
+
+    return c;
 }
 
 int main()
@@ -78,18 +75,20 @@ int main()
     Dessin d;
     d.dessin_menu();
     //Initialisation variables
-    int depart, arrivee, num1, num2, choix = 0;
+    int depart, arrivee,num1, num2;
+    std::string choix, num;
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
     //g.flots(1,7);
 
-    choix = menu();
+      choix = menu();
+      int choix_menu = atoi(choix.c_str());
 
     while(quitter == false)
     {
 
-        switch(choix)
+        switch(choix_menu)
         {
         case 1 :
         {
@@ -143,20 +142,35 @@ int main()
 
         case 4:
         {
+
+            bool passage = false;
+            //Choix de l'algorithme en fonction des besoins
+            do{
+
             system("cls");
 
-            //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
             std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
             std::cout << "\n   Votre choix : ";
-            std::cin >> num1;
+            std::cin >> num;
+
+            if((num == "1") || (num == "2"))
+            {
+                num1 = atoi(num.c_str());
+                passage = true;
+                break;
+            }
+
+            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
+
+            }while(passage == false);
 
             std::cout<<std::endl<<"\n   Votre point de la station : ";
             std::cin>>num2;
 
             if (num1 == 1)
             {
-                std::vector<int> arbre_BFS=g.BFS(num2,g.getPreference());
+                std::vector<int> arbre_BFS=g.BFS(num2);
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
                 g.afficherParcours(num2,arbre_BFS);
@@ -171,7 +185,7 @@ int main()
                     if(num2 != vec_sommets[i]->getNum())
                     {
 
-                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference());
+                        g.Dijkstra(num2,vec_sommets[i]->getNum());
 
                     }
                 }
@@ -189,12 +203,27 @@ int main()
 
         case 5:
         {
+            bool passage = false;
+
+            do{
+
             system("cls");
+
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
             std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
             std::cout << "\n   Votre choix : ";
-            std::cin >> num1;
+            std::cin >> num;
+
+            if((num == "1") || (num == "2"))
+            {
+                num1 = atoi(num.c_str());
+                passage = true;
+                break;
+            }
+            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
+
+            }while(passage == false);
 
             std::cout<<"\n Sommet de depart : ";
             std::cin >> depart;
@@ -203,7 +232,7 @@ int main()
 
             if (num1 == 1)
             {
-                std::vector<int> arbre_BFS=g.BFS(depart,g.getPreference());
+                std::vector<int> arbre_BFS=g.BFS(depart);
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<depart<<" :\n";
                 g.afficher1ParcoursBFS(depart,arrivee,arbre_BFS);
@@ -212,7 +241,7 @@ int main()
             if (num1 == 2)
             {
                 //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee,g.getPreference());
+                g.Dijkstra(depart,arrivee);
             }
 
             retour_menu = fin_tache();
@@ -258,9 +287,15 @@ int main()
 
         case 8:
             {
-                system("cls");
 
-                int choix_utilisateur;
+             bool passage = false;
+             std::string choix_utilisateur;
+            //Choix de l'algorithme en fonction des besoins
+
+            do{
+
+            system("cls");
+
                 std::cout << "\n  ESPACE UTILISATEUR" << std::endl;
                 std::cout << "\n  1. Se connecter" << std::endl;
                 std::cout << "  2. Se deconnecter" << std::endl;
@@ -268,9 +303,20 @@ int main()
                 std::cout << "\n  Votre choix : ";
                 std::cin >> choix_utilisateur;
 
-                if(choix_utilisateur == 1){g.connexion();}
-                else if(choix_utilisateur == 2){g.deconnexion();}
-                else if (choix_utilisateur == 3){g.sauvegarde();}
+            if((choix_utilisateur == "1") || (choix_utilisateur == "2") || (choix_utilisateur == "3"))
+            {
+                passage = true;
+                break;
+            }
+
+            else{std::cin.ignore(); std::cout << "\n   Choisissez une option valide...\n" << std::endl; Sleep(1000);}
+
+            }while(passage == false);
+
+
+                if(choix_utilisateur == "1"){g.connexion();}
+                else if(choix_utilisateur == "2"){g.deconnexion();}
+                else if (choix_utilisateur == "3"){g.sauvegarde();}
 
                 retour_menu = fin_tache();
                 if(retour_menu)
