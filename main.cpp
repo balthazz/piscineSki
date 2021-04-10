@@ -28,6 +28,7 @@ std::string menu() // Fonction d'affichage du menu des choix
     std::string c;
     bool passage = false;
     Dessin d;
+    d.dessin_menu();
 
    do{
     d.gotoLigCol(18,4);
@@ -74,7 +75,6 @@ int main()
     //Chargement de notre fichier texte
     Graphe g{"data_arcs.txt"};
     Dessin d;
-    d.dessin_menu();
     //Initialisation variables
     int depart, arrivee,num1, num2;
     std::string choix, num;
@@ -156,10 +156,11 @@ int main()
 
             std::cout << "\n   1. Chemins les plus courts en nombre de trajets differents" << std::endl;
             std::cout << "   2. Chemins les plus cours en minutes" << std::endl;
+            std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
             std::cout << "\n   Votre choix : ";
             std::cin >> num;
 
-            if((num == "1") || (num == "2"))
+            if((num == "1") || (num == "2") || (num == "3"))
             {
                 num1 = atoi(num.c_str());
                 passage = true;
@@ -189,7 +190,24 @@ int main()
                     if(num2 != vec_sommets[i]->getNum())
                     {
 
-                        g.Dijkstra(num2,vec_sommets[i]->getNum());
+                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference(),0);
+
+                    }
+                }
+            }
+
+            if (num1 == 3)
+            {
+                int temps;
+                std::cout<<"\nVous souhaitez arriver dans combien de temps ?  minutes: ";
+                std::cin>>temps;
+                for(int i = 0 ; i < (int)vec_sommets.size() ; ++i)
+                {
+                    if(num2 != vec_sommets[i]->getNum())
+                    {
+
+                        //Appel de l'algorithme de Dijkstra
+                        g.Dijkstra(num2,vec_sommets[i]->getNum(),g.getPreference(),temps);
 
                     }
                 }
@@ -217,10 +235,12 @@ int main()
             //Choix de l'algorithme en fonction des besoins
             std::cout << "\n   1. Itineraire le plus rapide en nombre de trajets differents" << std::endl;
             std::cout << "   2. Itineraire le plus rapide en minutes" << std::endl;
+            std::cout << "   3. Chemins les plus cours en minutes +CONTRAINTE DE TEMPS" << std::endl;
+
             std::cout << "\n   Votre choix : ";
             std::cin >> num;
 
-            if((num == "1") || (num == "2"))
+            if((num == "1") || (num == "2") || (num == "3"))
             {
                 num1 = atoi(num.c_str());
                 passage = true;
@@ -246,7 +266,16 @@ int main()
             if (num1 == 2)
             {
                 //Appel de l'algorithme de Dijkstra
-                g.Dijkstra(depart,arrivee);
+                g.Dijkstra(depart,arrivee,g.getPreference(),0);
+            }
+
+             if (num1 == 3)
+            {
+                int temps;
+                std::cout<<"\nVous souhaitez arriver dans combien de temps ?  minutes: ";
+                std::cin>>temps;
+                //Appel de l'algorithme de Dijkstra
+                g.Dijkstra(depart,arrivee,g.getPreference(),temps);
             }
 
             retour_menu = fin_tache();
