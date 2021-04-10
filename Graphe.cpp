@@ -84,10 +84,8 @@ Graphe::Graphe(std::string nomFichier)
         {
             if (m_trajets[i]->getNom() == trajet)
             {
-<<<<<<< Updated upstream
+
                 m_trajets_fermes.push_back(trajet);
-=======
->>>>>>> Stashed changes
                 m_trajets.erase(m_trajets.begin()+i);
             }
         }
@@ -992,61 +990,6 @@ void Graphe::ski_de_fond()
     std::cout << " minutes" << std::endl;
 }
 
-bool Graphe::fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]) // renvoie true si il y a une chemin de la source vers le puit dans le graphe d'�cart
-{
-    bool marque[ORDRE];
-    for (int j=0; j>ORDRE; j++)
-    {
-        marque[j]=false; //initialisation de tous les somments � 0
-    }
-//std::cout << "spoutnik ";
-//    std::vector<int> Trajet_source;
-//    std::vector<int> Trajet_puit;
-//    for(int i=0; i<(int)m_trajets.size(); i++) //parcours des trajets
-//    {
-//        for (int j=0; j<ORDRE; j++)
-//        {
-//            graphEc[i][j] = graphe[i][j] ;
-//        }
-//    }
-////    for (int i=0; i<ORDRE; i++)
-////    {
-////        for (int j=0; j<ORDRE; j++)
-////        {
-////            std::cout << graphEc[i][j] <<" ";       //affiche le graphe d'ecart
-////        }
-////        std::cout <<std::endl;
-////    }
-//
-//    int pred [ORDRE]; //ce tableau enregistre le chemin via les predecesseurs
-//    int flotMaximum=0; //on initialise le flot max a 0
-//
-//    bool result = fordFulkBfs(graphEc, depart, arrivee, pred);
-//
-////    while(fordFulkBfs(graphEc, depart, arrivee, pred))
-////    {
-//    std::cout << "boucle ford-fulk'"<<std::endl;
-//    int flotDuChemin = 0;
-//    for(j = arrivee; j != depart; j = pred[j])
-//    {
-//        std::cout << "for() 1"<<std::endl;
-//        i=pred[j];
-//        std::cout << i <<std::endl;
-//        flotDuChemin = std::min(flotDuChemin, graphEc[i][j]);
-//
-//    }
-//    for(j = arrivee; j != depart; j = pred[j])
-//    {
-//        std::cout << "for() 2"<<std::endl;
-//        i=pred[j];
-//        graphEc[i][j]-=flotMaximum;
-//        graphEc[j][i]+=flotMaximum;
-//    }
-//    flotMaximum+=flotDuChemin;
-//    std::cout << "flotMaximum"<<flotMaximum<<std::endl;
-////    }
-//    return flotMaximum;
-//}
 void Graphe::prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE])
 {
     std::vector<int> Trajet_source;
@@ -1233,41 +1176,10 @@ int fordFulkerson(int graph[V][V], int s, int t)
 void Graphe::flots (int depart, int arrivee)
 {
     std::cout << "\n probleme des flots maximums" << std::endl;
-    // chargement de la matrice d'adjacence � partir du graphe
-<<<<<<< Updated upstream
-    int matAdj[ORDRE][ORDRE]=
-    {
-        {0,0,0,0,0,0,0},
-        {4,0,0,0,0,0,0},
-        {9,0,0,0,0,0,0},
-        {0,3,0,0,0,0,0},
-        {0,2,8,0,0,0,0},
-        {0,0,0,1,4,0,0},
-        {0,0,0,3,10,1,0}
-    };
 
-//    for (int i=0; i<ORDRE; i++)
-//    {
-//        for (int j=0; j<ORDRE; j++)
-//        {
-//            matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
-//        }
-//    }
-//    for(int i=0; i<(int)m_trajets.size(); i++)
-=======
         int matAdj[ORDRE][ORDRE];
-//    int matAdj[ORDRE][ORDRE]=
->>>>>>> Stashed changes
-//    {
-//        {0,4,9,0,0,0,0},
-//        {0,0,0,3,2,0,0},
-//        {0,0,0,8,0,0,0},
-//        {0,0,0,0,0,1,3},
-//        {0,0,0,0,0,4,10},
-//        {0,0,0,0,0,0,1},
-//        {0,0,0,0,0,0,0}
-//    };
 
+    // chargement de la matrice d'adjacence � partir du graphe
     for (int i=0; i<ORDRE; i++)
     {
         for (int j=0; j<ORDRE; j++)
@@ -1442,7 +1354,7 @@ void Graphe::connexion()
                     ifs >> piste;
                     tampon_piste.push_back(piste);
                 }
-<<<<<<< Updated upstream
+
             }
 
             if(identite_user == identite_lambda)
@@ -1450,15 +1362,6 @@ void Graphe::connexion()
                 break;
             }
 
-=======
-            }
-
-            if(identite_user == identite_lambda)
-            {
-                break;
-            }
-
->>>>>>> Stashed changes
         }
 
         if(identite_user == identite_lambda)

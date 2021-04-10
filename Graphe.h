@@ -102,32 +102,12 @@ public :
 
     std::vector<Sommet*> Avoir_So2_avec_So1(int s1);
 
-<<<<<<< Updated upstream
     std::vector<std::string> getPreference(){return m_preference;}
     void setPreference(std::vector<std::string> preference){m_preference=preference;}
     std::vector<std::string> getPreference_initial(){return m_preference_initial;}
     void setPreference_initial(std::vector<std::string> preference_initial){m_preference_initial=preference_initial;}
     std::vector<std::string> getTrajets_fermes(){return m_trajets_fermes;}
 
-
-=======
-    std::vector<std::string> getPreference()
-    {
-        return m_preference;
-    }
-    void setPreference(std::vector<std::string> preference)
-    {
-        m_preference=preference;
-    }
-    std::vector<std::string> getPreference_initial()
-    {
-        return m_preference_initial;
-    }
-    void setPreference_initial(std::vector<std::string> preference_initial)
-    {
-        m_preference_initial=preference_initial;
-    }
->>>>>>> Stashed changes
     ///Donne le nom du trajet entre deux sommet donnés
     std::string Nom_Chemin_S1_S2(int s1,int s2);
     ///Donne le type du trajet entre deux sommet donnés
