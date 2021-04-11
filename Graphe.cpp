@@ -573,7 +573,7 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
 void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
 {
     int tampon=sommet_avec_son_Id(num)->getTaille_BFS();
-    if(tampon!=num)
+    if(tampon!=(int)num)
     {
         double poids = 0;
         for(size_t i=0; i<arbre.size(); ++i)
@@ -1282,6 +1282,9 @@ void Graphe::connexion()
 
         while(!ifs.eof())
         {
+            tampon_piste.clear();
+            tampon_pref.clear();
+
             ifs >> tampon_nom;
             ifs >> tampon_date;
 
@@ -1320,6 +1323,10 @@ void Graphe::connexion()
             m_preference = tampon_pref;
             piste_enlevee = tampon_piste;
 
+            for(auto x : tampon_pref)
+            {
+                std::cout << x << " ";
+            }
             m_connexion = true;
 
             std::cout << "\n  Connexion reussie !" << std::endl;

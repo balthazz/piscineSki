@@ -57,11 +57,8 @@ TSD
 tetras
 Goset
 19/01/2001
-11
+8
 V
-R
-B
-N
 TK
 SURF
 TS
