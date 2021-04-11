@@ -1054,37 +1054,40 @@ void Graphe::prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE])
     }
 }
 
-bool bfsFord(int rGraph[V][V], int s, int t, int parent[])
+bool bfsFord(int Graphecart[ORDRE][ORDRE], int depart, int arrivee, int parent[])
 {
 
-    bool visited[V]; //tableau de marquage
-    memset(visited, 0, sizeof(visited));
-
-//    prepareSourcesFord(s,t,visited[ORDRE]);
-
-    std::queue<int> q;
-    q.push(s);
-    visited[s] = true;
-    parent[s] = -1;
-
-    // Standard BFS Loop
-    while (!q.empty())
+    bool marque[ORDRE]; //tableau de marquage
+    for (int i = 0; i < ORDRE; i++)
     {
-        int u = q.front();
-        q.pop();
+        marque[i]=false;  //initialise tous les sommets a non marques
+    }
 
-        for (int v = 0; v < V; v++)
+
+    std::queue<int> fichier;
+    fichier.push(depart);
+    parent[depart] = -1;
+    marque[depart] = true;
+
+
+    // loop du bfs
+    while (!fichier.empty())
+    {
+        int i = fichier.front();
+        fichier.pop();
+
+        for (int j = 0; j < ORDRE; j++)
         {
-            if (visited[v] == false && rGraph[u][v] > 0)
+            if (marque[j] == false && Graphecart[i][j] > 0)
             {
-                if (v == t)
+                if (j == arrivee)
                 {
-                    parent[v] = u;
+                    parent[j] = i;
                     return true;
                 }
-                q.push(v);
-                parent[v] = u;
-                visited[v] = true;
+                parent[j] = i;
+                fichier.push(j);
+                marque[j] = true;
             }
         }
     }
@@ -1092,39 +1095,38 @@ bool bfsFord(int rGraph[V][V], int s, int t, int parent[])
 }
 
 //retourne le flot max
-int fordFulkerson(int graph[V][V], int s, int t)
+int fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
 {
-    int u, v;
+    int i, j;
 
 // création d'un graphe d'écart
-    int rGraph[V][V];
+    int Graphecart[ORDRE][ORDRE];
 
-    for (u = 0; u < V; u++)
-        for (v = 0; v < V; v++)
-            rGraph[u][v] = graph[u][v];
+    for (i = 0; i < ORDRE; i++)
+        for (j = 0; j< ORDRE; j++)
+            Graphecart[i][j] = graphe[i][j];
 
-    int parent[V]; // tablea qui enregistre les chemins parcourus de la source au puit
+    int parent[ORDRE]; // tablea qui enregistre les chemins parcourus de la source au puit
 
-    int max_flow = 0; // initialisation du flot a 0
+    int flotMaximum = 0; // initialisation du flot a 0
 
-    while (bfsFord(rGraph, s, t, parent))
+    while (bfsFord(Graphecart, depart, arrivee, parent))
     {
-        int path_flow = INT_MAX;
-        for (v = t; v != s; v = parent[v])
+        int flotChemin = INT_MAX;
+        for (j = arrivee; j != depart; j = parent[j])
         {
-            u = parent[v];
-            path_flow = std::min(path_flow, rGraph[u][v]);
+            i = parent[j];
+            flotChemin = std::min(flotChemin, Graphecart[i][j]);
         }
-        for (v = t; v != s; v = parent[v])
+        for (j = arrivee; j != depart; j = parent[j])
         {
-            u = parent[v];
-            rGraph[u][v] -= path_flow;
-            rGraph[v][u] += path_flow;
+            i = parent[j];
+            Graphecart[i][j] -= flotChemin;
+            Graphecart[j][i] += flotChemin;
         }
-
-        max_flow += path_flow;//actualise le flot maximum
+        flotMaximum += flotChemin;//actualise le flot maximum
     }
-    return max_flow;//retourne le flot maximum
+    return flotMaximum;//retourne le flot maximum
 }
 
 
@@ -1137,7 +1139,7 @@ void Graphe::flots (int depart, int arrivee)
 
     int matAdj[ORDRE][ORDRE];
 
-    // chargement de la matrice d'adjacence � partir du graphe
+    // chargement de la matrice d'adjacence a partir du graphe
     for (int i=0; i<ORDRE; i++)
     {
         for (int j=0; j<ORDRE; j++)
