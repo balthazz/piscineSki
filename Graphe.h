@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <queue>
+#include <set>
 
 #include "Trajet.h"
 #include "Dessin.h"
@@ -92,8 +93,6 @@ public :
     //Fonction d'affichage arbre
 
     void Dijkstra(int depart,int arrivee,double condition_temps);
-    bool finParcours(std::vector<double> &parcours);
-
 
     std::vector<int> BFS(int num_S0);
     void afficherParcours(size_t num,const std::vector<int>& arbre);
@@ -131,16 +130,12 @@ public :
     Sommet* sommet_avec_son_Id(int id);
 
 
-
-
-
     ///Donne les nom des trajets entrants et sortant d'un sommet donné
     void infoTrajet();
+    ///Fonction qui gere les preferences utilisteur et leur sauvegarde
     void personnaliser();
+    ///Bonus ski de fond
     void ski_de_fond();
-    void gotoLigCol(int lig, int col);
-    void Dessin_skieur();
-    void fond_Neige();
 
     ///problème des flots max
     void flots (int depart, int arrivee);
@@ -148,11 +143,10 @@ public :
     //int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
     void prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE] );
 
+    //Fonction pour l'espace utilisateur
     void connexion();
     void deconnexion();
     void sauvegarde();
-
-
 
 };
 

@@ -10,6 +10,7 @@
 
 #include "Graphe.h"
 
+// Fonction qui permet le retour au menu quand on appuie sur Enter apres chaque action
 bool fin_tache()
 {
     std::cout<< "\nAppuyez sur Enter pour revenir au menu";
@@ -24,14 +25,21 @@ bool fin_tache()
 
 std::string menu() // Fonction d'affichage du menu des choix
 {
-
+    // Initialisations
     std::string c;
     bool passage = false;
     Dessin d;
+    //Créartion de notre graphe/Station
     Graphe g{"data_arcs.txt"};
-    d.dessin_menu();
+    //Affichage artistique
 
 
+
+    do
+    {
+        //Affiche artistique du menu (dedicace a emilie)
+        d.dessin_menu();
+        //On affiche ici si toutes les pistes sont ouvertes (cf. Bonus Touchousse)
     if(g.getTrajets_fermes().size()==0)
     {
         d.gotoLigCol(3,78);
@@ -39,6 +47,7 @@ std::string menu() // Fonction d'affichage du menu des choix
         std::cout<<"Aucunes pistes ou remontees fermees ";
         d.couleur(15);
     }
+    //Si ce n'est pas le cas on affiches les pistes/remontees fermees.
     else if(g.getTrajets_fermes().size()>0)
     {
         d.gotoLigCol(3,78);
@@ -58,8 +67,7 @@ std::string menu() // Fonction d'affichage du menu des choix
 
     }
 
-    do
-    {
+        //Affichage du menu des choix utilisateurs Avec blindage total
         d.gotoLigCol(16,4);
         std::cout << "     BORNE D'INFORMATION - LES ARCS";
         d.gotoLigCol(19,4);
@@ -79,7 +87,7 @@ std::string menu() // Fonction d'affichage du menu des choix
         d.gotoLigCol(33,4);
         std::cout<<"  8. Espace utilisateur ";
         d.gotoLigCol(35,4);
-        std::cout<<"  9. chemin avec le moins de monde ";
+        std::cout<<"  9. Chemin avec le moins de monde ";
         d.gotoLigCol(37,4);
         std::cout<<" 10. Quitter ";
 
@@ -93,7 +101,7 @@ std::string menu() // Fonction d'affichage du menu des choix
             passage = true;
         }
         else
-        {
+        {   //Si on ecrit un autre choix que un choix valide = > message d'erreur
             std::cout << "\n Choix non valide ! "<<std::endl;
             Sleep(1000);
             system("cls");
@@ -116,10 +124,12 @@ int main()
     bool retour_menu = false, quitter = false;
     std::vector<Sommet*> vec_sommets = g.getSommets();
 
+    //Appel menu
     choix = menu();
+    //Conversion string vers int pour faciliter les blindages de saisies
     int choix_menu = atoi(choix.c_str());
 
-    while(quitter == false)
+    while(quitter == false)//Tant qu'on ne quitte pas l'application
     {
 
         switch(choix_menu)
@@ -145,7 +155,7 @@ int main()
         case 2:
         {
             system("cls");
-
+            ///Appel de l'algo pour avoir des informations sur un trajet
             g.infoTrajet();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -160,7 +170,7 @@ int main()
         case 3:
         {
             system("cls");
-
+            ///Appel de l'ago pour avoir des informations sur un point
             g.infoSommet();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -179,7 +189,7 @@ int main()
             bool passage = false;
             //Choix de l'algorithme en fonction des besoins
             do
-            {
+            { // BLINDAGE
 
                 system("cls");
 
@@ -209,10 +219,11 @@ int main()
             std::cin>>num2;
 
             if (num1 == 1)
-            {
+            {   ///APPEL DU BFS
                 std::vector<int> arbre_BFS=g.BFS(num2);
                 //affichage des chemins obtenus
                 std::cout<<std::endl<<std::endl<<"Parcours BFS a partir du sommet "<<num2<<" :\n" << std::endl;
+                ///AFFICHAGE DES RESULTATS
                 g.afficherParcours(num2,arbre_BFS);
 
             }
@@ -224,7 +235,7 @@ int main()
                 {
                     if(num2 != vec_sommets[i]->getNum())
                     {
-
+                        ///APPEL DE MULTIPLE DIJKSTRA
                         g.Dijkstra(num2,vec_sommets[i]->getNum(),0);
 
                     }
@@ -232,7 +243,8 @@ int main()
             }
 
             if (num1 == 3)
-            {
+            {   //Bonus Contrainte de temps
+
                 double temps;
                 std::cout<<"\n   Vous souhaitez arriver dans combien de temps ?" << std::endl;
                 std::cout<<"\n   Temps en minutes : ";
@@ -339,6 +351,7 @@ int main()
         {
             system("cls");
 
+            ///Appel du menu pour les preferences de l'utilisateur
             g.personnaliser();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -357,6 +370,7 @@ int main()
         {
             system("cls");
 
+            ///Bonus Ski de fond avec un kruskal inverse
             g.ski_de_fond();
             retour_menu = fin_tache();
             if(retour_menu)
@@ -376,9 +390,14 @@ int main()
             //Choix de l'algorithme en fonction des besoins
 
             do
-            {
+            { //Blindage
 
                 system("cls");
+
+                d.skieur_3(6,58);
+                d.gotoLigCol(5,8);
+
+                ///Menu espace utilisateur
 
                 std::cout << "\n  ESPACE UTILISATEUR" << std::endl;
                 std::cout << "\n  1. Se connecter" << std::endl;
@@ -406,15 +425,15 @@ int main()
 
             if(choix_utilisateur == "1")
             {
-                g.connexion();
+                g.connexion(); ///APPEL FONCTION CONNEXION UTILISATEUR
             }
             else if(choix_utilisateur == "2")
             {
-                g.deconnexion();
+                g.deconnexion(); ///APPEL FONCTION DECONNEXION UTILISATEUR
             }
             else if (choix_utilisateur == "3")
             {
-                g.sauvegarde();
+                g.sauvegarde();///APPEL FONCTION SAUVEGARDE UTILISATEUR
             }
 
             retour_menu = fin_tache();
@@ -429,6 +448,7 @@ int main()
 
         case 9:
         {
+             ///FLOTS MAXIMUM
             system("cls");
 
             std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
@@ -454,7 +474,7 @@ int main()
         {
             quitter = true; // QUITTER
 
-            std::cout << "\n A bientot sur notre borne ! Bonne glisse :) !\n" << std::endl;
+            std::cout << "\n     A bientot sur notre borne ! Bonne glisse :) !\n" << std::endl;
 
             break;
         }

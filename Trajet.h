@@ -77,6 +77,7 @@ class Trajet{
     int getCapacity()
     {return m_capacity;}
 
+    //Fonction d'affichage
     void afficher();
 
     double calcul_poids();

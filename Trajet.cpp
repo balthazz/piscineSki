@@ -1,5 +1,6 @@
 #include "Trajet.h"
 
+//Constructeur du trajet
 Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, std::string type,double capacity)
 {
     m_extremites=extremites;
@@ -20,11 +21,13 @@ Trajet::Trajet(std::pair<Sommet*,Sommet*> extremites,int id, std::string nom, st
     //ctor
 }
 
+//Fonction d'affichage des informations d'un trajet
 void Trajet::afficher()
 {
     std::cout << m_id << "  "<< m_nom << "   " << m_type << "  " <<m_extremites.first->getNum() << " <--> " << m_extremites.second->getNum()<< "    "<< m_capacity<<" skieurs/heure ";
 }
 
+//Fonction qui permet de retourner le temps en minutes d'un trajet a partir de calculs simples
 double Trajet::calcul_poids()
 {
     double altitude_S1_S2;
