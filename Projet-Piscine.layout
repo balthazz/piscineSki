@@ -2,72 +2,44 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Trajet.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5750" topLine="256" />
-		</Cursor>
-	</File>
-	<File name="Sommet.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="19" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Trajet.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="134" topLine="10" />
-		</Cursor>
-	</File>
-	<File name="Sommet.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="814" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="Graphe.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7765" topLine="12" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="277" />
-			<Collapse line="336" />
-			<Collapse line="352" />
-			<Collapse line="368" />
-			<Collapse line="383" />
-			<Collapse line="397" />
-			<Collapse line="413" />
-			<Collapse line="430" />
-			<Collapse line="447" />
-			<Collapse line="462" />
-			<Collapse line="477" />
-			<Collapse line="537" />
-			<Collapse line="576" />
-			<Collapse line="587" />
-			<Collapse line="601" />
-			<Collapse line="626" />
-			<Collapse line="668" />
-			<Collapse line="882" />
-			<Collapse line="959" />
-			<Collapse line="1023" />
-			<Collapse line="1066" />
-			<Collapse line="1119" />
-			<Collapse line="1281" />
-			<Collapse line="1301" />
-			<Collapse line="1347" />
-		</Folding>
-	</File>
-	<File name="Graphe.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1949" topLine="51" />
+			<Cursor1 position="1011" topLine="26" />
 		</Cursor>
 	</File>
 	<File name="dessin.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="605" topLine="27" />
 		</Cursor>
 	</File>
-	<File name="Trajet.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Sommet.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1324" topLine="41" />
+			<Cursor1 position="182" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sommet.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="814" topLine="88" />
+		</Cursor>
+	</File>
+	<File name="Trajet.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="47" topLine="48" />
+		</Cursor>
+	</File>
+	<File name="Graphe.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3501" topLine="83" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12651" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Graphe.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3906" topLine="111" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

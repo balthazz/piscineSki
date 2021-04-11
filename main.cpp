@@ -34,7 +34,6 @@ std::string menu() // Fonction d'affichage du menu des choix
     //Affichage artistique
 
 
-
     do
     {
         //Affiche artistique du menu (dedicace a emilie)
@@ -451,11 +450,16 @@ int main()
              ///FLOTS MAXIMUM
             system("cls");
 
-            std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
+
+
+            std::cout << "\n            CHOIX DU CHEMIN AVEC LE MOINS DE SKIEUR " << std::endl<< std::endl<< std::endl;
+
+            std::cout << "      choisissez le numero de votre sommet de depart" << std::endl<< std::endl<<"   votre choix : ";
             std::cin >> depart;
+            std::cout  << std::endl << std::endl;
 
 
-            std::cout << "choisissez le numero votre sommet d'arrivee" << std::endl;
+            std::cout << "      choisissez le numero votre sommet d'arrivee" << std::endl<< std::endl<<"   votre choix : ";
             std::cin >> arrivee;
 
             g.flots(depart, arrivee);

@@ -1141,10 +1141,9 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
     int i, j;
     int flotMinimum = INT_MAX; // initialisation du flot min a une valeur très grande
     int flotMaximum = 0; // initialisation du flot max a 0
-    std::vector <int> predFlotMin;
-    std::vector <int> predFlot;
-
-    predFlot.push_back(arrivee);
+    std::vector <int> predFlotMin; //permet d'enregistrer le chemin avec le moins de skieurs
+    std::vector <int> predFlot; //stock le chemin de la boucle while
+    predFlot.push_back(arrivee); //initialisation avec le sommet de départ
 
 // création d'un graphe de passage
     int GraphePass[ORDRE][ORDRE];
@@ -1152,13 +1151,12 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
         for (j = 0; j< ORDRE; j++)
             GraphePass[i][j] = graphe[i][j]; //on recupere dans ce graphe le matrie d'adjacence
 
-    int parent[ORDRE]; // tablea qui enregistre les chemins parcourus de la source au puit
+    int parent[ORDRE]; // tableau qui enregistre les chemins parcourus de la source au puit
 
 
 
     while (bfsFord(GraphePass, depart, arrivee, parent))
     {
-        std::cout <<std::endl<<" chemin suivant "<<std::endl;
         int flotChemin = INT_MAX ; //on le met a une valeur très grande (l'entier maximum)
 
         for (j = arrivee; j != depart; j = parent[j]) //on parcourt les predecesseurs dans le sens inverse
@@ -1172,10 +1170,10 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
                 std::pair<Sommet*,Sommet*> tampon=m_trajets[k]->getExtremites();
                 if(tampon.first->getNum()==i && tampon.second->getNum()==j) //on cherche le trajet correspondant à notre chemin
                 {
-                        if (flotChemin<m_trajets[k]->getFlot()) //si le flot est plus petit que le flot existant alors on acualise le flot du chemin
-                            m_trajets[k]->setFlot(flotChemin);
-
-                    std::cout << "le flot de "<< m_trajets[k]->getNom()<< "passant par "<<i<<" et "<<j<<" est de "<<m_trajets[k]->getFlot() << " flot chemin : "<< flotChemin << std::endl;
+                    if (flotChemin<m_trajets[k]->getFlot()) //si le flot est plus petit que le flot existant alors on acualise le flot du chemin
+                        m_trajets[k]->setFlot(flotChemin);
+//
+//                    std::cout << "le flot de "<< m_trajets[k]->getNom()<< "passant par "<<i<<" et "<<j<<" est de "<<m_trajets[k]->getFlot() << " flot chemin : "<< flotChemin << std::endl;
                 }
             }
         }
@@ -1187,11 +1185,6 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
             GraphePass[j][i] += flotChemin;
         }
 
-//     for ( int l=0; l<ORDRE; l++)
-//        {
-//            std::cout <<" case "<< l<< " parent " << parent[l] <<std::endl;
-//        }
-
         if (flotMinimum>flotChemin)
         {
             flotMinimum = flotChemin;
@@ -1200,20 +1193,46 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
             predFlot.clear();
             predFlot.push_back(arrivee);
         }
-         std::cout <<std::endl<<" flot min "<< flotMinimum <<std::endl;
+
+
 
         flotMaximum += flotChemin; //actualise le flot maximum
     }
-    std::cout <<std::endl<<"le chemin avec le moins de skieur est : ";
-    for(int k=0; k<predFlotMin.size(); k++)
-     std::cout <<predFlotMin[k]<<" ";
+    std::cout <<std::endl<<"Pour skier en toute tranquilite nous vous conseillons de suivre : "<<std::endl;
 
+    Trajet* tamponTr;
+    std::cout<<"\n";
+
+    ///affichage chemin a parcourir
+    for(int k=0; k<(int)predFlotMin.size()-1; k++)
+    {
+
+        tamponTr=trajet_avec_ses_succ(sommet_avec_son_Id(predFlotMin[k+1]),sommet_avec_son_Id(predFlotMin[k]));
+        std::cout<<predFlotMin[k];
+        std::cout<<" <- ";
+        couleur.couleur_type(tamponTr->getType());
+        std::cout<<tamponTr->getType()<<" ";
+        std::cout<<tamponTr->getNom();
+        couleur.setColor(0);
+        couleur.couleur(15);
+        std::cout<<" <- ";
+
+    }
+            std::cout<<depart;
+
+
+
+
+    std::cout <<std::endl<<"\n Il n'y a jamais plus de ";
+    couleur.couleur(6);
+    std::cout<<flotMinimum;
+    couleur.couleur(15);
+    std::cout<<" skieurs par heure qui suivent ce chemin !";
     return flotMaximum;//retourne le flot maximum
 }
 
 void Graphe::flots (int depart, int arrivee)
 {
-    std::cout << "\n probleme des flots maximums" << std::endl;
 
     //on initialise tous les flots a la valeur max (= valeur de leur capacite)
     for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
@@ -1244,11 +1263,11 @@ void Graphe::flots (int depart, int arrivee)
 
     if (maxFlot!=0)
     {
-        std::cout  <<"le flot possible maximum est "<< maxFlot << std::endl;
+        std::cout<<std::endl<<std::endl<<"Information de la station : en prenant en compte tous le chemins reliants ces deux points"<< std::endl<<"le nombre maximum de skieurs pouvant se rendre de "<<depart<<" a "<<arrivee<<" est de "<< maxFlot <<" skieurs par heure "<<std::endl;
     }
     else
     {
-        std::cout  <<" le flot entre ces 2 points est inexistant "<< std::endl;
+        std::cout << std::endl <<" il n'est pas possible de relier ces deux points "<< std::endl;
     }
 }
 
@@ -1357,10 +1376,6 @@ void Graphe::connexion()
 
     }
 
-    std::ifstream ifs{"users.txt",std::ios::in}; ///CATEGORIE USER CLASSIQUE
-    if (!ifs)
-        throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
-
     else
     {
          //On ouvre le fichier en lecture
@@ -1463,10 +1478,8 @@ void Graphe::sauvegarde()
     //Voir si on est au debut du fichier pour mettre un retour a la ligne ou non
     int position = fichier.tellp();
 
-    if(position != 0)
-    {
-        fichier << "\n";
-    }
+    fichier << "\n";
+
     //Sauvegarde de toutes les informations (nom,date de naissance, preferences, pistes exclues)
     fichier << nom;
     fichier << "\n"<< date;
@@ -1480,10 +1493,11 @@ void Graphe::sauvegarde()
 
     fichier << "\n";
     fichier << piste_enlevee.size();
-    fichier <<"\n";
 
     if (piste_enlevee.size() != 0)
     {
+        fichier <<"\n";
+
         for(auto x : piste_enlevee)
         {
             fichier << x;

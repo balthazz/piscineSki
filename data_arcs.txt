@@ -132,5 +132,5 @@
 93	villaroger1	     B	        8	2	2500
 94	villaroger2	     B	        2	1	2500
 95	vitesse	             KL	        12	6	500
-96      Ausetaint            V          6       8       2000
-97      Emicozar             V          29      20      2000
+96      Ausetaint            V          6       8       2250
+97      Emicozar             V          29      20      2250
