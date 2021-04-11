@@ -13,7 +13,7 @@
 
 #define valeur_max 9999
 #define ORDRE 37
-#define V 37
+
 class Graphe
 {
 
@@ -145,7 +145,7 @@ public :
     ///problème des flots max
     void flots (int depart, int arrivee);
     bool fordFulkBfs(int graphEc[ORDRE][ORDRE], int depart, int arrivee, int pred[]);
-    //int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
+    int fordFulkerson (int graphe[ORDRE][ORDRE], int depart, int arrivee);
     void prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE] );
 
     void connexion();

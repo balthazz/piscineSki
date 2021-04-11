@@ -24,7 +24,6 @@ Graphe::Graphe(std::string nomFichier)
         //numCC.push_back(i);
         m_sommets[i]->setNom(nom);
         m_sommets[i]->setAltitude(altitude);
-
     }
 
     int taille;
@@ -63,6 +62,11 @@ Graphe::Graphe(std::string nomFichier)
         tampon.second = poids;
 
         m_sommets[extremites.first->getNum()-1]->ajouterSucc(tampon);
+    }
+
+        for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
+    {
+        m_trajets[k]->setFlot(m_trajets[k]->getCapacity());
     }
 
     sauvegarde_trajets = m_trajets;
@@ -1054,9 +1058,8 @@ void Graphe::prepareSourcesFord(int depart, int arrivee,bool marque[ORDRE])
     }
 }
 
-bool bfsFord(int Graphecart[ORDRE][ORDRE], int depart, int arrivee, int parent[])
+bool bfsFord(int GraphePass[ORDRE][ORDRE], int depart, int arrivee, int parent[])
 {
-
     bool marque[ORDRE]; //tableau de marquage
     for (int i = 0; i < ORDRE; i++)
     {
@@ -1078,7 +1081,7 @@ bool bfsFord(int Graphecart[ORDRE][ORDRE], int depart, int arrivee, int parent[]
 
         for (int j = 0; j < ORDRE; j++)
         {
-            if (marque[j] == false && Graphecart[i][j] > 0)
+            if (marque[j] == false && GraphePass[i][j] > 0)
             {
                 if (j == arrivee)
                 {
@@ -1095,47 +1098,83 @@ bool bfsFord(int Graphecart[ORDRE][ORDRE], int depart, int arrivee, int parent[]
 }
 
 //retourne le flot max
-int fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
+int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
 {
     int i, j;
 
-// création d'un graphe d'écart
-    int Graphecart[ORDRE][ORDRE];
+// création d'un graphe de passage
+    int GraphePass[ORDRE][ORDRE];
 
     for (i = 0; i < ORDRE; i++)
         for (j = 0; j< ORDRE; j++)
-            Graphecart[i][j] = graphe[i][j];
+            GraphePass[i][j] = graphe[i][j];
 
     int parent[ORDRE]; // tablea qui enregistre les chemins parcourus de la source au puit
 
     int flotMaximum = 0; // initialisation du flot a 0
 
-    while (bfsFord(Graphecart, depart, arrivee, parent))
+    while (bfsFord(GraphePass, depart, arrivee, parent))
     {
-        int flotChemin = INT_MAX;
-        for (j = arrivee; j != depart; j = parent[j])
+        std::cout <<std::endl<<" chemin suivant "<<std::endl;
+        int flotChemin = INT_MAX ; //on le met a une valeur très grande (l'entier maximum)
+
+        for (j = arrivee; j != depart; j = parent[j]) //on parcourt les predecesseurs dans le sens inverse
         {
             i = parent[j];
-            flotChemin = std::min(flotChemin, Graphecart[i][j]);
+            flotChemin = std::min(flotChemin, GraphePass[i][j]); //on ne garde que le plus petit flot
+            std::cout << " trajet de "<< i <<" a "<< j << " a un flot de " <<flotChemin << std::endl;
+
+            for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
+            {
+                std::pair<Sommet*,Sommet*> tampon=m_trajets[k]->getExtremites();
+                if(tampon.first->getNum()==i && tampon.second->getNum()==j) //on cherche le trajet correspondant à notre chemin
+                {
+
+                        if (flotChemin<m_trajets[k]->getFlot()) //si le flot est plus petit que le flot existant alors on acualise le flot du chemin
+                            {
+                            std::cout << "flot actualiser"<< std::endl;
+                            m_trajets[k]->setFlot(flotChemin);
+                            }
+
+
+
+                    std::cout << "le flot de "<< m_trajets[k]->getNom()<<" est de "<<m_trajets[k]->getFlot() << std::endl;
+                }
+
+            }
         }
         for (j = arrivee; j != depart; j = parent[j])
         {
             i = parent[j];
-            Graphecart[i][j] -= flotChemin;
-            Graphecart[j][i] += flotChemin;
+            GraphePass[i][j] -= flotChemin;
+            GraphePass[j][i] += flotChemin;
+
         }
-        flotMaximum += flotChemin;//actualise le flot maximum
+        flotMaximum += flotChemin; //actualise le flot maximum
+
+//    for (int i=0; i<ORDRE; i++)
+//    {
+//        for (int j=0; j<ORDRE; j++)
+//        {
+//            std::cout << GraphePass[i][j] <<" ";       //affiche le graphe d'ecart
+//        }
+//        std::cout <<std::endl;
+//    }
+//    std::cout <<std::endl;
+//    std::cout <<std::endl;
     }
     return flotMaximum;//retourne le flot maximum
 }
 
-
-
-
-
 void Graphe::flots (int depart, int arrivee)
 {
     std::cout << "\n probleme des flots maximums" << std::endl;
+
+    //on initialise tous les flots a la valeur max (= valeur de leur capacite)
+    for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
+    {
+        m_trajets[k]->setFlot(m_trajets[k]->getCapacity());
+    }
 
     int matAdj[ORDRE][ORDRE];
 
@@ -1147,6 +1186,7 @@ void Graphe::flots (int depart, int arrivee)
             matAdj[i][j] = 0; //on remplit la matrice de 0 (=il n'y a aucun lien entre les points
         }
     }
+    Graphe gr{"data_arcs.txt"};
 
     for(int i=0; i<(int)m_trajets.size(); i++)
     {
@@ -1155,7 +1195,7 @@ void Graphe::flots (int depart, int arrivee)
     }
 
     int maxFlot;
-    maxFlot = fordFulkerson(matAdj,depart-1,arrivee-1);  //appel de l'algo de ford-fulkerson
+    maxFlot = gr.fordFulkerson(matAdj,depart-1,arrivee-1);  //appel de l'algo de ford-fulkerson
 
     if (maxFlot!=0)
     {

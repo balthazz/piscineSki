@@ -20,6 +20,7 @@ class Trajet{
       double m_poids;
       bool m_marque;
       int m_capacity;
+      int m_flot;
 
   public:
       //Constructeur
@@ -76,6 +77,12 @@ class Trajet{
 
     int getCapacity()
     {return m_capacity;}
+
+    void setFlot(int flot)
+    {m_flot = flot;}
+
+    int getFlot()
+    {return m_flot;}
 
     void afficher();
 
