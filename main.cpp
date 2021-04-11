@@ -87,7 +87,7 @@ std::string menu() // Fonction d'affichage du menu des choix
         d.gotoLigCol(33,4);
         std::cout<<"  8. Espace utilisateur ";
         d.gotoLigCol(35,4);
-        std::cout<<"  9. Chemin avec le moins de monde ";
+        std::cout<<"  9. Chemin avec le moins de skieurs ";
         d.gotoLigCol(37,4);
         std::cout<<" 10. Quitter ";
 
@@ -451,11 +451,16 @@ int main()
              ///FLOTS MAXIMUM
             system("cls");
 
-            std::cout << "choisissez le numero de votre sommet de depart" << std::endl;
+
+
+            std::cout << "\n            CHOIX DU CHEMIN AVEC LE MOINS DE SKIEUR " << std::endl<< std::endl<< std::endl;
+
+            std::cout << "      choisissez le numero de votre sommet de depart" << std::endl<< std::endl<<"   votre choix : ";
             std::cin >> depart;
+            std::cout  << std::endl << std::endl;
 
 
-            std::cout << "choisissez le numero votre sommet d'arrivee" << std::endl;
+            std::cout << "      choisissez le numero votre sommet d'arrivee" << std::endl<< std::endl<<"   votre choix : ";
             std::cin >> arrivee;
 
             g.flots(depart, arrivee);
