@@ -86,7 +86,7 @@ std::string menu() // Fonction d'affichage du menu des choix
         d.gotoLigCol(33,4);
         std::cout<<"  8. Espace utilisateur ";
         d.gotoLigCol(35,4);
-        std::cout<<"  9. Chemin avec le moins de monde ";
+        std::cout<<"  9. Chemin avec le moins de skieurs ";
         d.gotoLigCol(37,4);
         std::cout<<" 10. Quitter ";
 

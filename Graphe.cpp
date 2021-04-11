@@ -57,7 +57,8 @@ Graphe::Graphe(std::string nomFichier)
 
     //Pour chaque trajet cree
     for(auto x : m_trajets)
-    {   //On calcule son poids en minutes et on lui attribue
+    {
+        //On calcule son poids en minutes et on lui attribue
         poids = x->calcul_poids();
         x->setPoids(poids);
         extremites = x->getExtremites();
@@ -68,7 +69,7 @@ Graphe::Graphe(std::string nomFichier)
         m_sommets[extremites.first->getNum()-1]->ajouterSucc(tampon);
     }
 
-        for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
+    for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
     {
         m_trajets[k]->setFlot(m_trajets[k]->getCapacity());
     }
@@ -270,7 +271,8 @@ void Graphe::Dijkstra(int depart,int arrivee,double condition_temps)
         std::cout << "\n";
     }
     else
-    { //Si aucun chemin n'est possible
+    {
+        //Si aucun chemin n'est possible
         std::cout<<"\n"<<arrivee;
         couleur.couleur(4);
         std::cout<<" : Aucun chemins possibles\n\n";
@@ -583,7 +585,8 @@ void Graphe::afficher1ParcoursBFS(size_t num, size_t num2, std::vector<int>& arb
     std::cout<<" minutes"<<std::endl;
 
     if(poids==0)
-    { //Si il n'y a pas de chemin possible
+    {
+        //Si il n'y a pas de chemin possible
         system("cls");
         couleur.couleur(4);
         std::cout<<"\n\n   Aucun chemins possibles\n";
@@ -637,7 +640,8 @@ void Graphe::afficherParcours(size_t num,const std::vector<int>& arbre)
         }
     }
     else
-    { //Si les parcours ne sont pas possibles
+    {
+        //Si les parcours ne sont pas possibles
         couleur.couleur(4);
         std::cout<<"Aucun chemins possibles \n";
         couleur.couleur(15);
@@ -743,7 +747,8 @@ void Graphe::infoSommet()
     }
 
     else
-    { //Si le numero de point de station est errone
+    {
+        //Si le numero de point de station est errone
         std::cout << "\n   Ce numero de sommet n'existe pas...\n" << std::endl;
     }
 
@@ -762,7 +767,8 @@ void Graphe::personnaliser()
     bool passage = false;
 
     do
-    {//Blindage de saisie
+    {
+        //Blindage de saisie
 
         system("cls");
 
@@ -793,7 +799,8 @@ void Graphe::personnaliser()
     while(passage == false);
 
     if(choix_preference == 1)
-    {   //Choix des niveaux de pistes pour l'utilisateur
+    {
+        //Choix des niveaux de pistes pour l'utilisateur
         std::cout<<"\n  Quel est votre niveau ?  \n\n  debutant   =>   Vertes + Bleues    \n  intermediaire   =>   Bleues + Rouges + Snowparks  \n  expert   =>   Tout, meme les noires :)!\n";
         std::cout<<"\n  Votre choix : ";
 
@@ -820,7 +827,8 @@ void Graphe::personnaliser()
             ///NIVEAU INTERMEDIAIRE (pas de noires)
 
             else if(choix_niveau=="intermediaire")
-            {   //Au cas ou on rajoute ce qui aurait pu etre retire avec le choix debutant
+            {
+                //Au cas ou on rajoute ce qui aurait pu etre retire avec le choix debutant
                 m_preference.push_back("R");
                 m_preference.push_back("SURF");
 
@@ -837,7 +845,8 @@ void Graphe::personnaliser()
             ///NIVEAU EXPERT (tout)
 
             else if(choix_niveau=="expert")
-            {  //On rajoute tout ce qui aurait pu etre enleve
+            {
+                //On rajoute tout ce qui aurait pu etre enleve
                 m_preference.push_back("R");
                 m_preference.push_back("N");
                 m_preference.push_back("SURF");
@@ -845,7 +854,8 @@ void Graphe::personnaliser()
             }
 
             else
-            {   // Si le choix est non valide
+            {
+                // Si le choix est non valide
                 std::cout << "\n  Choix non valide ! " << std::endl;
                 Sleep(1000);
             }
@@ -858,7 +868,8 @@ void Graphe::personnaliser()
     }
 
     if (choix_preference == 2)
-    {   ///Categorie preferences de remontees
+    {
+        ///Categorie preferences de remontees
         //MENU
         std::cout << "\n   Liste des remontees  : " << std::endl;
         std::cout << "\n 1. Teleski \n 2. Telesiege \n 3. Telepherique \n 4. Telecabine \n 5. Telesiege Debrayable \n 6. Bus \n 7. Reset" << std::endl;
@@ -891,7 +902,8 @@ void Graphe::personnaliser()
                 remontee = "BUS";
             }
             else if(remontee == "Reset")
-            {   //RESET POUR TOUT REMETTRE
+            {
+                //RESET POUR TOUT REMETTRE
                 m_preference.push_back("TK");
                 m_preference.push_back("TS");
                 m_preference.push_back("TC");
@@ -900,7 +912,8 @@ void Graphe::personnaliser()
             }
 
             else
-            {//SI LE CHOIX MENU EST NON VALIDE
+            {
+                //SI LE CHOIX MENU EST NON VALIDE
                 std::cout << "\n  Choix non valide ! " << std::endl;
                 Sleep(1000);
             }
@@ -924,7 +937,8 @@ void Graphe::personnaliser()
     }
 
     if(choix_preference == 3)
-    {///Categorie BONUS exclure des pistes
+    {
+        ///Categorie BONUS exclure des pistes
         //MENU
         std::cout << "\n   Tapez Reset -> pour remettre toutes les pistes" << std::endl;
         std::cout << "   Nom de la piste a retirer (Retour -> Enter) : ";
@@ -962,7 +976,8 @@ void Graphe::personnaliser()
                 }
 
                 if(trajet_ok == false)
-                {  //SINON message d'erreur
+                {
+                    //SINON message d'erreur
                     std::cout << "\n  Cette piste n'existe pas..." << std::endl;
                     Sleep(1000);
                 }
@@ -1233,7 +1248,6 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
 
 void Graphe::flots (int depart, int arrivee)
 {
-
     //on initialise tous les flots a la valeur max (= valeur de leur capacite)
     for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
     {
@@ -1299,7 +1313,8 @@ void Graphe::connexion()
     identite_user.second = date;
 
     if(identite_user == identite_admin)
-    { ///CATEGORIE BONUS CONNEXION ADMIN M.TOUCHOUSSE
+    {
+        ///CATEGORIE BONUS CONNEXION ADMIN M.TOUCHOUSSE
 
         std::cout << "\n    ADMIN CONNECTED";
         Sleep(1500);
@@ -1349,7 +1364,8 @@ void Graphe::connexion()
                 for(auto x : m_trajets)
                 {
                     if (x->getNom() == nom_trajet)
-                    { //On verifie que les trajets existent si oui on enleve les pistes
+                    {
+                        //On verifie que les trajets existent si oui on enleve les pistes
                         trajet_ok = true;
                         piste_enlevee.push_back(nom_trajet);
                         std::cout << "\n   Piste retiree !" << std::endl;
@@ -1378,13 +1394,14 @@ void Graphe::connexion()
 
     else
     {
-         //On ouvre le fichier en lecture
+        //On ouvre le fichier en lecture
         std::ifstream ifs{"users.txt",std::ios::in};
         if (!ifs)
             throw std::runtime_error( "Impossible d'ouvrir en lecture le fichier users.txt" );
 
         while(!ifs.eof())//Tant que le fichier n'est pas terminé
-        {   //On reinitialise les vecteurs contenant les informations sur les pistes exclues et preferences.
+        {
+            //On reinitialise les vecteurs contenant les informations sur les pistes exclues et preferences.
             tampon_piste.clear();
             tampon_pref.clear();
 
@@ -1453,7 +1470,8 @@ void Graphe::deconnexion()
     }
 
     else
-    { //Si on est pas connectes, message d'erreur.
+    {
+        //Si on est pas connectes, message d'erreur.
         std::cout << "\n  Vous n'etes meme pas connectes..." << std::endl;
     }
 }
