@@ -1139,17 +1139,22 @@ bool bfsFord(int GraphePass[ORDRE][ORDRE], int depart, int arrivee, int parent[]
 int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
 {
     int i, j;
+    int flotMinimum = INT_MAX; // initialisation du flot min a une valeur très grande
+    int flotMaximum = 0; // initialisation du flot max a 0
+    std::vector <int> predFlotMin;
+    std::vector <int> predFlot;
+
+    predFlot.push_back(arrivee);
 
 // création d'un graphe de passage
     int GraphePass[ORDRE][ORDRE];
-
     for (i = 0; i < ORDRE; i++)
         for (j = 0; j< ORDRE; j++)
-            GraphePass[i][j] = graphe[i][j];
+            GraphePass[i][j] = graphe[i][j]; //on recupere dans ce graphe le matrie d'adjacence
 
     int parent[ORDRE]; // tablea qui enregistre les chemins parcourus de la source au puit
 
-    int flotMaximum = 0; // initialisation du flot a 0
+
 
     while (bfsFord(GraphePass, depart, arrivee, parent))
     {
@@ -1160,47 +1165,49 @@ int Graphe::fordFulkerson(int graphe[ORDRE][ORDRE], int depart, int arrivee)
         {
             i = parent[j];
             flotChemin = std::min(flotChemin, GraphePass[i][j]); //on ne garde que le plus petit flot
-            std::cout << " trajet de "<< i <<" a "<< j << " a un flot de " <<flotChemin << std::endl;
+            predFlot.push_back(i);
 
             for(int k=0; k<(int)m_trajets.size(); k++) //parcourt de tous les trajets
             {
                 std::pair<Sommet*,Sommet*> tampon=m_trajets[k]->getExtremites();
                 if(tampon.first->getNum()==i && tampon.second->getNum()==j) //on cherche le trajet correspondant à notre chemin
                 {
-
                         if (flotChemin<m_trajets[k]->getFlot()) //si le flot est plus petit que le flot existant alors on acualise le flot du chemin
-                            {
-                            std::cout << "flot actualiser"<< std::endl;
                             m_trajets[k]->setFlot(flotChemin);
-                            }
 
-
-
-                    std::cout << "le flot de "<< m_trajets[k]->getNom()<<" est de "<<m_trajets[k]->getFlot() << std::endl;
+                    std::cout << "le flot de "<< m_trajets[k]->getNom()<< "passant par "<<i<<" et "<<j<<" est de "<<m_trajets[k]->getFlot() << " flot chemin : "<< flotChemin << std::endl;
                 }
-
             }
         }
+
         for (j = arrivee; j != depart; j = parent[j])
         {
             i = parent[j];
             GraphePass[i][j] -= flotChemin;
             GraphePass[j][i] += flotChemin;
-
         }
-        flotMaximum += flotChemin; //actualise le flot maximum
 
-//    for (int i=0; i<ORDRE; i++)
-//    {
-//        for (int j=0; j<ORDRE; j++)
+//     for ( int l=0; l<ORDRE; l++)
 //        {
-//            std::cout << GraphePass[i][j] <<" ";       //affiche le graphe d'ecart
+//            std::cout <<" case "<< l<< " parent " << parent[l] <<std::endl;
 //        }
-//        std::cout <<std::endl;
-//    }
-//    std::cout <<std::endl;
-//    std::cout <<std::endl;
+
+        if (flotMinimum>flotChemin)
+        {
+            flotMinimum = flotChemin;
+            predFlotMin = predFlot; //on remplace le chemin avec le plus petit flot
+
+            predFlot.clear();
+            predFlot.push_back(arrivee);
+        }
+         std::cout <<std::endl<<" flot min "<< flotMinimum <<std::endl;
+
+        flotMaximum += flotChemin; //actualise le flot maximum
     }
+    std::cout <<std::endl<<"le chemin avec le moins de skieur est : ";
+    for(int k=0; k<predFlotMin.size(); k++)
+     std::cout <<predFlotMin[k]<<" ";
+
     return flotMaximum;//retourne le flot maximum
 }
 
@@ -1233,7 +1240,7 @@ void Graphe::flots (int depart, int arrivee)
     }
 
     int maxFlot;
-    maxFlot = gr.fordFulkerson(matAdj,depart-1,arrivee-1);  //appel de l'algo de ford-fulkerson
+    maxFlot = gr.fordFulkerson(matAdj,depart,arrivee);  //appel de l'algo de ford-fulkerson
 
     if (maxFlot!=0)
     {

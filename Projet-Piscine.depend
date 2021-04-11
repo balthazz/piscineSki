@@ -124,20 +124,21 @@
 1617881832 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\trajet.cpp
 	"Trajet.h"
 
-1618150454 source:d:\workspace\ece\ing2\piscine\piscineski\graphe.cpp
+1618159694 source:d:\workspace\ece\ing2\piscine\piscineski\graphe.cpp
 	"Graphe.h"
 
-1618145305 d:\workspace\ece\ing2\piscine\piscineski\graphe.h
+1618153346 d:\workspace\ece\ing2\piscine\piscineski\graphe.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	<algorithm>
 	<conio.h>
 	<queue>
+	<set>
 	"Trajet.h"
 	"Dessin.h"
 
-1618142268 d:\workspace\ece\ing2\piscine\piscineski\trajet.h
+1618153417 d:\workspace\ece\ing2\piscine\piscineski\trajet.h
 	<iostream>
 	<vector>
 	<utility>
@@ -152,7 +153,7 @@
 	<queue>
 	<fstream>
 
-1618145146 source:d:\workspace\ece\ing2\piscine\piscineski\main.cpp
+1618153345 source:d:\workspace\ece\ing2\piscine\piscineski\main.cpp
 	<iostream>
 	<vector>
 	<utility>
@@ -162,10 +163,10 @@
 	<windows.h>
 	"Graphe.h"
 
-1617789254 source:d:\workspace\ece\ing2\piscine\piscineski\sommet.cpp
+1618153345 source:d:\workspace\ece\ing2\piscine\piscineski\sommet.cpp
 	"Sommet.h"
 
-1617998326 source:d:\workspace\ece\ing2\piscine\piscineski\trajet.cpp
+1618153345 source:d:\workspace\ece\ing2\piscine\piscineski\trajet.cpp
 	"Trajet.h"
 
 1617647980 d:\workspace\ece\ing2\piscine\piscineski\menu.h
@@ -192,7 +193,7 @@
 1617889862 source:c:\users\emili\documents\cours\info\projet ing2_s2\piscineski\dessin.cpp
 	"Dessin.h"
 
-1618092695 source:d:\workspace\ece\ing2\piscine\piscineski\dessin.cpp
+1618153345 source:d:\workspace\ece\ing2\piscine\piscineski\dessin.cpp
 	"Dessin.h"
 
 1618141000 d:\workspace\ece\ing2\piscine\piscineski\dessin.h
