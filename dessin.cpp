@@ -30,6 +30,8 @@ void Dessin::gotoLigCol(int lig, int col)
     SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), mycoord );
 }
 
+///ENSEMBLE DE FONCTIONS LIEES A L'AFFICHAGE CONSOLE
+
 void Dessin::les_arcs(int lig,int col)
 {
     couleur(15);

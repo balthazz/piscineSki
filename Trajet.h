@@ -8,7 +8,7 @@
 #include <fstream>
 #include "Sommet.h"
 
-//Définition de la classe trajet
+//Dï¿½finition de la classe trajet
 class Trajet{
 
   private:

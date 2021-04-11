@@ -7,7 +7,7 @@ Sommet::Sommet(int num)
     //ctor
 }
 
-void Sommet::afficher() const
+void Sommet::afficher() const //FONCTION D'AFFICHAGE DES SUCCESSEURS D'un SOMMET
  {
         std::cout<<"     sommet "<<m_num<<" : \n";
         for (auto s : m_successeurs)
